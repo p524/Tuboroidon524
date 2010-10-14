@@ -14,6 +14,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
@@ -142,6 +143,26 @@ abstract public class FavoriteListBaseActivity extends TuboroidListActivity {
     
     protected TuboroidApplication.ViewConfig getListFontPref() {
         return getTuboroidApplication().view_config_;
+    }
+    
+    // ////////////////////////////////////////////////////////////
+    // キーボード
+    // ////////////////////////////////////////////////////////////
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    	if (event.getAction() == KeyEvent.ACTION_DOWN) {
+    		switch (keyCode) {
+    		case KeyEvent.KEYCODE_R:
+				{
+					ImageButton btn = (ImageButton)findViewById(R.id.button_tab_check_update);
+					if (btn != null) {
+						btn.performClick();
+					}
+				}
+    			break;
+    		}
+    	}
+    	return super.onKeyDown(keyCode, event);
     }
     
     // ////////////////////////////////////////////////////////////
