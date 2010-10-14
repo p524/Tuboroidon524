@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="info.narazaki.android.tuboroid" android:versionCode="173"
+	android:versionName="0.2.2.28.2">
+	<application android:icon="@drawable/icon" android:label="@string/app_name"
+		android:name="info.narazaki.android.tuboroid.TuboroidApplication"
+		android:theme="@style/Theme.TuboroidLight" android:allowClearUserData="true">
+		<activity android:name="info.narazaki.android.tuboroid.activity.BoardListActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".activity.SettingsActivity"></activity>
+		<activity android:name=".activity.FavoriteListActivity"></activity>
+		<activity android:name=".activity.FavoriteListManageActivity"></activity>
+		<activity android:name=".activity.NotificationReceiverActivity"></activity>
+		<activity android:name=".activity.RecentListActivity"></activity>
+		<activity android:name=".activity.ThreadListActivity"></activity>
+		<activity android:name=".activity.ThreadEntryListActivity"></activity>
+
+		<activity android:name=".activity.Find2chSearchActivity"></activity>
+		<activity android:name=".activity.SimilarThreadListActivity"></activity>
+
+		<activity android:name=".activity.ThreadEntryEditActivity"></activity>
+
+		<activity android:name=".activity.HelpActivity"></activity>
+		<activity android:name=".activity.SettingAAFontActivity"></activity>
+		<activity android:name=".activity.ImageViewerActivity"></activity>
+
+		<activity android:name=".activity.IntentReceiverActivity">
+			<intent-filter android:icon="@drawable/icon"
+				android:label="@string/app_name">
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="http" android:host="*.2ch.net"
+					android:pathPrefix="/test/read.cgi/" />
+				<data android:scheme="http" android:host="*.bbspink.com"
+					android:pathPrefix="/test/read.cgi/" />
+				<data android:scheme="http" android:host="jbbs.livedoor.jp"
+					android:pathPrefix="/bbs/read.cgi/" />
+				<data android:scheme="http" android:host="*.machi.to"
+					android:pathPrefix="/bbs/read.cgi/" />
+			</intent-filter>
+			<intent-filter android:icon="@drawable/icon"
+				android:label="@string/app_name_send">
+				<action android:name="android.intent.action.SEND" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:host="*.2ch.net" android:mimeType="text/*" />
+				<data android:host="*.bbspink.com" android:mimeType="text/*" />
+				<data android:host="jbbs.livedoor.jp" android:mimeType="text/*" />
+				<data android:host="*.machi.to" android:mimeType="text/*" />
+				<data android:pathPrefix="/test/read.cgi/" android:mimeType="text/*" />
+				<data android:pathPattern="/.*/" android:mimeType="text/*" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".activity.PickFileActivity"></activity>
+
+		<service android:name=".service.TuboroidService"></service>
+
+		<receiver android:name=".broadcast.BeginCheckUpdateReceiver">
+			<intent-filter>
+				<action
+					android:name="info.narazaki.android.tuboroid.service.TuboroidService.BEGIN_CHECK_UPDATE" />
+			</intent-filter>
+		</receiver>
+
+		<receiver android:name=".broadcast.BeginCheckTimerUpdateReceiver">
+			<intent-filter>
+				<action
+					android:name="info.narazaki.android.tuboroid.service.TuboroidService.UPDATE_TIMER" />
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
+				<action android:name="android.intent.action.TIME_SET" />
+				<action android:name="android.intent.action.TIMEZONE_CHANGED" />
+				<action android:name="android.intent.action.PACKAGE_INSTALL" />
+				<action android:name="android.intent.action.PACKAGE_ADDED" />
+				<action android:name="android.intent.action.PACKAGE_REMOVED" />
+				<action android:name="android.intent.action.PACKAGE_REPLACED" />
+				<action android:name="android.intent.action.PACKAGE_CHANGED" />
+			</intent-filter>
+		</receiver>
+
+	</application>
+
+	<uses-sdk android:minSdkVersion="3" android:targetSdkVersion="4" />
+	<supports-screens android:smallScreens="true"
+		android:normalScreens="true" android:largeScreens="true"
+		android:anyDensity="true" />
+	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+	<uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
+</manifest> 
+

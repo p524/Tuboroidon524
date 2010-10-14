@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<array name="full_screen_mode_titles">
+		<item>デフォルト</item>
+		<item>縦長モードのみ</item>
+		<item>横長モードのみ</item>
+		<item>両方</item>
+	</array>
+
+	<string-array name="thread_sort_orders">
+		<item>デフォルト</item>
+		<item>勢いのある順</item>
+		<item>新しく立った順</item>
+		<item>既読を上に</item>
+	</string-array>
+
+	<array name="add_favorite_thread_rule">
+		<item>類似スレの次</item>
+		<item>板グループの最初</item>
+		<item>板グループの最後</item>
+		<item>リストの最後</item>
+	</array>
+
+	<array name="screen_orientation_titles">
+		<item>自動(デバイス設定に依存)</item>
+		<item>常に縦長モード</item>
+		<item>常に横長モード</item>
+	</array>
+
+	<array name="scrolling_amount">
+		<item>1ページずつ</item>
+		<item>半ページずつ</item>
+		<item>1行/1レス単位</item>
+	</array>
+
+</resources>

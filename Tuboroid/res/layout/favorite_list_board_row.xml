@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:orientation="vertical">
+	<LinearLayout android:id="@+id/favorite_board_row"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:minHeight="32sp" android:orientation="vertical" style="@style/FavoriteBoardRow"
+		android:paddingRight="5sp">
+		<TextView android:id="@+id/favorite_board_name"
+			android:layout_width="fill_parent" android:layout_height="wrap_content" />
+	</LinearLayout>
+</LinearLayout>

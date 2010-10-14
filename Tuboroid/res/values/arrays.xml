@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<array name="bbsmenu_url">
+		<item>menu.2ch.net</item>
+		<item>menu.70.kg</item>
+	</array>
+
+	<array name="bbsmenu_url_values">
+		<item>http://menu.2ch.net/bbsmenu.html</item>
+		<item>http://menu.70.kg/bbsmenu.html</item>
+	</array>
+
+	<array name="full_screen_mode_titles">
+		<item>Default</item>
+		<item>Landscape only</item>
+		<item>Portrait only</item>
+		<item>Both</item>
+	</array>
+
+	<string-array name="full_screen_mode_values">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+	</string-array>
+
+	<array name="screen_orientation_titles">
+		<item>Default(by Setting)</item>
+		<item>Fixed Portrait</item>
+		<item>Fixed Landscape</item>
+	</array>
+
+	<string-array name="screen_orientation_values">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+	</string-array>
+
+	<array name="scrolling_amount">
+		<item>by One Page</item>
+		<item>by Half Page</item>
+		<item>by One Entry</item>
+	</array>
+
+	<string-array name="scrolling_amount_values">
+		<item>100</item>
+		<item>50</item>
+		<item>0</item>
+	</string-array>
+
+	<array name="thread_sort_orders">
+		<item>Default</item>
+		<item>Speed</item>
+		<item>New</item>
+		<item>Cached</item>
+	</array>
+
+	<array name="add_favorite_thread_rule">
+		<item>follow similar</item>
+		<item>follow board</item>
+		<item>board group</item>
+		<item>append last</item>
+	</array>
+
+	<array name="theme_list_titles">
+		<item>Light</item>
+		<item>Dark</item>
+		<item>Light(Simple)</item>
+		<item>Dark(Simple)</item>
+		<item>Sepia</item>
+		<item>Ice Blue</item>
+		<item>Lime Green</item>
+		<item>Sunset</item>
+		<item>Midnight</item>
+		<item>Forest</item>
+	</array>
+
+	<string-array name="theme_list_values">
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+	</string-array>
+
+	<string-array name="font_size_small">
+		<item>6px</item>
+		<item>7px</item>
+		<item>8px</item>
+		<item>9px</item>
+		<item>10px</item>
+		<item>11px</item>
+		<item>12px</item>
+		<item>13px</item>
+		<item>14px</item>
+		<item>15px</item>
+		<item>16px</item>
+	</string-array>
+	<string-array name="font_size_values_small">
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+		<item>11</item>
+		<item>12</item>
+		<item>13</item>
+		<item>14</item>
+		<item>15</item>
+		<item>16</item>
+	</string-array>
+	<string-array name="font_size_medium">
+		<item>9px</item>
+		<item>10px</item>
+		<item>11px</item>
+		<item>12px</item>
+		<item>13px</item>
+		<item>14px</item>
+		<item>15px</item>
+		<item>16px</item>
+		<item>18px</item>
+		<item>21px</item>
+		<item>24px</item>
+	</string-array>
+	<string-array name="font_size_values_medium">
+		<item>9</item>
+		<item>10</item>
+		<item>11</item>
+		<item>12</item>
+		<item>13</item>
+		<item>14</item>
+		<item>15</item>
+		<item>16</item>
+		<item>18</item>
+		<item>21</item>
+		<item>24</item>
+	</string-array>
+	<string-array name="font_size_large">
+		<item>11px</item>
+		<item>12px</item>
+		<item>15px</item>
+		<item>20px</item>
+		<item>24px</item>
+		<item>28px</item>
+		<item>34px</item>
+		<item>40px</item>
+	</string-array>
+	<string-array name="font_size_values_large">
+		<item>11</item>
+		<item>12</item>
+		<item>15</item>
+		<item>20</item>
+		<item>24</item>
+		<item>28</item>
+		<item>34</item>
+		<item>40</item>
+	</string-array>
+	<string-array name="service_update_interval">
+		<item>15 min</item>
+		<item>30 min</item>
+		<item>60 min</item>
+		<item>120 min</item>
+	</string-array>
+	<string-array name="service_update_interval_values">
+		<item>15</item>
+		<item>30</item>
+		<item>60</item>
+		<item>120</item>
+	</string-array>
+	<string-array name="thumbnail_size">
+		<item>small</item>
+		<item>medium</item>
+		<item>large</item>
+		<item>huge</item>
+	</string-array>
+	<string-array name="thumbnail_size_values">
+		<item>64</item>
+		<item>96</item>
+		<item>128</item>
+		<item>256</item>
+	</string-array>
+
+
+</resources>

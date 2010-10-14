@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<declare-styleable name="Theme">
+		<attr name="textColorPrimaryUnclickable" format="color" />
+		<attr name="textColorSecondaryUnclickable" format="color" />
+		<attr name="textColorAuthorName" format="color" />
+		<attr name="textColorThreadEmphasis" format="color" />
+        <attr name="textColorEntryID1" format="color" />
+        <attr name="textColorEntryID2" format="color" />
+        <attr name="textColorEntryID3" format="color" />
+        <attr name="textColorAuthorID1" format="color" />
+		<attr name="textColorAuthorID2" format="color" />
+		<attr name="textColorAuthorID3" format="color" />
+		<attr name="headerColorDefault" format="color" />
+		<attr name="headerColorEmphasis" format="color" />
+		<attr name="footerColorFavoriteManage" format="color" />
+		<attr name="drawableListDivider" format="reference|color" />
+		<attr name="entryLinkColor" format="color" />
+		<attr name="entryLinkClickedBgColor" format="color" />
+        <attr name="toolbarBackground" format="reference|color" />
+        <attr name="boardRowBackground" format="reference|color" />
+        <attr name="titleRowTextColor" format="color" />
+        <attr name="titleRowBackground" format="reference|color" />
+    </declare-styleable>
+</resources>

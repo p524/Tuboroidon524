@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical">
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_weight="1">
+		<ListView android:id="@+id/android:list"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:fastScrollEnabled="true" />
+	</LinearLayout>
+
+	<LinearLayout android:layout_width="fill_parent"
+		android:orientation="horizontal" style="@style/ToolBarBox">
+		<HorizontalScrollView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:scrollbars="none"
+			android:layout_weight="1">
+			<LinearLayout android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:orientation="horizontal">
+				<ImageButton android:id="@+id/button_tab_board_list"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:src="@drawable/toolbar_btn_board_list" style="@style/ToolBarButtonWidget" />
+				<ImageButton android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:src="@drawable/toolbar_btn_favorite_list_3"
+					style="@style/ToolBarButtonWidget" />
+				<ImageButton android:id="@+id/button_tab_recents"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:src="@drawable/toolbar_btn_recent_list" style="@style/ToolBarButtonWidget" />
+			</LinearLayout>
+		</HorizontalScrollView>
+		<ImageButton android:id="@+id/button_tab_updated_only"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:src="@drawable/toolbar_btn_updated_off" style="@style/ToolBarButtonWidget" />
+		<ImageButton android:id="@+id/button_tab_check_update"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:src="@drawable/toolbar_btn_reload" style="@style/ToolBarButtonWidget" />
+	</LinearLayout>
+</LinearLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical" android:paddingLeft="4dip"
+	android:paddingRight="4dip">
+	<TextView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="@string/dialog_add_ngword_token"
+		android:textColor="@color/white" android:textSize="14dip" />
+	<EditText android:id="@+id/add_ngword_token"
+		android:layout_width="fill_parent" android:layout_height="wrap_content" />
+	<TextView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="@string/dialog_add_ngword_orig"
+		android:textColor="@color/white" android:textSize="14dip" />
+	<EditText android:id="@+id/add_ngword_orig"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:maxLines="8" android:minLines="3" android:scrollbars="vertical"
+		android:scrollbarStyle="insideOverlay" android:inputType="none"
+		android:editable="false" />
+</LinearLayout>

@@ -1,0 +1,41 @@
+body {
+    color: #000000;
+    background: #ffeeee;
+}
+#header {
+    color: #000000;
+    background: #ffcc88 url(header_background.png) repeat-x bottom right;
+    font-size: 1.4em;
+    font-weight: bold;
+    text-align: center;
+    padding: 0.4em 0 0.4em 0;
+}
+
+h1 {
+    color: #660000;
+    font-size: 1.1em;
+    font-weight: bold;
+    border-bottom: solid 1px #ff0000;
+    margin: 0.5em 0 0.5em 0;
+}
+
+h2 {
+    color: #993333;
+    font-size: 1em;
+    border-bottom: solid 1px #ffbbbb;
+    margin: 0.3em 0 0.3em 0;
+}
+
+h3 {
+    color: #996666;
+    font-size: 1em;
+    margin: 0.2em 0 0.2em 0;
+}
+
+table {
+    width: 100%;
+}
+
+td {
+    vertical-align: middle;
+}

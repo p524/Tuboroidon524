@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:orientation="vertical" android:paddingRight="5sp">
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:orientation="horizontal">
+		<TextView android:id="@+id/thread_list_timestamp"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			style="@style/ThreadListTimeStamp" android:layout_weight="1" />
+		<TextView android:id="@+id/thread_list_online_count"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			style="@style/ThreadListResCount" />
+		<TextView android:id="@+id/thread_list_online_count_diff"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			style="@style/ThreadListResCountDiff" android:paddingRight="3sp" />
+		<TextView android:id="@+id/thread_list_online_count_speed"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			style="@style/ThreadListResCountSpeed" />
+	</LinearLayout>
+	<TextView android:id="@+id/thread_list_name"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		style="@style/ThreadListName" />
+</LinearLayout>

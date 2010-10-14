@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="horizontal">
+	<LinearLayout android:id="@+id/toolbar"
+		android:layout_height="fill_parent" android:orientation="vertical"
+		style="@style/ToolBarBoxV">
+		<ScrollView android:layout_width="wrap_content"
+			android:layout_height="fill_parent" android:scrollbars="none"
+			android:layout_weight="1">
+			<LinearLayout android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:orientation="vertical">
+				<ImageButton android:id="@+id/button_toolbar_home"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					style="@style/ToolBarButtonWidgetV" />
+				<ImageButton android:id="@+id/button_toolbar_up"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					style="@style/ToolBarButtonWidgetV" />
+				<ImageButton android:id="@+id/button_toolbar_down"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					style="@style/ToolBarButtonWidgetV" />
+				<ImageButton android:id="@+id/button_toolbar_favorite"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					style="@style/ToolBarButtonWidgetV" />
+				<ImageButton android:id="@+id/button_toolbar_thread_list"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:src="@drawable/toolbar_btn_threadlist" style="@style/ToolBarButtonWidgetV" />
+			</LinearLayout>
+		</ScrollView>
+		<ImageButton android:id="@+id/button_toolbar_reload"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:src="@drawable/toolbar_btn_reload" style="@style/ToolBarButtonWidgetV" />
+	</LinearLayout>
+	<LinearLayout android:layout_width="wrap_content"
+		android:layout_height="fill_parent" android:orientation="vertical"
+		android:layout_weight="1">
+		<LinearLayout android:layout_width="wrap_content"
+			android:layout_height="fill_parent" android:layout_weight="1">
+			<ListView android:id="@+id/android:list"
+				android:layout_width="fill_parent" android:layout_height="fill_parent"
+				android:choiceMode="none" android:clickable="false"
+				android:listSelector="@android:color/transparent"
+				android:fastScrollEnabled="true" />
+		</LinearLayout>
+		<HorizontalScrollView android:id="@+id/entry_anchor_stack_box"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:scrollbars="horizontal">
+			<TextView android:id="@+id/entry_anchor_stack"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:autoLink="none" style="@style/EntryListEntryAnchorBar"
+				android:paddingBottom="8dip" />
+		</HorizontalScrollView>
+		<LinearLayout android:id="@+id/search_bar"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:orientation="horizontal">
+			<EditText android:text="" android:id="@+id/edit_search"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:layout_weight="1" android:imeOptions="actionDone"
+				android:singleLine="true" />
+			<ImageButton android:id="@+id/button_search"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:src="@drawable/ic_btn_search" />
+			<ImageButton android:id="@+id/button_cancel_search"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:src="@drawable/ic_btn_x" />
+		</LinearLayout>
+	</LinearLayout>
+</LinearLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical">
+	<ListView android:id="@+id/android:list" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_weight="1" />
+	<LinearLayout android:id="@+id/favorite_stack_box"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		style="@style/FavoriteStackBox" android:visibility="gone">
+		<TextView android:id="@+id/favorite_stack_name"
+			android:minHeight="32sp" android:layout_width="fill_parent"
+			android:layout_height="fill_parent"></TextView>
+	</LinearLayout>
+</LinearLayout>

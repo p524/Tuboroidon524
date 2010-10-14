@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Tuboroid</string>
+	<string name="app_name_send">Tuboroidで開く</string>
+
+	<!-- データファイルの定義 -->
+	<!-- string name="const_filename_bbsmenu_dat" -->
+	<!-- string name="find_2ch_search_url" -->
+
+	<!-- 代替テキストなどの定義 -->
+	<string name="text_unknown_board">不明な板</string>
+	<string name="text_favorite_manage_footer">リストの末尾</string>
+	<string name="text_ignored_entry">あぼーん</string>
+
+	<string name="text_failed_to_login_maru">●のログインに失敗しました</string>
+	<string name="text_failed_to_login_p2">p2のログインに失敗しました</string>
+
+	<string name="text_no_new_entry_found_at_favorite_threads">お気に入りに新着レスはありません</string>
+	<string name="text_no_new_entry_found_at_favorite_threads_func">ボタンを押すと新着チェックを行います</string>
+	<string name="text_check_update_unread_favorite_threads">お気に入りの新着を確認しています</string>
+
+	<string name="text_new_entry_found_at_favorite_threads">個のお気に入りに未読があります</string>
+
+	<!-- string name="text_board_category_others" -->
+
+	<string name="text_notice_show_updated_only">新着レスのあるスレッドのみが表示されています</string>
+
+	<!-- タイトル -->
+	<string name="title_boards">Tuboroid : 板一覧</string>
+	<string name="title_favorite">Tuboroid : お気に入り</string>
+	<string name="title_recents">Tuboroid : 履歴</string>
+	<string name="title_favorite_manage">Tuboroid : お気に入り管理</string>
+	<string name="title_find2ch">find.2ch 全板検索</string>
+	<string name="title_similar_thread">類似スレ</string>
+	<string name="title_help">Tuboroid : ヘルプ</string>
+	<string name="title_image_viewer">Tuboroid : 画像ビューア</string>
+
+	<string name="title_install_aa_font">AA用フォントのインストール</string>
+
+	<!-- コンテキストメニュー -->
+	<string name="ctx_menu_title_entry">%d番の書き込みに対して</string>
+	<string name="ctx_menu_reply_to">返信する</string>
+	<string name="ctx_menu_find_by_entry_id">ID:%sで抽出</string>
+	<string name="ctx_menu_find_related_entries">関連レスを抽出</string>
+	<string name="ctx_menu_add_ignore">あぼーんに追加</string>
+	<string name="ctx_menu_add_ignore_id_normal">%sを通常あぼーん</string>
+	<string name="ctx_menu_add_ignore_id_gone">%sを透明あぼーん</string>
+	<string name="ctx_menu_add_ignore_word_normal">NGワードで通常あぼーん</string>
+	<string name="ctx_menu_add_ignore_word_gone">NGワードで透明あぼーん</string>
+	<string name="ctx_menu_delete_ignore">あぼーんを解除</string>
+	<string name="ctx_menu_copy_to_clipboard">クリップボードにコピー</string>
+	<string name="ctx_menu_delete_thumbnail_images">サムネイルを削除する</string>
+
+	<string name="ctx_submenu_reply_to_title">返信方法は</string>
+	<string name="ctx_submenu_reply_to_this_entry">アンカーのみ付ける</string>
+	<string name="ctx_submenu_quote_and_reply_to_this_entry">レスを引用する</string>
+
+	<string name="ctx_submenu_copy_to_clipboard_id">ID</string>
+	<string name="ctx_submenu_copy_to_clipboard_name">名前</string>
+	<string name="ctx_submenu_copy_to_clipboard_body">書き込み本文</string>
+
+	<string name="ctx_menu_title_board">この板に対して</string>
+	<string name="ctx_menu_delete_board">削除する</string>
+	<string name="ctx_menu_delete_board_confirm">この板を削除してもよろしいですか?</string>
+	<string name="ctx_menu_edit_board">編集</string>
+	<string name="ctx_menu_edit_board_confirm">板名を入力してください</string>
+
+	<string name="ctx_menu_title_favorite">このお気に入りに対して</string>
+	<string name="ctx_menu_delete_favorite">お気に入りから削除する</string>
+	<string name="ctx_menu_delete_favorite_cache">キャッシュごと削除する</string>
+
+	<string name="ctx_menu_title_thread">このスレに対して</string>
+	<string name="ctx_menu_delete_thread">削除する</string>
+
+	<!-- メニュー -->
+	<string name="label_menu_about">about</string>
+	<string name="label_menu_help">ヘルプ</string>
+
+	<string name="label_menu_add_board">外部板追加</string>
+
+	<string name="label_menu_show_toolbar">ツールバー表示</string>
+	<string name="label_menu_hide_toolbar">ツールバー収納</string>
+
+	<string name="label_menu_show_searchbar">検索バー表示</string>
+	<string name="label_menu_hide_searchbar">検索バー収納</string>
+
+	<string name="label_menu_reload_boards">板一覧を更新</string>
+	<string name="label_menu_setting">設定</string>
+	<string name="label_menu_search_via_find2ch">全板検索</string>
+
+	<string name="label_menu_sort_threads">並び替え</string>
+	<string name="label_menu_check_update">更新を確認</string>
+	<string name="label_menu_manual_order">手動整理</string>
+	<string name="label_menu_auto_order">自動整理</string>
+	<string name="label_menu_clear_cache">キャッシュ削除</string>
+
+	<string name="label_submenu_delete_filled">埋まったスレを削除</string>
+	<string name="label_submenu_auto_sort">自動で並べなおす</string>
+	<string name="label_submenu_delete_except_favorite">お気に入り以外を削除</string>
+
+	<string name="label_submenu_recent_read">最近読んだ順</string>
+	<string name="label_submenu_recent_write">最近書き込んだ順</string>
+
+	<string name="label_menu_delete_checked_favorite">選択項目を削除</string>
+
+	<string name="label_menu_compose">新規レス作成</string>
+	<string name="label_menu_find_similar_thread">類似スレ検索</string>
+	<string name="label_menu_copy_thread_info">スレ情報コピー</string>
+
+	<string name="label_submenu_copy_thread_info_url">URL</string>
+	<string name="label_submenu_copy_thread_info_title">タイトル</string>
+	<string name="label_submenu_copy_thread_info_title_url">タイトルとURL</string>
+
+	<string name="label_menu_clear_composing_body">クリア</string>
+
+	<string name="label_menu_share_image">画像を共有</string>
+	<string name="label_menu_save_image">画像を保存</string>
+	<string name="label_filepicker_save_here">ここにセーブ</string>
+
+	<!-- ボタンのラベル -->
+	<string name="btn_label_entry_edit_name">名前</string>
+	<string name="btn_label_entry_edit_mail">メールアドレス</string>
+	<string name="btn_label_entry_edit_submit">書き込む</string>
+	<string name="dialog_aa_font_install">インストール</string>
+
+	<!-- トースト -->
+	<string name="toast_reload_board_list_failed">板リストの取得中に通信エラーが発生しました</string>
+	<string name="toast_reload_thread_list_failed">スレ一覧の取得中に通信エラーが発生しました</string>
+
+	<string name="toast_reload_entry_list_failed">スレの取得中に通信エラーが発生しました</string>
+	<string name="toast_search_find2ch_failed">検索中に通信エラーが発生しました</string>
+
+	<string name="toast_network_is_offline">通信圏外です。電波状況を確認して下さい</string>
+
+	<string name="toast_copied">コピーしました</string>
+
+	<string name="toast_post_succeeded">書き込みに成功しました</string>
+
+	<string name="toast_clear_ignores">NGID/NGワードをクリアしました</string>
+
+	<string name="toast_check_unread_favorite_threads">お気に入りスレの新着チェックを行います</string>
+
+	<string name="toast_new_entry_found_at_favorite_threads">個のお気に入りスレに新着レスがあります</string>
+	<string name="toast_no_new_entry_found_at_favorite_threads">お気に入りスレに新着レスはありませんでした</string>
+
+	<string name="toast_ext_font_succeeded">フォントをインストールしました</string>
+	<string name="toast_ext_font_failed">ダウンロードに失敗しました</string>
+
+	<string name="toast_image_saved">画像を保存しました</string>
+	<string name="toast_image_failed_to_save">保存に失敗しました</string>
+
+	<!-- 通知 -->
+	<string name="notif_check_upadted">個のスレに新着レスがあります</string>
+
+	<!-- ダイアログ -->
+	<string name="dialog_aa_font_notice_1">このAA用フォントは、2chのAAが(ほぼ)正しく表示出来るよう調整されたフリーのフォントです。
+		モトヤLシーダ3等幅フォントとモナーフォントを合成して作られています。
+	</string>
+	<string name="dialog_aa_font_notice_2">これはデフォルトではインストールされません。</string>
+	<string name="dialog_aa_font_notice_3">&quot;インストール&quot;を押すと、外部ストレージ(SDカードなど)にダウンロードとインストールが行われます(2MB必要です)。
+	</string>
+
+	<string name="dialog_aa_font_already_installed">フォントは既にインストールされています</string>
+
+	<string name="dialog_loading_progress">読み込んでいます……</string>
+	<string name="dialog_posting_progress">書き込んでいます……</string>
+
+	<string name="dialog_add_favorite_thread_title">お気に入りに追加</string>
+
+	<string name="dialog_text_auto_sort">同じ板の書き込みが集まるように適当に並べなおします</string>
+	<string name="dialog_text_delete_filled_threads">埋まったスレ(1000レスを超えて書き込めなくなったスレ)を削除します</string>
+	<string name="dialog_text_delete_threads_except_favorite">お気に入りに登録しているスレ以外を削除します</string>
+	<string name="dialog_text_delete_checked_threads">選択したスレを削除します</string>
+
+	<string name="dialog_dat_dropped_title">dat落ちしたようです</string>
+	<string name="dialog_dat_dropped_summary">次スレ候補を検索しますか?</string>
+	<string name="dialog_dat_dropped_summary_no_name">スレを取得出来ません</string>
+	<string name="dialog_dat_dropped_summary_with_maru">次スレ候補を検索しますか?それとも●でdatを取得しますか?</string>
+	<string name="dialog_dat_dropped_summary_with_maru_no_name">●でdatを取得しますか?</string>
+
+	<string name="dialog_label_dat_dropped_find_similar">検索</string>
+	<string name="dialog_label_dat_dropped_use_maru">●使用</string>
+
+	<string name="dialog_do_you_post_it_title">書き込んでよろしいですか?</string>
+	<string name="dialog_post_notice_title">書き込み確認</string>
+	<string name="dialog_post_failed_title">書き込み失敗</string>
+	<string name="dialog_post_error_summary">書き込み時に通信エラーが発生しました</string>
+
+	<string name="dialog_add_board_title">外部板の追加</string>
+	<string name="dialog_add_board_tips_title">(Tips)</string>
+	<string name="dialog_add_board_tips">ブラウザから検索して登録したい板を開き「MENU→その他→ページを共有」でも追加できます
+	</string>
+	<string name="dialog_add_board_name">名前</string>
+	<string name="dialog_add_board_uri">URL</string>
+	<string name="dialog_add_board_submit">追加</string>
+
+	<string name="dialog_add_ngword_token">登録NGワード</string>
+	<string name="dialog_add_ngword_orig">元レス(ここから上にコピペ)</string>
+
+	<string name="dialog_thread_list_moved_title">スレ一覧の取得に失敗</string>
+	<string name="dialog_thread_list_moved_summary">2chサーバのトラブルか板移転と思われます。
+		板移転の場合は板一覧画面から「板一覧の更新」を行うと改善することがあります。
+	</string>
+
+	<!-- 設定画面 -->
+
+	<string name="pref_cat_title_screen_setting">画面設定</string>
+	<string name="pref_title_theme_setting">テーマ</string>
+	<string name="pref_summary_theme_setting">画面の配色設定</string>
+
+	<string name="pref_title_full_screen_mode">フルスクリーン設定</string>
+	<string name="pref_summary_full_screen_mode">上部の通知バーを非表示にします</string>
+
+	<string name="pref_title_screen_orientation">画面の向き</string>
+	<string name="pref_summary_screen_orientation">画面の向きを自動または縦横固定に設定します</string>
+
+	<string name="pref_cat_title_font_setting">フォント設定</string>
+
+	<string name="pref_title_font_size_board_list">板リスト</string>
+	<string name="pref_summary_font_size_board_list">板リスト表示に使用するフォント</string>
+
+	<string name="pref_title_font_size_thread_list_base">スレッドリスト</string>
+	<string name="pref_summary_font_size_thread_list_base">スレッドリスト表示に使用するフォント</string>
+
+	<string name="pref_title_font_size_entry_header">書き込みヘッダ</string>
+	<string name="pref_summary_font_size_entry_header">各書き込みのヘッダ表示に使用するフォント</string>
+
+	<string name="pref_title_font_size_entry_body">書き込み本文</string>
+	<string name="pref_summary_font_size_entry_body">各書き込みの本文表示に使用するフォント</string>
+
+	<string name="pref_title_font_size_entry_aa_body">AAフォントサイズ</string>
+	<string name="pref_summary_font_size_entry_aa_body">AAと思われる書き込みに使用するフォント</string>
+
+	<string name="pref_cat_title_thread_view_setting">スレ表示の設定</string>
+	<string name="pref_title_use_back_anchor">逆アンカー表示</string>
+	<string name="pref_summary_use_back_anchor">各レスを参照している逆アンカーを表示します</string>
+	<string name="pref_title_thumbnail_size">サムネイルサイズ</string>
+	<string name="pref_summary_thumbnail_size">インライン表示するサムネイルのサイズ</string>
+
+	<string name="pref_title_jump_bottom_on_posted">書き込み後に末尾へ</string>
+	<string name="pref_summary_jump_bottom_on_posted">スレに書き込んだ後、最新のレスにジャンプします</string>
+
+	<string name="pref_title_touch_margin_wide">レス内アンカーの反応性</string>
+	<string name="pref_summary_touch_margin_wide">アンカーのタップ反応域を広げて押しやすくします(過敏な時はオフ)</string>
+
+	<string name="pref_cat_title_scrolling_setting">スクロールの設定</string>
+	<string name="pref_title_use_fast_scroll">高速スクロールを使う</string>
+	<string name="pref_summary_use_fast_scroll">スクロール時に高速スクロール用のノブを出します</string>
+
+	<string name="pref_title_use_page_up_down_key">トラックボール/カーソル キー</string>
+	<string name="pref_summary_use_page_up_down_key">トラックボール/カーソルキーを画面スクロールに使います</string>
+
+	<string name="pref_title_use_volume_button_scrolling">ボリュームボタン</string>
+	<string name="pref_summary_use_volume_button_scrolling">ボリュームボタンを画面スクロールに使います</string>
+
+	<string name="pref_title_use_camera_button_scrolling">カメラボタン</string>
+	<string name="pref_summary_use_camera_button_scrolling">カメラボタンを画面スクロール(次ページ)に使います</string>
+
+	<string name="pref_title_scrolling_amount">スクロール量</string>
+	<string name="pref_summary_scrolling_amount">ハードボタンによる画面スクロールの量</string>
+
+	<string name="pref_cat_title_storage_setting">ストレージ設定</string>
+	<string name="pref_title_use_external_storage">外部ストレージの使用</string>
+	<string name="pref_summary_use_external_storage">データの保存に外部ストレージを使用します(SDカード等)</string>
+
+	<string name="pref_title_external_storage_path">外部ストレージのパス</string>
+	<string name="pref_summary_external_storage_path">データ保存先のディレクトリのパスを指定します</string>
+
+	<string name="pref_title_external_aa_font">AA用フォント</string>
+	<string name="pref_summary_external_aa_font">AA用フォントのセットアップ(要外部ストレージ(SDカード等))</string>
+	<string name="pref_summary_use_external_storage_not_available">(Android 1.6 以上でのみ利用可能です)</string>
+
+	<string name="pref_cat_title_maru_setting">2ちゃんねるビューア●</string>
+	<string name="pref_title_use_maru">●を使用する</string>
+	<string name="pref_summary_use_maru">2ちゃんねるビューア●を使用します</string>
+
+	<string name="pref_title_maru_user_id">ユーザID</string>
+	<string name="pref_summary_maru_user_id">●のユーザID(登録メールアドレス)</string>
+
+	<string name="pref_title_maru_password">パスワード</string>
+	<string name="pref_summary_maru_password">●のログインパスワード</string>
+
+	<string name="pref_cat_title_p2_setting">公式p2(試験実装)</string>
+	<string name="pref_title_use_p2">書き込みに公式p2を使用する</string>
+	<string name="pref_summary_use_p2">前もってPCなどから書き込み可能に設定しておいて下さい</string>
+
+	<string name="pref_title_p2_user_id">公式p2 ユーザID</string>
+	<string name="pref_summary_p2_user_id">公式p2のユーザID(モリタポアカウントの登録メールアドレス)</string>
+
+	<string name="pref_title_p2_password">公式p2 パスワード</string>
+	<string name="pref_summary_p2_password">公式p2のログインパスワード(モリタポアカウントのパスワード)</string>
+
+	<string name="pref_cat_title_favorites_recents">お気に入り/履歴</string>
+	<string name="pref_title_manual_update_fetch_entries">更新時にダウンロード</string>
+	<string name="pref_summary_manual_update_fetch_entries">手動更新チェックの際に更新スレをダウンロードします</string>
+
+	<string name="pref_cat_title_favorite">お気に入り</string>
+	<string name="pref_title_favorites_update_service">自動更新チェック</string>
+	<string name="pref_summary_favorites_update_service">バックグラウンドでの更新チェックを有効にします</string>
+
+	<string name="pref_title_favorites_update_interval">更新チェック間隔</string>
+	<string name="pref_summary_favorites_update_interval">バックグラウンドでの更新チェックを行う間隔です</string>
+
+	<string name="pref_title_favorites_update_service_fetch_entries">更新時にダウンロード</string>
+	<string name="pref_summary_favorites_update_service_fetch_entries">更新チェック時に新着レスをDLしてキャッシュします</string>
+
+	<string name="pref_cat_title_other">その他の設定</string>
+	<string name="pref_title_clear_ignores">あぼーん設定のクリア</string>
+	<string name="pref_summary_clear_ignores">NGID/NGワードをクリアします</string>
+
+	<string name="pref_title_skip_agreement_notice">規約確認をスキップ</string>
+	<string name="pref_summary_skip_agreement_notice">書き込み時の規約確認をスキップします</string>
+
+	<string name="pref_title_bbsmenu_url">板リストのURL</string>
+	<string name="pref_summary_bbsmenu_url">"BBS MENU"の取得に使用するURL</string>
+
+</resources>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory android:title="@string/pref_cat_title_screen_setting">
+		<ListPreference android:key="pref_theme_setting"
+			android:title="@string/pref_title_theme_setting" android:summary="@string/pref_summary_theme_setting"
+			android:entries="@array/theme_list_titles" android:entryValues="@array/theme_list_values"
+			android:defaultValue="1" />
+		<ListPreference android:key="pref_full_screen_mode"
+			android:title="@string/pref_title_full_screen_mode" android:summary="@string/pref_summary_full_screen_mode"
+			android:entries="@array/full_screen_mode_titles" android:entryValues="@array/full_screen_mode_values"
+			android:defaultValue="0" />
+		<ListPreference android:key="pref_screen_orientation"
+			android:title="@string/pref_title_screen_orientation"
+			android:summary="@string/pref_summary_screen_orientation"
+			android:entries="@array/screen_orientation_titles"
+			android:entryValues="@array/screen_orientation_values"
+			android:defaultValue="0" />
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/pref_cat_title_font_setting">
+		<ListPreference android:key="pref_font_size_board_list"
+			android:title="@string/pref_title_font_size_board_list"
+			android:summary="@string/pref_summary_font_size_board_list"
+			android:entries="@array/font_size_large" android:entryValues="@array/font_size_values_large"
+			android:defaultValue="24" />
+
+		<ListPreference android:key="pref_font_size_thread_list_base"
+			android:title="@string/pref_title_font_size_thread_list_base"
+			android:summary="@string/pref_summary_font_size_thread_list_base"
+			android:entries="@array/font_size_medium" android:entryValues="@array/font_size_values_medium"
+			android:defaultValue="13" />
+
+		<ListPreference android:key="pref_font_size_entry_header"
+			android:title="@string/pref_title_font_size_entry_header"
+			android:summary="@string/pref_summary_font_size_entry_header"
+			android:entries="@array/font_size_small" android:entryValues="@array/font_size_values_small"
+			android:defaultValue="11" />
+
+		<ListPreference android:key="pref_font_size_entry_body"
+			android:title="@string/pref_title_font_size_entry_body"
+			android:summary="@string/pref_summary_font_size_entry_body"
+			android:entries="@array/font_size_medium" android:entryValues="@array/font_size_values_medium"
+			android:defaultValue="13" />
+		<ListPreference android:key="pref_font_size_entry_aa_body"
+			android:title="@string/pref_title_font_size_entry_aa_body"
+			android:summary="@string/pref_summary_font_size_entry_aa_body"
+			android:entries="@array/font_size_small" android:entryValues="@array/font_size_values_small"
+			android:defaultValue="12" />
+		<Preference android:key="pref_external_aa_font"
+			android:dependency="pref_use_external_storage" android:title="@string/pref_title_external_aa_font"
+			android:summary="@string/pref_summary_external_aa_font" />
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/pref_cat_title_thread_view_setting">
+		<CheckBoxPreference android:key="pref_use_back_anchor"
+			android:title="@string/pref_title_use_back_anchor" android:summary="@string/pref_summary_use_back_anchor"
+			android:defaultValue="false" />
+		<ListPreference android:key="pref_thumbnail_size"
+			android:title="@string/pref_title_thumbnail_size" android:summary="@string/pref_summary_thumbnail_size"
+			android:entries="@array/thumbnail_size" android:entryValues="@array/thumbnail_size_values"
+			android:defaultValue="96" />
+		<CheckBoxPreference android:key="pref_jump_bottom_on_posted"
+			android:title="@string/pref_title_jump_bottom_on_posted"
+			android:summary="@string/pref_summary_jump_bottom_on_posted"
+			android:defaultValue="true" />
+		<CheckBoxPreference android:key="pref_touch_margin_wide"
+			android:title="@string/pref_title_touch_margin_wide" android:summary="@string/pref_summary_touch_margin_wide"
+			android:defaultValue="false" />
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/pref_cat_title_scrolling_setting">
+		<CheckBoxPreference android:key="pref_use_fast_scroll"
+			android:title="@string/pref_title_use_fast_scroll" android:summary="@string/pref_summary_use_fast_scroll"
+			android:defaultValue="true" />
+		<CheckBoxPreference android:key="pref_use_page_up_down_key"
+			android:title="@string/pref_title_use_page_up_down_key"
+			android:summary="@string/pref_summary_use_page_up_down_key"
+			android:defaultValue="true" />
+		<CheckBoxPreference android:key="pref_use_volume_button_scrolling"
+			android:title="@string/pref_title_use_volume_button_scrolling"
+			android:summary="@string/pref_summary_use_volume_button_scrolling"
+			android:defaultValue="false" />
+		<CheckBoxPreference android:key="pref_use_camera_button_scrolling"
+			android:title="@string/pref_title_use_camera_button_scrolling"
+			android:summary="@string/pref_summary_use_camera_button_scrolling"
+			android:defaultValue="false" />
+		<ListPreference android:key="pref_scrolling_amount"
+			android:title="@string/pref_title_scrolling_amount" android:summary="@string/pref_summary_scrolling_amount"
+			android:entries="@array/scrolling_amount" android:entryValues="@array/scrolling_amount_values"
+			android:defaultValue="100" />
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/pref_cat_title_storage_setting">
+		<CheckBoxPreference android:key="pref_use_external_storage"
+			android:title="@string/pref_title_use_external_storage"
+			android:summary="@string/pref_summary_use_external_storage"
+			android:defaultValue="true" />
+		<Preference android:key="pref_external_storage_path"
+			android:dependency="pref_use_external_storage" android:title="@string/pref_title_external_storage_path"
+			android:summary="@string/pref_summary_external_storage_path" />
+		<!-- EditTextPreference android:key="pref_external_storage_path" android:dependency="pref_use_external_storage" 
+			android:title="@string/pref_title_external_storage_path" android:summary="@string/pref_summary_external_storage_path" 
+			android:defaultValue="tuboroid" android:lines="1" android:singleLine="true" / -->
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/pref_cat_title_maru_setting">
+		<CheckBoxPreference android:key="pref_use_maru"
+			android:title="@string/pref_title_use_maru" android:summary="@string/pref_summary_use_maru"
+			android:defaultValue="false" />
+		<EditTextPreference android:key="pref_maru_user_id"
+			android:dependency="pref_use_maru" android:title="@string/pref_title_maru_user_id"
+			android:summary="@string/pref_summary_maru_user_id"
+			android:defaultValue="" android:lines="1" android:singleLine="true" />
+		<EditTextPreference android:key="pref_maru_password"
+			android:dependency="pref_use_maru" android:title="@string/pref_title_maru_password"
+			android:summary="@string/pref_summary_maru_password"
+			android:defaultValue="" android:password="true" android:maxLines="1"
+			android:singleLine="true" />
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/pref_cat_title_p2_setting">
+		<CheckBoxPreference android:key="pref_use_p2"
+			android:title="@string/pref_title_use_p2" android:summary="@string/pref_summary_use_p2"
+			android:defaultValue="false" />
+		<EditTextPreference android:key="pref_p2_user_id"
+			android:dependency="pref_use_p2" android:title="@string/pref_title_p2_user_id"
+			android:summary="@string/pref_summary_p2_user_id"
+			android:defaultValue="" android:lines="1" android:singleLine="true" />
+		<EditTextPreference android:key="pref_p2_password"
+			android:dependency="pref_use_p2" android:title="@string/pref_title_p2_password"
+			android:summary="@string/pref_summary_p2_password"
+			android:defaultValue="" android:password="true" android:maxLines="1"
+			android:singleLine="true" />
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/pref_cat_title_favorites_recents">
+		<CheckBoxPreference android:key="manual_update_fetch_entries"
+			android:title="@string/pref_title_manual_update_fetch_entries"
+			android:summary="@string/pref_summary_manual_update_fetch_entries"
+			android:defaultValue="true" />
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/pref_cat_title_favorite">
+		<CheckBoxPreference android:key="favorites_update_service"
+			android:title="@string/pref_title_favorites_update_service"
+			android:summary="@string/pref_summary_favorites_update_service"
+			android:defaultValue="false" />
+		<CheckBoxPreference android:key="favorites_update_service_fetch_entries"
+			android:title="@string/pref_title_favorites_update_service_fetch_entries"
+			android:summary="@string/pref_summary_favorites_update_service_fetch_entries"
+			android:defaultValue="true" />
+		<ListPreference android:key="favorites_update_interval"
+			android:title="@string/pref_title_favorites_update_interval"
+			android:summary="@string/pref_summary_favorites_update_interval"
+			android:entries="@array/service_update_interval" android:entryValues="@array/service_update_interval_values"
+			android:defaultValue="30" />
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/pref_cat_title_other">
+		<Preference android:key="manage_clear_ignores"
+			android:title="@string/pref_title_clear_ignores" android:summary="@string/pref_summary_clear_ignores" />
+		<CheckBoxPreference android:key="skip_agreement_notice"
+			android:title="@string/pref_title_skip_agreement_notice"
+			android:summary="@string/pref_summary_skip_agreement_notice"
+			android:defaultValue="false" />
+		<ListPreference android:key="pref_bbsmenu_url_list"
+			android:title="@string/pref_title_bbsmenu_url" android:summary="@string/pref_summary_bbsmenu_url"
+			android:entries="@array/bbsmenu_url" android:entryValues="@array/bbsmenu_url_values" />
+	</PreferenceCategory>
+
+</PreferenceScreen>

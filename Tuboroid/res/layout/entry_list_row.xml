@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/entry_main_box" android:layout_width="fill_parent"
+	android:layout_height="wrap_content" android:orientation="vertical"
+	android:layout_marginTop="1dip" android:layout_marginBottom="1dip">
+	<info.narazaki.android.tuboroid.view.EntryDataTextView
+		android:id="@+id/entry_header" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_marginRight="3sp" />
+	<info.narazaki.android.tuboroid.view.EntryDataTextView
+		android:id="@+id/entry_body" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" style="@style/EntryListEntryBody" />
+	<TableLayout android:id="@+id/thread_list_thumbnail_box"
+		android:layout_width="fill_parent" android:layout_height="wrap_content">
+	</TableLayout>
+	<LinearLayout android:id="@+id/entry_rev_anchor_box"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:orientation="vertical">
+		<ImageView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" style="@style/DrawableListDivider" />
+		<info.narazaki.android.tuboroid.view.EntryDataTextView
+			android:id="@+id/entry_rev_anchor" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" style="@style/EntryListEntryBody" />
+	</LinearLayout>
+</LinearLayout>

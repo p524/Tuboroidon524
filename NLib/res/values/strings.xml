@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="title_file_picker_base">File Picker</string>
+
+	<string name="text_file_picker_parent_dir">Parent Directory</string>
+    <string name="text_file_picker_new_file">New File</string>
+    <string name="text_file_picker_new_dir">New Directory</string>
+    <string name="text_file_picker_pick_dir">Pick this directory</string>
+    
+    <string name="text_file_picker_overwrite_title">Overwrite</string>
+    <string name="text_file_picker_overwrite_message">Overwrite this file?</string>
+    
+    <string name="text_file_picker_new_file_title">New File</string>
+    <string name="text_file_picker_new_dir_title">New Directory</string>
+    <string name="text_file_picker_write_failed">Cannot write this file</string>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="title_file_picker_base">ファイルの選択</string>
+	<string name="text_file_picker_parent_dir">一階層上のディレクトリ</string>
+	<string name="text_file_picker_new_file">新しいファイル</string>
+	<string name="text_file_picker_new_dir">新しいディレクトリ</string>
+    <string name="text_file_picker_pick_dir">このディレクトリを選択</string>
+
+	<string name="text_file_picker_overwrite_title">上書き確認</string>
+	<string name="text_file_picker_overwrite_message">このファイルに上書きしてもよろしいですか?</string>
+
+	<string name="text_file_picker_new_file_title">新しいファイル</string>
+    <string name="text_file_picker_new_dir_title">新しいディレクトリ</string>
+	<string name="text_file_picker_write_failed">このファイルには書き込めません</string>
+</resources>

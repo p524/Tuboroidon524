@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style name="MainTheme">
+		<item name="android:windowNoTitle">true</item>
+	</style>
+
+	<style name="ThreadListBaseFont">
+
+	</style>
+
+	<style name="ThreadListSpeedFont">
+
+	</style>
+
+	<style name="BoardsListFont">
+
+	</style>
+
+	<style name="EntryBodyFont">
+
+	</style>
+
+	<style name="EntryBodyAAFont">
+
+	</style>
+
+	<style name="ToolBarButtonWidget">
+		<item name="android:background">@android:color/transparent</item>
+		<item name="android:paddingTop">8dip</item>
+		<item name="android:paddingBottom">8dip</item>
+		<item name="android:paddingLeft">12dip</item>
+		<item name="android:paddingRight">12dip</item>
+	</style>
+
+	<style name="ToolBarBox">
+		<item name="android:background">?attr/toolbarBackground</item>
+		<item name="android:paddingLeft">2dip</item>
+		<item name="android:paddingRight">2dip</item>
+		<item name="android:layout_height">46dip</item>
+	</style>
+
+	<style name="ToolBarButtonWidgetV">
+		<item name="android:background">@android:color/transparent</item>
+		<item name="android:layout_width">42dip</item>
+		<item name="android:layout_height">42dip</item>
+		<item name="android:paddingTop">8dip</item>
+		<item name="android:paddingBottom">8dip</item>
+		<item name="android:paddingLeft">8dip</item>
+		<item name="android:paddingRight">8dip</item>
+	</style>
+
+	<style name="ToolBarBoxV">
+		<item name="android:background">?attr/toolbarBackground</item>
+		<item name="android:paddingTop">2dip</item>
+		<item name="android:paddingBottom">2dip</item>
+		<item name="android:layout_width">46dip</item>
+	</style>
+
+	<style name="ListError">
+		<item name="android:textColor">?attr/textColorPrimaryUnclickable</item>
+		<item name="android:textSize">24dip</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:gravity">center_vertical|center_horizontal</item>
+	</style>
+	<style name="ThreadListName" parent="@style/ThreadListBaseFont">
+		<item name="android:textColor">?attr/textColorPrimaryUnclickable</item>
+	</style>
+	<style name="ThreadListFind2chBoardName" parent="@style/ThreadListBaseFont">
+		<item name="android:textColor">?attr/textColorThreadEmphasis</item>
+	</style>
+	<style name="ThreadListTimeStamp" parent="@style/ThreadListBaseFont">
+		<item name="android:textColor">?attr/textColorSecondaryUnclickable</item>
+	</style>
+	<style name="ThreadListResCount" parent="@style/ThreadListBaseFont">
+		<item name="android:textColor">?attr/textColorPrimaryUnclickable</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+	<style name="ThreadListResCountDiff" parent="@style/ThreadListBaseFont">
+		<item name="android:textColor">?attr/textColorThreadEmphasis</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+	<style name="ThreadListResCountSpeed" parent="@style/ThreadListSpeedFont">
+		<item name="android:textColor">?attr/textColorSecondaryUnclickable</item>
+	</style>
+	<style name="BoardListRow" parent="@style/BoardsListFont">
+		<item name="android:textColor">?attr/textColorPrimaryUnclickable</item>
+		<item name="android:gravity">center_vertical|left</item>
+	</style>
+	<style name="BoardListGroupRow" parent="@style/BoardsListFont">
+		<item name="android:textColor">?attr/textColorPrimaryUnclickable</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:gravity">center_vertical|left</item>
+	</style>
+
+	<style name="EntryListEntryID1">
+		<item name="android:textColor">?attr/textColorEntryID1</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+	<style name="EntryListEntryID2">
+		<item name="android:textColor">?attr/textColorEntryID2</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+	<style name="EntryListEntryID3">
+		<item name="android:textColor">?attr/textColorEntryID3</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+
+	<style name="EntryListAuthorName">
+		<item name="android:textColor">?attr/textColorAuthorName</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+	<style name="EntryListAuthorMail">
+		<item name="android:textColor">?attr/textColorSecondaryUnclickable</item>
+	</style>
+	<style name="EntryListEntryTime">
+		<item name="android:textColor">?attr/textColorSecondaryUnclickable</item>
+	</style>
+	<style name="EntryListAuthorIDPrefix">
+		<item name="android:textColor">?attr/textColorPrimaryUnclickable</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+	<style name="EntryListAuthorID1">
+		<item name="android:textColor">?attr/textColorAuthorID1</item>
+	</style>
+	<style name="EntryListAuthorID2">
+		<item name="android:textColor">?attr/textColorAuthorID2</item>
+	</style>
+	<style name="EntryListAuthorID3">
+		<item name="android:textColor">?attr/textColorAuthorID3</item>
+	</style>
+	<style name="EntryListAuthorIDSuffix">
+		<item name="android:textColor">?attr/textColorPrimaryUnclickable</item>
+	</style>
+	<style name="EntryListAuthorBE">
+		<item name="android:textColor">?attr/textColorPrimaryUnclickable</item>
+	</style>
+	<style name="EntryListEntryBody" parent="@style/EntryBodyFont">
+		<item name="android:textColor">?attr/textColorPrimaryUnclickable</item>
+	</style>
+	<style name="EntryListEntryAnchorBar" parent="@style/EntryBodyFont">
+		<item name="android:textColor">?attr/textColorPrimaryUnclickable</item>
+	</style>
+	<style name="EntryListIgnored">
+		<item name="android:textColor">?attr/textColorSecondaryUnclickable</item>
+	</style>
+	<style name="EntryListFooterBox">
+		<item name="android:textColor">?attr/textColorPrimaryUnclickable</item>
+		<item name="android:background">?attr/boardRowBackground</item>
+		<item name="android:paddingRight">3dip</item>
+	</style>
+	<style name="EntryListFooterBoxHeader">
+		<item name="android:paddingTop">2dip</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+	<style name="EntryListFooterBoxBody">
+		<item name="android:paddingTop">2dip</item>
+		<item name="android:paddingBottom">3dip</item>
+	</style>
+	<style name="FavoriteBoardRow" parent="@style/BoardListRow">
+		<item name="android:background">?attr/boardRowBackground</item>
+		<item name="android:textColor">?attr/textColorPrimaryUnclickable</item>
+		<item name="android:gravity">center_vertical</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+	<style name="FavoriteFooterRow" parent="@style/FavoriteBoardRow">
+		<item name="android:textColor">?attr/textColorPrimaryUnclickable</item>
+		<item name="android:gravity">center_vertical|center_horizontal</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:background">?attr/footerColorFavoriteManage</item>
+	</style>
+	<style name="FavoriteStackBox">
+		<item name="android:textColor">@color/black</item>
+		<item name="android:background">@drawable/bg_favorite_manage_stack_box</item>
+	</style>
+	<style name="DrawableListDivider">
+		<item name="android:src">?attr/drawableListDivider</item>
+	</style>
+
+	<style name="Widget.ListView.Light" parent="@android:style/Widget.ListView.White">
+		<item name="android:cacheColorHint">@android:color/transparent</item>
+		<item name="android:fadingEdge">none</item>
+	</style>
+
+	<style name="Widget.ListView.Dark" parent="@android:style/Widget.ListView">
+		<item name="android:cacheColorHint">@android:color/transparent</item>
+		<item name="android:fadingEdge">none</item>
+	</style>
+
+	<style name="Widget.ExpandableListView.Light" parent="@android:style/Widget.ExpandableListView">
+		<item name="android:childDivider">@android:drawable/divider_horizontal_bright</item>
+		<item name="android:divider">@android:drawable/divider_horizontal_bright</item>
+		<item name="android:cacheColorHint">@android:color/transparent</item>
+		<item name="android:fadingEdge">none</item>
+	</style>
+
+	<style name="Widget.ExpandableListView.Dark" parent="@android:style/Widget.ExpandableListView">
+		<item name="android:cacheColorHint">@android:color/transparent</item>
+		<item name="android:fadingEdge">none</item>
+	</style>
+
+	<style name="Widget.TextView.ListSeparator" parent="@android:style/Widget.TextView.ListSeparator">
+		<item name="android:textColor">?titleRowTextColor</item>
+		<item name="android:background">?titleRowBackground</item>
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">25dip</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:textSize">14sp</item>
+		<item name="android:gravity">center_vertical</item>
+		<item name="android:paddingLeft">5sp</item>
+	</style>
+
+	<style name="WindowTitle" parent="@android:style/WindowTitle">
+		<item name="android:shadowColor">#00000000</item>
+		<item name="android:shadowRadius">0</item>
+		<item name="android:textAppearance">@style/TextAppearance.WindowTitle</item>
+        <item name="android:paddingLeft">5sp</item>
+	</style>
+
+	<style name="WindowTitleBackground" parent="@android:style/WindowTitleBackground">
+		<item name="android:background">?titleRowBackground</item>
+	</style>
+
+	<style name="TextAppearance.WindowTitle" parent="@android:style/TextAppearance.WindowTitle">
+		<item name="android:textColor">?titleRowTextColor</item>
+	</style>
+
+	<style name="Widget.ProgressBar.Horizontal" parent="@android:style/Widget.ProgressBar.Horizontal">
+		<item name="android:progressDrawable">@drawable/progress_horizontal</item>
+	</style>
+
+	<style name="Theme.TuboroidLight" parent="@android:style/Theme.Light">
+		<item name="android:windowBackground">@color/white</item>
+		<item name="android:listViewStyle">@style/Widget.ListView.Light</item>
+		<item name="android:expandableListViewStyle">@style/Widget.ExpandableListView.Light</item>
+		<item name="android:listSeparatorTextViewStyle">@style/Widget.TextView.ListSeparator</item>
+		<item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
+		<item name="android:windowTitleStyle">@style/WindowTitle</item>
+		<item name="android:progressBarStyleHorizontal">@style/Widget.ProgressBar.Horizontal</item>
+		<item name="textColorPrimaryUnclickable">@color/black</item>
+		<item name="textColorSecondaryUnclickable">@color/dark_gray</item>
+		<item name="textColorAuthorName">@color/dark_green</item>
+		<item name="textColorThreadEmphasis">@color/dark_blue</item>
+		<item name="textColorEntryID1">@color/black</item>
+		<item name="textColorEntryID2">@color/dark_purple</item>
+		<item name="textColorEntryID3">@color/dark_red</item>
+		<item name="textColorAuthorID1">@color/black</item>
+		<item name="textColorAuthorID2">@color/dark_blue</item>
+		<item name="textColorAuthorID3">@color/dark_red</item>
+		<item name="headerColorDefault">@color/middle_light_gray</item>
+		<item name="headerColorEmphasis">@color/light_gray</item>
+		<item name="footerColorFavoriteManage">@color/middle_light_gray</item>
+		<item name="entryLinkColor">@color/dark_blue</item>
+		<item name="entryLinkClickedBgColor">@color/dark_green</item>
+		<item name="drawableListDivider">@android:drawable/divider_horizontal_bright</item>
+		<item name="toolbarBackground">@drawable/toolbar_background</item>
+		<item name="boardRowBackground">@color/darker</item>
+		<item name="titleRowTextColor">@color/white</item>
+		<item name="titleRowBackground">@color/dark_gray</item>
+	</style>
+
+	<style name="Theme.TuboroidDark" parent="@android:style/Theme">
+		<item name="android:windowBackground">@android:drawable/screen_background_dark</item>
+		<item name="android:listViewStyle">@style/Widget.ListView.Dark</item>
+		<item name="android:expandableListViewStyle">@style/Widget.ExpandableListView.Dark</item>
+		<item name="android:listSeparatorTextViewStyle">@style/Widget.TextView.ListSeparator</item>
+		<item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
+		<item name="android:windowTitleStyle">@style/WindowTitle</item>
+		<item name="android:progressBarStyleHorizontal">@style/Widget.ProgressBar.Horizontal</item>
+		<item name="textColorPrimaryUnclickable">@color/middle_light_gray</item>
+		<item name="textColorSecondaryUnclickable">@color/light_gray</item>
+		<item name="textColorAuthorName">@color/light_green</item>
+		<item name="textColorThreadEmphasis">@color/light_blue</item>
+		<item name="textColorEntryID1">@color/middle_light_gray</item>
+		<item name="textColorEntryID2">@color/light_purple</item>
+		<item name="textColorEntryID3">@color/light_red</item>
+		<item name="textColorAuthorID1">@color/middle_light_gray</item>
+		<item name="textColorAuthorID2">@color/light_blue</item>
+		<item name="textColorAuthorID3">@color/light_red</item>
+		<item name="headerColorDefault">@color/middle_dark_gray</item>
+		<item name="headerColorEmphasis">@color/dark_gray</item>
+		<item name="footerColorFavoriteManage">@color/middle_dark_gray</item>
+		<item name="entryLinkColor">@color/light_blue</item>
+		<item name="entryLinkClickedBgColor">@color/light_green</item>
+		<item name="drawableListDivider">@android:drawable/divider_horizontal_dim_dark</item>
+		<item name="toolbarBackground">@drawable/toolbar_background_r</item>
+		<item name="boardRowBackground">@color/lighter</item>
+		<item name="titleRowTextColor">@color/white</item>
+		<item name="titleRowBackground">@color/dark_gray</item>
+	</style>
+
+	<style name="Theme.TuboroidLightSimple" parent="@style/Theme.TuboroidLight">
+		<item name="headerColorDefault">@android:color/background_light</item>
+		<item name="headerColorEmphasis">@color/middle_light_gray</item>
+	</style>
+
+	<style name="Theme.TuboroidDarkSimple" parent="@style/Theme.TuboroidDark">
+		<item name="headerColorDefault">@android:drawable/screen_background_dark</item>
+		<item name="headerColorEmphasis">@color/middle_dark_gray</item>
+	</style>
+
+	<style name="Widget.ListView.Sepia" parent="@android:style/Widget.ListView.White">
+		<item name="android:background">@color/light_sepia</item>
+		<item name="android:fadingEdge">none</item>
+	</style>
+
+	<style name="Widget.ExpandableListView.Sepia" parent="@style/Widget.ExpandableListView.Light">
+		<item name="android:background">@color/light_sepia</item>
+		<item name="android:fadingEdge">none</item>
+	</style>
+
+	<style name="Theme.TuboroidSepia" parent="@style/Theme.TuboroidLight">
+		<item name="android:windowBackground">@color/light_sepia</item>
+		<item name="android:colorBackground">@color/light_sepia</item>
+		<item name="android:colorForeground">@color/light_sepia</item>
+		<item name="android:colorForegroundInverse">@color/light_sepia</item>
+		<item name="android:listViewStyle">@style/Widget.ListView.Sepia</item>
+		<item name="android:expandableListViewStyle">@style/Widget.ExpandableListView.Sepia</item>
+		<item name="headerColorDefault">@color/light_sepia</item>
+		<item name="headerColorEmphasis">@color/middle_dark_sepia</item>
+		<item name="footerColorFavoriteManage">@color/dark_sepia</item>
+		<item name="titleRowBackground">@color/darker_sepia</item>
+	</style>
+
+	<style name="Widget.ListView.IceBlue" parent="@android:style/Widget.ListView.White">
+		<item name="android:background">@color/ice_blue</item>
+		<item name="android:fadingEdge">none</item>
+	</style>
+
+	<style name="Widget.ExpandableListView.IceBlue" parent="@style/Widget.ExpandableListView.Light">
+		<item name="android:background">@color/ice_blue</item>
+		<item name="android:fadingEdge">none</item>
+	</style>
+
+	<style name="Theme.TuboroidIceBlue" parent="@style/Theme.TuboroidLight">
+		<item name="android:windowBackground">@color/ice_blue</item>
+		<item name="android:colorBackground">@color/ice_blue</item>
+		<item name="android:colorForeground">@color/ice_blue</item>
+		<item name="android:colorForegroundInverse">@color/ice_blue</item>
+		<item name="android:listViewStyle">@style/Widget.ListView.IceBlue</item>
+		<item name="android:expandableListViewStyle">@style/Widget.ExpandableListView.IceBlue</item>
+		<item name="headerColorDefault">@color/ice_blue</item>
+		<item name="headerColorEmphasis">@color/ice_middle_blue</item>
+		<item name="footerColorFavoriteManage">@color/ice_dark_blue</item>
+		<item name="titleRowBackground">@color/ice_darker_blue</item>
+	</style>
+
+	<style name="Widget.ListView.Lime" parent="@android:style/Widget.ListView.White">
+		<item name="android:background">@color/lime_green</item>
+		<item name="android:fadingEdge">none</item>
+	</style>
+
+	<style name="Widget.ExpandableListView.Lime" parent="@style/Widget.ExpandableListView.Light">
+		<item name="android:background">@color/lime_green</item>
+		<item name="android:fadingEdge">none</item>
+	</style>
+
+	<style name="Theme.TuboroidLime" parent="@style/Theme.TuboroidLight">
+		<item name="android:windowBackground">@color/lime_green</item>
+		<item name="android:colorBackground">@color/lime_green</item>
+		<item name="android:colorForeground">@color/lime_green</item>
+		<item name="android:colorForegroundInverse">@color/lime_green</item>
+		<item name="android:listViewStyle">@style/Widget.ListView.Lime</item>
+		<item name="android:expandableListViewStyle">@style/Widget.ExpandableListView.Lime</item>
+		<item name="headerColorDefault">@color/lime_green</item>
+		<item name="headerColorEmphasis">@color/lime_middle_darkgreen</item>
+		<item name="footerColorFavoriteManage">@color/lime_darkgreen</item>
+		<item name="titleRowBackground">@color/lime_darker_green</item>
+	</style>
+
+	<style name="Theme.TuboroidSunset" parent="@style/Theme.TuboroidDark">
+		<item name="android:windowBackground">@color/sunset_dark_red</item>
+		<item name="android:colorBackground">@color/sunset_dark_red</item>
+		<item name="android:colorForeground">@color/sunset_dark_red</item>
+		<item name="android:colorForegroundInverse">@color/sunset_dark_red</item>
+		<item name="headerColorDefault">@color/sunset_dark_red</item>
+		<item name="headerColorEmphasis">@color/sunset_middle_red</item>
+		<item name="footerColorFavoriteManage">@color/sunset_light_red</item>
+		<item name="titleRowBackground">@color/sunset_light_red</item>
+	</style>
+
+	<style name="Theme.TuboroidMidnight" parent="@style/Theme.TuboroidDark">
+		<item name="android:windowBackground">@color/midnight_dark_blue</item>
+		<item name="android:colorBackground">@color/midnight_dark_blue</item>
+		<item name="android:colorForeground">@color/midnight_dark_blue</item>
+		<item name="android:colorForegroundInverse">@color/midnight_dark_blue</item>
+		<item name="headerColorDefault">@color/midnight_dark_blue</item>
+		<item name="headerColorEmphasis">@color/midnight_middle_blue</item>
+		<item name="footerColorFavoriteManage">@color/midnight_light_blue</item>
+		<item name="titleRowBackground">@color/midnight_light_blue</item>
+	</style>
+
+	<style name="Theme.TuboroidForest" parent="@style/Theme.TuboroidDark">
+		<item name="android:windowBackground">@color/forest_dark_green</item>
+		<item name="android:colorBackground">@color/forest_dark_green</item>
+		<item name="android:colorForeground">@color/forest_dark_green</item>
+		<item name="android:colorForegroundInverse">@color/forest_dark_green</item>
+		<item name="headerColorDefault">@color/forest_dark_green</item>
+		<item name="headerColorEmphasis">@color/forest_middle_green</item>
+		<item name="footerColorFavoriteManage">@color/forest_light_green</item>
+		<item name="titleRowBackground">@color/forest_light_green</item>
+	</style>
+</resources>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="darker">#10000000</color>
+    <color name="lighter">#10ffffff</color>
+    
+    <color name="dark_red">#bb0000</color>
+    <color name="light_red">#ffaaaa</color>
+	<color name="dark_green">#009900</color>
+	<color name="light_green">#aaffaa</color>
+    <color name="dark_blue">#0000bb</color>
+    <color name="light_blue">#bbbbff</color>
+    <color name="dark_purple">#aa44aa</color>
+    <color name="light_purple">#ff66ff</color>
+
+	<color name="black">#000000</color>
+    <color name="middle_dark_gray">#333333</color>
+    <color name="dark_gray">#555555</color>
+
+	<color name="white">#ffffff</color>
+    <color name="middle_light_gray">#dddddd</color>
+    <color name="light_gray">#bbbbbb</color>
+
+	<color name="light_sepia">#ffffcc</color>
+    <color name="middle_dark_sepia">#ddddaa</color>
+    <color name="dark_sepia">#eecc88</color>
+    <color name="darker_sepia">#664422</color>
+
+	<color name="ice_blue">#ddeeff</color>
+    <color name="ice_middle_blue">#cceeff</color>
+    <color name="ice_dark_blue">#aaddff</color>
+    <color name="ice_darker_blue">#446677</color>
+
+	<color name="lime_green">#ddffdd</color>
+    <color name="lime_middle_darkgreen">#ccffcc</color>
+    <color name="lime_darkgreen">#aaeeaa</color>
+    <color name="lime_darker_green">#557755</color>
+
+	<color name="sunset_dark_red">#220000</color>
+    <color name="sunset_middle_red">#550000</color>
+    <color name="sunset_light_red">#883333</color>
+
+	<color name="midnight_dark_blue">#000022</color>
+    <color name="midnight_middle_blue">#000055</color>
+    <color name="midnight_light_blue">#333388</color>
+
+	<color name="forest_dark_green">#002200</color>
+    <color name="forest_middle_green">#005500</color>
+    <color name="forest_light_green">#338833</color>
+
+</resources>

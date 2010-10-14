@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Tuboroid</string>
+	<string name="app_name_send">View by Tuboroid</string>
+
+	<!-- データファイルの定義 -->
+	<string name="const_filename_bbsmenu_dat">bbsmenu.dat</string>
+	<string name="const_filename_bbsmenu_stat">bbsmenu_category_stat.dat</string>
+	<string name="find_2ch_search_url">http://find.2ch.net/?SORT=CREATED&amp;STR=</string>
+	<string name="const_help_url">file:///android_asset/help/index.html</string>
+	<string name="const_font_license_url">file:///android_asset/mona_font_readme.html
+	</string>
+	<string name="const_font_file_url">http://narazakis-android-repos.googlecode.com/files/monaya.ttf
+	</string>
+	<string name="const_filename_AAFont">monaya.ttf</string>
+	<string name="const_filesize_AAFont">1985408</string>
+
+	<!-- 代替テキストなどの定義 -->
+	<string name="text_unknown_board">unknown</string>
+	<string name="text_favorite_manage_footer">list tail</string>
+	<string name="text_ignored_entry">ignored entry</string>
+
+	<string name="text_failed_to_login_maru">2ch viewer login failed</string>
+	<string name="text_failed_to_login_p2">p2 login failed</string>
+
+	<string name="text_no_new_entry_found_at_favorite_threads">no new entry found at favorite threads</string>
+	<string name="text_no_new_entry_found_at_favorite_threads_func">press button and check update</string>
+	<string name="text_check_update_unread_favorite_threads">checking update...</string>
+
+	<string name="text_new_entry_found_at_favorite_threads">new entry found at favorite threads</string>
+
+	<string name="text_board_category_others">その他</string>
+
+    <string name="text_notice_show_updated_only">new updated threads are shown only</string>
+    
+	<!-- タイトル -->
+	<string name="title_boards">Tuboroid : Boards</string>
+	<string name="title_favorite">Tuboroid : Favorite</string>
+	<string name="title_recents">Tuboroid : Recents</string>
+	<string name="title_favorite_manage">Tuboroid : Favorite Manager</string>
+	<string name="title_find2ch">Search via find.2ch</string>
+	<string name="title_similar_thread">Find similar threads </string>
+	<string name="title_help">Tuboroid : Help</string>
+	<string name="title_image_viewer">Tuboroid : Image Viewer</string>
+
+	<string name="title_install_aa_font">AA Font Install</string>
+
+	<!-- コンテキストメニュー -->
+	<string name="ctx_menu_title_entry">operation for entry %d</string>
+	<string name="ctx_menu_reply_to">reply</string>
+	<string name="ctx_menu_find_by_entry_id">find entries by id:%s</string>
+	<string name="ctx_menu_find_related_entries">find related entries</string>
+	<string name="ctx_menu_add_ignore">add ignore</string>
+	<string name="ctx_menu_add_ignore_id_normal">add ignore id:%s</string>
+	<string name="ctx_menu_add_ignore_id_gone">add invisible id:%s</string>
+	<string name="ctx_menu_add_ignore_word_normal">add ignore word</string>
+	<string name="ctx_menu_add_ignore_word_gone">add invisible word</string>
+	<string name="ctx_menu_delete_ignore">delete ignore</string>
+	<string name="ctx_menu_copy_to_clipboard">copy to clipboard</string>
+	<string name="ctx_menu_delete_thumbnail_images">delete thumbnails</string>
+
+	<string name="ctx_submenu_reply_to_title">reply</string>
+	<string name="ctx_submenu_reply_to_this_entry">reply to this</string>
+	<string name="ctx_submenu_quote_and_reply_to_this_entry">quote and reply to this</string>
+
+	<string name="ctx_submenu_copy_to_clipboard_id">ID</string>
+	<string name="ctx_submenu_copy_to_clipboard_name">Name</string>
+	<string name="ctx_submenu_copy_to_clipboard_body">entry body</string>
+
+	<string name="ctx_menu_title_board">operation for this board</string>
+	<string name="ctx_menu_delete_board">delete</string>
+	<string name="ctx_menu_delete_board_confirm">delete this board?</string>
+	<string name="ctx_menu_edit_board">edit</string>
+	<string name="ctx_menu_edit_board_confirm">input new board name</string>
+
+	<string name="ctx_menu_title_favorite">operation for this favorite</string>
+	<string name="ctx_menu_delete_favorite">delete favorite</string>
+	<string name="ctx_menu_delete_favorite_cache">delete cache</string>
+
+	<string name="ctx_menu_title_thread">operation for this thread</string>
+	<string name="ctx_menu_delete_thread">delete</string>
+
+	<!-- メニュー -->
+	<string name="label_menu_about">about</string>
+	<string name="label_menu_help">help</string>
+
+	<string name="label_menu_add_board">add board</string>
+
+	<string name="label_menu_show_toolbar">show toolbar</string>
+	<string name="label_menu_hide_toolbar">hide toolbar</string>
+
+	<string name="label_menu_show_searchbar">show searchbar</string>
+	<string name="label_menu_hide_searchbar">side searchbar</string>
+
+	<string name="label_menu_reload_boards">Reload</string>
+	<string name="label_menu_setting">Setting</string>
+	<string name="label_menu_search_via_find2ch">find.2ch</string>
+
+	<string name="label_menu_sort_threads">Sort</string>
+	<string name="label_menu_check_update">check update</string>
+	<string name="label_menu_manual_order">manage order</string>
+	<string name="label_menu_auto_order">auto order</string>
+	<string name="label_menu_clear_cache">clear cache</string>
+
+	<string name="label_submenu_delete_filled">delete filled</string>
+	<string name="label_submenu_auto_sort">auto sort</string>
+	<string name="label_submenu_delete_except_favorite">delete except favorite</string>
+
+	<string name="label_submenu_recent_read">recent read</string>
+	<string name="label_submenu_recent_write">recent write</string>
+
+	<string name="label_menu_delete_checked_favorite">delete checked</string>
+
+	<string name="label_menu_compose">Compose</string>
+	<string name="label_menu_find_similar_thread">Find similar</string>
+	<string name="label_menu_copy_thread_info">copy info</string>
+
+	<string name="label_submenu_copy_thread_info_url">URL</string>
+	<string name="label_submenu_copy_thread_info_title">Title</string>
+	<string name="label_submenu_copy_thread_info_title_url">Title and URL</string>
+
+	<string name="label_menu_clear_composing_body">Clear</string>
+
+	<string name="label_menu_share_image">Share</string>
+	<string name="label_menu_save_image">Save</string>
+	<string name="label_filepicker_save_here">Save here</string>
+
+	<!-- ボタンのラベル -->
+	<string name="btn_label_entry_edit_name">Name</string>
+	<string name="btn_label_entry_edit_mail">Mailaddress</string>
+	<string name="btn_label_entry_edit_submit">Submit</string>
+	<string name="dialog_aa_font_install">Install</string>
+
+	<!-- トースト -->
+	<string name="toast_reload_board_list_failed">failed to load board list</string>
+	<string name="toast_reload_thread_list_failed">failed to load thread list</string>
+
+	<string name="toast_reload_entry_list_failed">failed to load</string>
+	<string name="toast_search_find2ch_failed">fail to search</string>
+
+	<string name="toast_network_is_offline">network is offline</string>
+
+	<string name="toast_copied">copied</string>
+
+	<string name="toast_post_succeeded">post succeeded</string>
+
+	<string name="toast_clear_ignores">Ignore IDs/words cleared</string>
+
+	<string name="toast_check_unread_favorite_threads">Check unread favorite threads</string>
+
+	<string name="toast_new_entry_found_at_favorite_threads">new entry found at favorite threads</string>
+	<string name="toast_no_new_entry_found_at_favorite_threads">No new entry found at favorite threads</string>
+
+	<string name="toast_ext_font_succeeded">font installed</string>
+	<string name="toast_ext_font_failed">download failed</string>
+
+	<string name="toast_image_saved">Image saved</string>
+	<string name="toast_image_failed_to_save">Failed to save</string>
+
+	<!-- 通知 -->
+	<string name="notif_check_upadted">new entry found at favorite threads</string>
+
+	<!-- abount -->
+	<string name="dialog_about_author_uri">http://www.narazaki.info/</string>
+	<string name="dialog_about_copyright">Copyright (C) 2009-2010 H.Narazaki</string>
+	<string name="dialog_about_lisence">This software is provided &quot;as-is&quot;,
+		without any
+		express or implied warranty. In no event will the authors
+		be held
+		liable for any damages arising from the use of this software.
+	</string>
+	<!-- ダイアログ -->
+	<string name="dialog_aa_font_notice_1">AA Font is free font for 2ch AA.</string>
+	<string name="dialog_aa_font_notice_2">This is NOT installed by default.</string>
+	<string name="dialog_aa_font_notice_3">Press &quot;Install&quot; and download and install
+		it automatically to external storage
+		(ex.SDCard) (Needs 3MB).</string>
+
+	<string name="dialog_aa_font_already_installed">...and already installed</string>
+
+	<string name="dialog_loading_progress">Please wait while loading...</string>
+	<string name="dialog_posting_progress">Posting...</string>
+
+	<string name="dialog_add_favorite_thread_title">add favorite</string>
+
+	<string name="dialog_text_auto_sort">sort automatically</string>
+	<string name="dialog_text_delete_filled_threads">delete filled threads</string>
+	<string name="dialog_text_delete_threads_except_favorite">delete threads except favorite</string>
+	<string name="dialog_text_delete_checked_threads">delete checked threads</string>
+
+	<string name="dialog_dat_dropped_title">Dropped thread</string>
+	<string name="dialog_dat_dropped_summary">find similar thread?</string>
+	<string name="dialog_dat_dropped_summary_no_name">failed to get this thread</string>
+	<string name="dialog_dat_dropped_summary_with_maru">find similar thread? or use ●?</string>
+	<string name="dialog_dat_dropped_summary_with_maru_no_name">use ●?</string>
+
+	<string name="dialog_label_dat_dropped_find_similar">find</string>
+	<string name="dialog_label_dat_dropped_use_maru">use ●</string>
+
+	<string name="dialog_do_you_post_it_title">Do you post it?</string>
+	<string name="dialog_post_notice_title">Notice</string>
+	<string name="dialog_post_failed_title">Post failed</string>
+	<string name="dialog_post_error_summary">Some connection error occured</string>
+
+	<string name="dialog_add_board_title">Add External Board</string>
+	<string name="dialog_add_board_tips_title">(Tips)</string>
+	<string name="dialog_add_board_tips">browser -> google [board] -> MENU KEY -> More ->
+		Share page -> easy to add!</string>
+
+	<string name="dialog_add_board_name">Name</string>
+	<string name="dialog_add_board_uri">URL</string>
+	<string name="dialog_add_board_submit">Add</string>
+
+	<string name="dialog_add_ngword_token">Ignore Word</string>
+	<string name="dialog_add_ngword_orig">Original Message</string>
+
+	<string name="dialog_thread_list_moved_title">Thread list error</string>
+	<string name="dialog_thread_list_moved_summary">Failed to load thread list(hmm...board was moved?)
+	</string>
+
+	<!-- 設定画面 -->
+
+	<string name="pref_cat_title_screen_setting">Screen</string>
+	<string name="pref_title_theme_setting">Theme</string>
+	<string name="pref_summary_theme_setting">theme</string>
+
+	<string name="pref_title_full_screen_mode">Full screen mode</string>
+	<string name="pref_summary_full_screen_mode">Full screen mode(hide notification bar)</string>
+
+	<string name="pref_title_screen_orientation">Screen orientation</string>
+	<string name="pref_summary_screen_orientation">Auto or fixed screen orientation</string>
+
+	<string name="pref_cat_title_font_setting">Font Setting</string>
+
+	<string name="pref_title_font_size_board_list">Board List</string>
+	<string name="pref_summary_font_size_board_list">Font size for board list</string>
+
+	<string name="pref_title_font_size_thread_list_base">Thread List</string>
+	<string name="pref_summary_font_size_thread_list_base">Font size for thread list</string>
+
+	<string name="pref_title_font_size_entry_header">Thread entry header</string>
+	<string name="pref_summary_font_size_entry_header">Font size for thread entry header</string>
+
+	<string name="pref_title_font_size_entry_body">Thread entry body</string>
+	<string name="pref_summary_font_size_entry_body">Font size for thread entry body</string>
+
+	<string name="pref_title_font_size_entry_aa_body">AA font size</string>
+	<string name="pref_summary_font_size_entry_aa_body">Font size for thread entry body which seems AA
+	</string>
+
+	<string name="pref_cat_title_thread_view_setting">Thread View</string>
+	<string name="pref_title_use_back_anchor">Back anchor</string>
+	<string name="pref_summary_use_back_anchor">show back anchor to each entry</string>
+
+	<string name="pref_title_thumbnail_size">Thumbnail size</string>
+	<string name="pref_summary_thumbnail_size">inline thumnail size</string>
+
+	<string name="pref_title_jump_bottom_on_posted">Jump bottom after post</string>
+	<string name="pref_summary_jump_bottom_on_posted">Post entry and jump to last entry on thread
+	</string>
+
+	<string name="pref_title_touch_margin_wide">Expand anchor area</string>
+	<string name="pref_summary_touch_margin_wide">Expand clickable anchor area on entries</string>
+
+	<string name="pref_cat_title_scrolling_setting">Scrolling</string>
+	<string name="pref_title_use_fast_scroll">Enable fast-scroll thumb</string>
+	<string name="pref_summary_use_fast_scroll">Enable fast-scroll thumb on swipe</string>
+
+	<string name="pref_title_use_page_up_down_key">Trackball/Cursor Key</string>
+	<string name="pref_summary_use_page_up_down_key">Trackball/Cursor Key as Page Up/Down Key</string>
+
+	<string name="pref_title_use_volume_button_scrolling">Volume Button</string>
+	<string name="pref_summary_use_volume_button_scrolling">Volume Button as Page Up/Down Key</string>
+
+	<string name="pref_title_use_camera_button_scrolling">Camera Button</string>
+	<string name="pref_summary_use_camera_button_scrolling">Camera Button Key as Page Down Key</string>
+
+	<string name="pref_title_scrolling_amount">Scrolling amount</string>
+	<string name="pref_summary_scrolling_amount">Scrolling amount for Page Up/Down Key</string>
+
+	<string name="pref_cat_title_storage_setting">Storage</string>
+	<string name="pref_title_use_external_storage">External storage</string>
+	<string name="pref_summary_use_external_storage">Use external storage(ex.SDCard)</string>
+	<string name="pref_summary_use_external_storage_not_available">(Not available for Android &lt;1.6)</string>
+
+	<string name="pref_title_external_storage_path">External storage path</string>
+	<string name="pref_summary_external_storage_path">Data Directory path on external storage</string>
+
+	<string name="pref_title_external_aa_font">AA Font</string>
+	<string name="pref_summary_external_aa_font">Setting for AA Font (needs external storage)
+	</string>
+
+	<string name="pref_cat_title_maru_setting">2ch Viewer ●</string>
+	<string name="pref_title_use_maru">Use ●</string>
+	<string name="pref_summary_use_maru">Use 2ch Viewer ●</string>
+
+	<string name="pref_title_maru_user_id">User ID</string>
+	<string name="pref_summary_maru_user_id">User ID (mail address) for ●</string>
+
+	<string name="pref_title_maru_password">Password</string>
+	<string name="pref_summary_maru_password">Password for ●</string>
+
+	<string name="pref_cat_title_p2_setting">2ch Official p2(experimental)</string>
+	<string name="pref_title_use_p2">Use P2</string>
+	<string name="pref_summary_use_p2">Post entry via p2</string>
+
+	<string name="pref_title_p2_user_id">p2 User ID</string>
+	<string name="pref_summary_p2_user_id">User ID (mail address) for p2(moritapo)</string>
+
+	<string name="pref_title_p2_password">公式p2 パスワード</string>
+	<string name="pref_summary_p2_password">Password for p2(moritapo)</string>
+
+	<string name="pref_cat_title_favorites_recents">Favorites/Recents</string>
+	<string name="pref_title_manual_update_fetch_entries">Fetch entries</string>
+	<string name="pref_summary_manual_update_fetch_entries">Fetch entries on manual update</string>
+
+	<string name="pref_cat_title_favorite">Favorites</string>
+	<string name="pref_title_favorites_update_service">Update Service</string>
+	<string name="pref_summary_favorites_update_service">Enable update check service</string>
+
+	<string name="pref_title_favorites_update_interval">Update Interval</string>
+	<string name="pref_summary_favorites_update_interval">Interval time for update check service</string>
+
+	<string name="pref_title_favorites_update_service_fetch_entries">Download Service</string>
+	<string name="pref_summary_favorites_update_service_fetch_entries">Fetch entries by update service</string>
+
+	<string name="pref_cat_title_other">Other Settings</string>
+	<string name="pref_title_clear_ignores">Clear Ignore IDs/words</string>
+	<string name="pref_summary_clear_ignores">Clear ignore IDs/words</string>
+
+	<string name="pref_title_skip_agreement_notice">Skip agreement notice</string>
+	<string name="pref_summary_skip_agreement_notice">Skip agreement notice on post</string>
+
+	<string name="pref_title_bbsmenu_url">Board List URL</string>
+	<string name="pref_summary_bbsmenu_url">URL of "BBS MENU"</string>
+
+</resources>
