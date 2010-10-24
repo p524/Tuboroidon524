@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Tuboroid</string>
-	<string name="app_name_send">Tuboroidで開く</string>
+	<string name="app_name">Tuboroidon</string>
+	<string name="app_name_send">Tuboroidonで開く</string>
 
 	<!-- データファイルの定義 -->
 	<!-- string name="const_filename_bbsmenu_dat" -->
@@ -26,14 +26,14 @@
 	<string name="text_notice_show_updated_only">新着レスのあるスレッドのみが表示されています</string>
 
 	<!-- タイトル -->
-	<string name="title_boards">Tuboroid : 板一覧</string>
-	<string name="title_favorite">Tuboroid : お気に入り</string>
-	<string name="title_recents">Tuboroid : 履歴</string>
-	<string name="title_favorite_manage">Tuboroid : お気に入り管理</string>
+	<string name="title_boards">Tuboroidon : 板一覧</string>
+	<string name="title_favorite">Tuboroidon : お気に入り</string>
+	<string name="title_recents">Tuboroidon : 履歴</string>
+	<string name="title_favorite_manage">Tuboroidon : お気に入り管理</string>
 	<string name="title_find2ch">find.2ch 全板検索</string>
 	<string name="title_similar_thread">類似スレ</string>
-	<string name="title_help">Tuboroid : ヘルプ</string>
-	<string name="title_image_viewer">Tuboroid : 画像ビューア</string>
+	<string name="title_help">Tuboroidon : ヘルプ</string>
+	<string name="title_image_viewer">Tuboroidon : 画像ビューア</string>
 
 	<string name="title_install_aa_font">AA用フォントのインストール</string>
 

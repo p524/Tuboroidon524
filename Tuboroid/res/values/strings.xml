@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Tuboroid</string>
-	<string name="app_name_send">View by Tuboroid</string>
+	<string name="app_name">Tuboroidon</string>
+	<string name="app_name_send">View by Tuboroidon</string>
 
 	<!-- データファイルの定義 -->
 	<string name="const_filename_bbsmenu_dat">bbsmenu.dat</string>
@@ -34,14 +34,14 @@
     <string name="text_notice_show_updated_only">new updated threads are shown only</string>
     
 	<!-- タイトル -->
-	<string name="title_boards">Tuboroid : Boards</string>
-	<string name="title_favorite">Tuboroid : Favorite</string>
-	<string name="title_recents">Tuboroid : Recents</string>
-	<string name="title_favorite_manage">Tuboroid : Favorite Manager</string>
+	<string name="title_boards">Tuboroidon : Boards</string>
+	<string name="title_favorite">Tuboroidon : Favorite</string>
+	<string name="title_recents">Tuboroidon : Recents</string>
+	<string name="title_favorite_manage">Tuboroidon : Favorite Manager</string>
 	<string name="title_find2ch">Search via find.2ch</string>
 	<string name="title_similar_thread">Find similar threads </string>
-	<string name="title_help">Tuboroid : Help</string>
-	<string name="title_image_viewer">Tuboroid : Image Viewer</string>
+	<string name="title_help">Tuboroidon : Help</string>
+	<string name="title_image_viewer">Tuboroidon : Image Viewer</string>
 
 	<string name="title_install_aa_font">AA Font Install</string>
 
