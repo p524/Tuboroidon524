@@ -26,6 +26,8 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
+import jp.syoboi.android.ListViewScroller;
+
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -131,6 +133,9 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     
     // スクロールキー
     private boolean use_scroll_key_ = false;
+
+    // スクロール装置
+    private ListViewScroller scroller = new ListViewScroller();
     
     // サービスクライアント
     private BroadcastReceiver service_intent_receiver_;
@@ -481,7 +486,13 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_UP && !isToobarForcused()) {
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
                 if (use_scroll_key_) {
-                    setListPageUp();
+                	int scrollAmount = getScrollingAmount();
+                	if (scrollAmount == 0) {
+                        setListPageUp();
+                	} else {
+                		scroller.scroll(getListView(), -scrollAmount/110f,
+                				(event.getRepeatCount() == 0 ? true : false));
+                	}
                 }
                 else {
                     setListRollUp(null);
@@ -492,7 +503,13 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_DOWN && !isToobarForcused()) {
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
                 if (use_scroll_key_) {
-                    setListPageDown();
+                	int scrollAmount = getScrollingAmount();
+                	if (scrollAmount == 0) {
+                        setListPageDown();
+                	} else {
+                		scroller.scroll(getListView(), getScrollingAmount()/110f, 
+                				(event.getRepeatCount() == 0 ? true : false));
+                	}
                 }
                 else {
                     setListRollDown(null);
