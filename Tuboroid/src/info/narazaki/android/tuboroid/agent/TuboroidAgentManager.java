@@ -4,6 +4,7 @@ import info.narazaki.android.lib.agent.http.HttpMultiTaskAgent;
 import info.narazaki.android.lib.agent.http.HttpSingleTaskAgent;
 import info.narazaki.android.lib.agent.http.HttpTaskAgent.SaveCookieStoreCallback;
 import info.narazaki.android.lib.aplication.NSimpleApplication;
+import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.agent.http.HttpMaruTaskAgent;
 import info.narazaki.android.tuboroid.agent.thread.DataFileAgent;
 import info.narazaki.android.tuboroid.agent.thread.SQLiteAgent;
@@ -46,8 +47,8 @@ public class TuboroidAgentManager {
         context_ = context;
         
         try {
-            USER_AGENT = "Monazilla/1.00 (compatible; Tuboroid "
-                    + context.getPackageManager().getPackageInfo("info.narazaki.android.tuboroid", 0).versionName
+            USER_AGENT = "Monazilla/1.00 (compatible; " + context.getString(R.string.app_name) + " "
+                    + context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName
                     + "; Android)";
         }
         catch (NameNotFoundException e) {
