@@ -26,6 +26,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
+import jp.syoboi.android.ListViewScrollButton;
 import jp.syoboi.android.ListViewScroller;
 
 import android.app.AlertDialog;
@@ -260,6 +261,18 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         });
         footer_view_.setVisibility(View.GONE);
         getListView().addFooterView(footer_row);
+
+        // スクロールボタン
+        ListViewScrollButton btn = (ListViewScrollButton)findViewById(R.id.button_scroll);
+        if (btn != null) {
+        	btn.setListView(getListView());
+        	btn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					scrollDown(0);
+				}
+			});
+        }
         
         // スクロールキー
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -502,22 +515,26 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         }
         if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_DOWN && !isToobarForcused()) {
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                if (use_scroll_key_) {
-                	int scrollAmount = getScrollingAmount();
-                	if (scrollAmount == 0) {
-                        setListPageDown();
-                	} else {
-                		scroller.scroll(getListView(), getScrollingAmount()/110f, 
-                				(event.getRepeatCount() == 0 ? true : false));
-                	}
-                }
-                else {
-                    setListRollDown(null);
-                }
+            	scrollDown(event.getRepeatCount());
             }
             return true;
         }
         return super.dispatchKeyEvent(event);
+    }
+
+    private void scrollDown(int repeatCount) {
+        if (use_scroll_key_) {
+        	int scrollAmount = getScrollingAmount();
+        	if (scrollAmount == 0) {
+                setListPageDown();
+        	} else {
+        		scroller.scroll(getListView(), getScrollingAmount()/110f, 
+        				(repeatCount == 0 ? true : false));
+        	}
+        }
+        else {
+            setListRollDown(null);
+        }
     }
     
     private boolean isToobarForcused() {
