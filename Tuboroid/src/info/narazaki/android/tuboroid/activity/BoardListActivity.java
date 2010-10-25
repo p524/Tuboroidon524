@@ -285,7 +285,8 @@ public class BoardListActivity extends TuboroidExpandableListActivityBase {
                 View about_view = layout_inflater.inflate(R.layout.about_dialog, null);
                 TextView version_view = (TextView) about_view.findViewById(R.id.about_version);
                 try {
-                    String version_string = getPackageManager().getPackageInfo("info.narazaki.android.tuboroid", 0).versionName;
+                	String packageName = getApplicationContext().getPackageName();
+                    String version_string = getPackageManager().getPackageInfo(packageName, 0).versionName;
                     version_view.setText(" " + version_string);
                     
                 }
