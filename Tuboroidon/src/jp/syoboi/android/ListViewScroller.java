@@ -30,7 +30,7 @@ public class ListViewScroller {
 		//Log.d(TAG, "from:"+from + " to:"+to);
 		
 		if (animation) {
-			scroller = new MyScroller(list, position, from, to, 300, 1000/60);
+			scroller = new MyScroller(list, position, from, to, 200, 1000/60);
 			scroller.start();
 		} else {
 			list.setSelectionFromTop(position, to);
