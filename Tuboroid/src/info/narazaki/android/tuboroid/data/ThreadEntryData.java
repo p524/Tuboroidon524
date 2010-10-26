@@ -541,6 +541,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
             if (tag.entry_body_view.isLongClickable() && !entry_is_aa_) tag.entry_body_view.setLongClickable(false);
             
             if (tag.thumbnail_box.getChildCount() > 0) tag.thumbnail_box.removeAllViews();
+            setVisibilityIfChanged(tag.thumbnail_box, View.GONE);
         }
         else {
             // サムネ有り
@@ -550,6 +551,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
             
             initThumbnailsBox(tag.thumbnail_box, thumbnail_cols, thumbnail_rows, view_config);
             rebuildThumbnails(tag.thumbnail_box, thumbnail_cols, thumbnail_rows, agent, thread_data, view_config, style);
+            setVisibilityIfChanged(tag.thumbnail_box, View.VISIBLE);
         }
         
         return view;
