@@ -17,7 +17,6 @@ public class ListViewScrollButton extends ImageButton {
 	private float		pressedX;
 	private float		pressedY;
 	private int			scrollSpeedY;
-	private ScrollTask	scrollTask;
 	private Scroller	scroller;
 	private float		moveY;
 	
@@ -56,14 +55,14 @@ public class ListViewScrollButton extends ImageButton {
 			scrollSpeedY = (int)(moveY * (moveY > 0 ? moveY : -moveY));
 			if (scrollSpeedY != 0) {
 				if (scroller == null && listView.getChildCount() > 0) {
-					scroller = new Scroller(3*60*1000, 1000/30);
+					scroller = new Scroller(listView, 3*60*1000, 1000/30);
 					scroller.start();
 				}
+				scroller.scrollSpeedY = scrollSpeedY;
 			}
 			return true;
 		case MotionEvent.ACTION_UP: 
 			if (scroller != null) {
-				scrollSpeedY = 0;
 				scroller.cancel();
 				scroller = null;
 				setPressed(false);
@@ -78,56 +77,38 @@ public class ListViewScrollButton extends ImageButton {
 		return super.onTouchEvent(event);
 	}
 	
-	public class Scroller extends CountDownTimer {
-
-		public Scroller(long millisInFuture, long countDownInterval) {
+	public static class Scroller extends CountDownTimer {
+		private final ListView listView;
+		public volatile int scrollSpeedY;
+		public volatile boolean stop;
+		
+		private Runnable runnable;
+		
+		public Scroller(final ListView listView, long millisInFuture, long countDownInterval) {
 			super(millisInFuture, countDownInterval);
+			this.listView = listView;
+			
+			runnable = new Runnable() {
+				
+				@Override
+				public void run() {
+					final ListView lv = listView;
+					if (scrollSpeedY != 0) {
+						lv.setSelectionFromTop(
+								lv.getFirstVisiblePosition(), 
+								lv.getChildAt(0).getTop() - scrollSpeedY);
+					}
+				}
+			}; 
 		}
 		
 		@Override
 		public void onTick(long millisUntilFinished) {
-			ListView lv = listView;
-			lv.setSelectionFromTop(
-					lv.getFirstVisiblePosition(), 
-					lv.getChildAt(0).getTop() - scrollSpeedY);
+			listView.post(runnable);
 		}
 
 		@Override
 		public void onFinish() {
-		}
-		
-	}
-	
-	private static class ScrollTask extends AsyncTask<Void,Void,Void> {
-		private final ListView listView;
-		public int scrollSpeedY;
-
-		private Runnable scroll = new Runnable() {
-			
-			@Override
-			public void run() {
-				int position = listView.getFirstVisiblePosition();
-				int y = listView.getChildAt(0).getTop();
-				listView.setSelectionFromTop(position, y - scrollSpeedY);
-			}
-		};
-
-		public ScrollTask(ListView listView) {
-			this.listView = listView;
-		}
-		
-		@Override
-		protected Void doInBackground(Void... params) {
-			while (!isCancelled()) {
-				listView.post(scroll);
-				try {
-					Thread.sleep(1000/60);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-					break;
-				}
-			}
-			return null;
 		}
 		
 	}
