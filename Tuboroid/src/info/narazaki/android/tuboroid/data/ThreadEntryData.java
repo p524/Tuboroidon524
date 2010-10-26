@@ -85,9 +85,9 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     public ArrayList<Long> forward_anchor_list_;
     
     public ArrayList<Long> back_anchor_list_;
-    public List<String> img_uri_list_;
-    public List<Boolean> img_uri_enabled_list_;
-    public List<Boolean> img_uri_check_enabled_list_;
+    private List<String> img_uri_list_;
+    private List<Boolean> img_uri_enabled_list_;
+    private List<Boolean> img_uri_check_enabled_list_;
     public int ng_flag_;
     
     static class SpannableCache {
@@ -214,22 +214,28 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     }
     
     private void parseImageUrl() {
+        List<String> img_uri_list_ = this.img_uri_list_;
+        List<Boolean> img_uri_enabled_list_ = this.img_uri_enabled_list_;
+        List<Boolean> img_uri_check_enabled_list_ = this.img_uri_check_enabled_list_;
         img_uri_list_.clear();
         img_uri_enabled_list_.clear();
         img_uri_check_enabled_list_.clear();
         
-        Matcher matcher = IMG_URL_PATTERN.matcher(entry_body_);
-        matcher.reset();
-        while (matcher.find()) {
-            String uri = matcher.group(0);
-            if (uri.startsWith("ttp")) {
-                img_uri_list_.add("h" + uri);
-            }
-            else {
-                img_uri_list_.add(uri);
-            }
-            img_uri_enabled_list_.add(false);
-            img_uri_check_enabled_list_.add(false);
+        final String body = this.entry_body_;
+        
+        if (body.contains("://") && body.contains("ttp")) {
+	        Matcher matcher = IMG_URL_PATTERN.matcher(body);
+	        while (matcher.find()) {
+	            String uri = matcher.group(0);
+	            if (uri.startsWith("ttp")) {
+	                img_uri_list_.add("h" + uri);
+	            }
+	            else {
+	                img_uri_list_.add(uri);
+	            }
+	            img_uri_enabled_list_.add(false);
+	            img_uri_check_enabled_list_.add(false);
+	        }
         }
     }
     
@@ -271,8 +277,11 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     public static void analyzeThreadEntryList(final TuboroidAgent agent, final ThreadData thread_data,
             final TuboroidApplication.ViewConfig view_config, final ViewStyle style,
             final List<ThreadEntryData> data_list_orig, final AnalyzeThreadEntryListProgressCallback callback) {
-        final ArrayList<ThreadEntryData> data_list = new ArrayList<ThreadEntryData>(data_list_orig);
-        HashMap<String, ThreadEntryData> author_id_map = new HashMap<String, ThreadEntryData>(data_list.size());
+    	
+    	final int data_list_size = data_list_orig.size();
+    	final ThreadEntryData [] data_list = new ThreadEntryData [data_list_size];
+        data_list_orig.toArray(data_list);
+        HashMap<String, ThreadEntryData> author_id_map = new HashMap<String, ThreadEntryData>(data_list_size);
         
         callback.onProgress(1, 8);
         for (ThreadEntryData data : data_list) {
@@ -283,8 +292,8 @@ public class ThreadEntryData implements NListAdapterDataInterface {
                 // バックアンカーの抽出
                 for (long id : data.forward_anchor_list_) {
                     int iid = (int) id;
-                    if (data_list.size() >= iid && iid > 0) {
-                        data_list.get(iid - 1).back_anchor_list_.add(data.entry_id_);
+                    if (data_list_size >= iid && iid > 0) {
+                        data_list[iid - 1].back_anchor_list_.add(data.entry_id_);
                     }
                 }
             }
@@ -315,7 +324,8 @@ public class ThreadEntryData implements NListAdapterDataInterface {
         callback.onProgress(4, 8);
         for (ThreadEntryData data : data_list) {
             synchronized (data) {
-                for (int i = 0; i < data.img_uri_list_.size(); i++) {
+            	int data_img_uri_list_size = data.img_uri_list_.size(); 
+                for (int i = 0; i < data_img_uri_list_size; i++) {
                     data.getImageEnabled(agent, thread_data, i);
                 }
             }
@@ -349,7 +359,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     private static ExecutorService body_creator_thread_executor_;
     
     private synchronized static void createSpannableEntryBodies(final TuboroidApplication.ViewConfig view_config,
-            final ViewStyle style, final ArrayList<ThreadEntryData> data_list) {
+            final ViewStyle style, final ThreadEntryData [] data_list) {
         if (body_creator_thread_executor_ == null) {
             body_creator_thread_executor_ = Executors.newSingleThreadExecutor();
         }
@@ -728,16 +738,18 @@ public class ThreadEntryData implements NListAdapterDataInterface {
         // 文字列組み立て
         // ////////////////////////////////////////////////////////////
         // レス番号
-        String entry_id_string = String.valueOf(entry_id_);
+        final String entry_id_string = String.valueOf(entry_id_);
         buf.append(entry_id_string);
-        buf.append(" ");
-        int entry_id_length = entry_id_string.length();
+        buf.append(' ');
+        
+        final int entry_id_length = entry_id_string.length();
         TextAppearanceSpan entry_id_span = null;
         
-        if (back_anchor_list_.size() == 0) {
+        final int back_anchor_list_size = back_anchor_list_.size(); 
+        if (back_anchor_list_size == 0) {
             entry_id_span = style.entry_id_style_span_1_;
         }
-        else if (back_anchor_list_.size() < 3) {
+        else if (back_anchor_list_size < 3) {
             entry_id_span = style.entry_id_style_span_2_;
         }
         else {
@@ -746,7 +758,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
         
         // //////////////////////////////
         // 名前とメール
-        int author_name_begin = buf.length();
+        final int author_name_begin = buf.length();
         int author_name_length = 0;
         TextAppearanceSpan author_name_span = null;
         int author_mail_begin = 0;
@@ -756,7 +768,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
             // 名前
             author_name_length = author_name_.length();
             buf.append(author_name_);
-            buf.append(" ");
+            buf.append(' ');
             author_name_span = style.author_name_style_span_;
             
             // メール
@@ -764,7 +776,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
             if (author_mail_length > 0) {
                 author_mail_begin = buf.length();
                 author_mail_length += 2;
-                buf.append("[");
+                buf.append('[');
                 buf.append(author_mail_);
                 buf.append("] ");
                 author_mail_span = style.author_mail_style_span_;
@@ -773,20 +785,20 @@ public class ThreadEntryData implements NListAdapterDataInterface {
         
         // //////////////////////////////
         // 時間
-        int entry_time_begin = buf.length();
-        int entry_time_length = entry_time_.length();
+        final int entry_time_begin = buf.length();
+        final int entry_time_length = entry_time_.length();
         buf.append(entry_time_);
-        buf.append(" ");
+        buf.append(' ');
         
         // //////////////////////////////
         // 書き込みID
-        int author_id_begin = buf.length();
-        int author_id_real_length = author_id_.length();
+        final int author_id_begin = buf.length();
+        final int author_id_real_length = author_id_.length();
         int author_id_length = 0;
         int author_id_count = 0;
         
         buf.append("ID:");
-        int author_id_prefix_length = 3;
+        final int author_id_prefix_length = 3;
         
         if (author_id_real_length > 0) {
             author_id_length = author_id_real_length;
@@ -815,13 +827,13 @@ public class ThreadEntryData implements NListAdapterDataInterface {
         
         // //////////////////////////////
         // レス数
-        int author_id_count_begin = buf.length();
+        final int author_id_count_begin = buf.length();
         int author_id_count_length = 0;
         if (author_id_count > 1) {
-            StringBuilder author_id_count_string = new StringBuilder(" (").append(author_id_count).append(")");
-            buf.append(author_id_count_string);
-            buf.append(" ");
-            author_id_count_length = author_id_count_string.length();
+            buf.append(" (");
+            buf.append(author_id_count);
+            buf.append(") ");
+            author_id_count_length = buf.length() - author_id_count_begin;
         }
         
         // //////////////////////////////
@@ -829,14 +841,15 @@ public class ThreadEntryData implements NListAdapterDataInterface {
         int author_be_begin = buf.length();
         int author_be_length = author_be_.length();
         if (author_be_length > 0) {
-            buf.append(" ");
+            buf.append(' ');
             buf.append(author_be_);
         }
         
         // ////////////////////////////////////////////////////////////
         // span適用
         // ////////////////////////////////////////////////////////////
-        SpannableStringBuilder spanned = new SpannableStringBuilder(buf);
+        SpannableString spanned = new SpannableString(buf);
+        
         
         // //////////////////////////////
         // レス番号
