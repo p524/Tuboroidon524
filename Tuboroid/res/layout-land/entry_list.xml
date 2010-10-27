@@ -42,11 +42,13 @@
 			android:fastScrollEnabled="true" />
 		<HorizontalScrollView android:id="@+id/entry_anchor_stack_box"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:background="@drawable/anchor_stack_box_background"
 			android:scrollbars="horizontal">
 			<TextView android:id="@+id/entry_anchor_stack"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:autoLink="none" style="@style/EntryListEntryAnchorBar"
-				android:paddingBottom="8dip" />
+				android:paddingTop="4dip"
+				android:paddingBottom="4dip" />
 		</HorizontalScrollView>
 		<LinearLayout android:id="@+id/search_bar"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"
