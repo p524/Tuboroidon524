@@ -9,8 +9,8 @@ import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.TuboroidApplication;
 import info.narazaki.android.tuboroid.activity.base.SearchableListActivity;
 import info.narazaki.android.tuboroid.adapter.ThreadEntryListAdapter;
-import info.narazaki.android.tuboroid.agent.FavoriteCacheListAgent.NextFavoriteThreadFetchedCallback;
 import info.narazaki.android.tuboroid.agent.ThreadEntryListAgent;
+import info.narazaki.android.tuboroid.agent.FavoriteCacheListAgent.NextFavoriteThreadFetchedCallback;
 import info.narazaki.android.tuboroid.agent.thread.SQLiteAgent;
 import info.narazaki.android.tuboroid.data.IgnoreData;
 import info.narazaki.android.tuboroid.data.ThreadData;
@@ -29,7 +29,6 @@ import java.util.List;
 import jp.syoboi.android.ListViewEx;
 import jp.syoboi.android.ListViewScrollButton;
 import jp.syoboi.android.ListViewScroller;
-
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -49,23 +48,25 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ClickableSpan;
 import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.view.animation.OvershootInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.TextView.BufferType;
 import android.widget.Toast;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.TextView.BufferType;
 
 public class ThreadEntryListActivity extends SearchableListActivity {
     public static final String TAG = "ThreadEntryListActivity";
@@ -1208,7 +1209,10 @@ public class ThreadEntryListActivity extends SearchableListActivity {
             box.setVisibility(View.GONE);
             return;
         }
+        
+        boolean animation = (box.getVisibility() == View.GONE); 
         box.setVisibility(View.VISIBLE);
+        
         
         SpannableStringBuilder text = new SpannableStringBuilder();
         
@@ -1224,6 +1228,16 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         
         text_view.setText(text, BufferType.SPANNABLE);
         
+        if (animation) {
+        	ScaleAnimation ta = new ScaleAnimation(1, 1,            
+        			0, 1,
+                    0, box.getMeasuredHeight()
+            );
+        	ta.setInterpolator(new OvershootInterpolator());
+        	ta.setDuration(300);
+        	box.startAnimation(ta);
+        }
+
         int on_clicked_bgcolor = obtainStyledAttributes(R.styleable.Theme).getColor(
                 R.styleable.Theme_entryLinkClickedBgColor, 0);
         text_view.setOnTouchListener(new SimpleSpanTextViewOnTouchListener(
