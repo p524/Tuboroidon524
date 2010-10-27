@@ -69,6 +69,27 @@ public class ListViewScroller {
 		scroller.start();
 	}
 	
+	public void scrollMargin(ListView list, View v, int position, int msec, int fps, int margin) {
+		cancel();
+
+		final int from = v.getTop();
+		final int listHeight = list.getMeasuredHeight();
+		int to;
+		
+		if (v.getTop() < margin) {
+			to = margin;
+		}
+		else if (v.getBottom() > listHeight - margin) {
+			to = listHeight - margin - v.getHeight();
+		}
+		else {
+			return;
+		}
+		
+		scroller = new MyScroller(list, position, from, to, msec, fps);
+		scroller.start();
+	}
+	
 	public static class MyScroller extends CountDownTimer {
 		private final int from;
 		private final int to;

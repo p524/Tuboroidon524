@@ -26,6 +26,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
+import jp.syoboi.android.ListViewEx;
 import jp.syoboi.android.ListViewScrollButton;
 import jp.syoboi.android.ListViewScroller;
 
@@ -1093,9 +1094,26 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     
     public void setMappedListPosition(final int position, final Runnable callback) {
         if (list_adapter_ == null) return;
-        int pos = ((ThreadEntryListAdapter) list_adapter_).getMappedPosition(position);
+        final int pos = ((ThreadEntryListAdapter) list_adapter_).getMappedPosition(position);
         if (pos == -1) return;
-        setListPosition(pos, callback);
+        
+        // ハイライト表示
+        ListView lv = getListView();
+        if (lv instanceof ListViewEx) {
+        	final ListViewEx lvx = (ListViewEx)lv;
+        	lvx.post(new Runnable() {
+				
+				@Override
+				public void run() {
+		        	lvx.setHighlight(pos, 750);
+		        	lvx.scrollToPosition(pos, lvx.getMeasuredHeight()/10, 250, 30);
+				}
+			});
+        }
+        else {
+            setListPosition(pos, callback);
+        }
+        
     }
     
     // ////////////////////////////////////////////////////////////
