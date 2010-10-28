@@ -488,6 +488,26 @@ public class SQLiteAgent extends SQLiteAgentBase {
         });
     }
     
+    public void updateThreadCacheTagData(final ThreadData thread_data, final DbTransaction callback) {
+        submitTransaction(new DbTransaction() {
+            @Override
+            public void run() {
+                ContentValues values = thread_data.getCacheTagDataContentValues();
+                String where = ThreadData.KEY.BOARD_SERVER + " = ? AND " + ThreadData.KEY.BOARD_TAG + " = ? AND "
+                        + ThreadData.KEY.ID + " = ?";
+                String[] bind = new String[] { thread_data.server_def_.board_server_,
+                        thread_data.server_def_.board_tag_, String.valueOf(thread_data.thread_id_) };
+                getDB().update(ThreadData.KEY.TABLE, values, where, bind);
+                if (callback != null) callback.run();
+            }
+            
+            @Override
+            public void onError() {
+                if (callback != null) callback.onError();
+            }
+        });
+    }
+    
     public void updateThreadRecentPos(final ThreadData thread_data, final DbTransaction callback) {
         submitTransaction(new DbTransaction() {
             @Override

@@ -250,6 +250,8 @@ abstract public class ThreadData implements NListAdapterDataInterface {
     }
     
     public void up2date(ThreadData online_data) {
+        is_dropped_ = false;
+        
         sort_order_ = online_data.sort_order_;
         
         board_name_ = online_data.board_name_;
@@ -291,6 +293,25 @@ abstract public class ThreadData implements NListAdapterDataInterface {
         values.put(KEY.READ_COUNT, read_count_);
         // values.put(KEY.RECENT_POS, recent_pos_);
         // values.put(KEY.RECENT_POS_Y, recent_pos_y_);
+        
+        return values;
+    }
+    
+    public ContentValues getCacheTagDataContentValues() {
+        ContentValues values = new ContentValues();
+        
+        values.put(KEY.IS_DROPPED, is_dropped_ ? 1 : 0);
+        values.put(KEY.ON_EXT_STORAGE, on_ext_storage_ ? 1 : 0);
+        
+        values.put(KEY.ONLINE_COUNT, online_count_);
+        
+        values.put(KEY.CACHE_COUNT, cache_count_);
+        
+        values.put(KEY.CACHE_SIZE, cache_size_);
+        values.put(KEY.CACHE_ETAG, cache_etag_);
+        values.put(KEY.CACHE_TIMESTAMP, cache_timestamp_);
+        
+        values.put(KEY.RECENT_TIME, recent_time_);
         
         return values;
     }

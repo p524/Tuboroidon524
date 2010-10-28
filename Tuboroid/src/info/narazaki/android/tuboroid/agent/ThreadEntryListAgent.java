@@ -68,7 +68,9 @@ public class ThreadEntryListAgent {
         }
         
         @Override
-        public void onThreadEntryListFetchedCompleted(ThreadData threadData) {
+        public void onThreadEntryListFetchedCompleted(final ThreadData threadData) {
+            threadData.is_dropped_ = false;
+            agent_manager_.getDBAgent().updateThreadCacheTagData(threadData, null);
             onThreadEntryListFetchedCompleted(threadData, false);
         }
         

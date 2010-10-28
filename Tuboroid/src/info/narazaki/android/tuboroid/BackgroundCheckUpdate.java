@@ -5,7 +5,9 @@ import info.narazaki.android.tuboroid.service.TuboroidServiceTask;
 import info.narazaki.android.tuboroid.service.TuboroidServiceTask.ServiceSender;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.PowerManager;
 import android.os.RemoteException;
+import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 
 public class BackgroundCheckUpdate {
@@ -13,7 +15,12 @@ public class BackgroundCheckUpdate {
     
     public static final String ACTION = "info.narazaki.android.tuboroid.service.TuboroidService.BEGIN_CHECK_UPDATE";
     
-    public static synchronized void onFireCheckUpdate(Context context) {
+    public static synchronized void onFireCheckUpdate(final Context context) {
+        PowerManager pm = (PowerManager) context.getApplicationContext().getSystemService(Context.POWER_SERVICE);
+        final WakeLock wake_lock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Tuboroid Update Receiver");
+        
+        wake_lock.acquire();
+        
         final TuboroidServiceTask service_task = new TuboroidServiceTask(context);
         service_task.bind();
         
@@ -24,6 +31,7 @@ public class BackgroundCheckUpdate {
                 @Override
                 public void send(ITuboroidService service) throws RemoteException {
                     service.checkDownloadFavorites(true);
+                    wake_lock.release();
                 }
             });
         }
@@ -32,10 +40,10 @@ public class BackgroundCheckUpdate {
                 @Override
                 public void send(ITuboroidService service) throws RemoteException {
                     service.checkUpdateFavorites(true);
+                    wake_lock.release();
                 }
             });
         }
     }
     
 }
- 
