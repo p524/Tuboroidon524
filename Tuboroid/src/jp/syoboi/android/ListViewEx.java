@@ -18,6 +18,7 @@ public class ListViewEx extends ListView {
 	private TransitionDrawable 	hlDrawable;
 	private Rect 		hlRect = new Rect();
 	private ListViewScroller scroller;
+	private HighlightTimer	hlTimer;
 	
 	public ListViewEx(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
@@ -46,8 +47,10 @@ public class ListViewEx extends ListView {
 		updateHighlightRect();
 		
 		d.startTransition(millis);
-		HighlightTimer t = new HighlightTimer(millis+1, 1000/15);
-		t.start();
+		
+		if (hlTimer != null) hlTimer.cancel();
+		hlTimer = new HighlightTimer(millis+1, 1000/15);
+		hlTimer.start();
 	}
 	
 	private ListViewScroller getScroller() {
