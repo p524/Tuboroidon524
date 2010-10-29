@@ -57,8 +57,8 @@ public class ListViewEx extends ListView {
 		scroller = new ListViewScroller();
 		return scroller;
 	}
-	
-	// positionまでスクロールする
+
+	// positionまでスクロールする(指定したpositionが画面の端からmargin分余裕を持つ位置になる)
 	public void scrollToPosition(final int position, final int margin, 
 			final int millis, final int fps) {
 		int first = getFirstVisiblePosition();
@@ -118,6 +118,18 @@ public class ListViewEx extends ListView {
 		super.dispatchDraw(canvas);
 	}
 	
+	// positionのViewが画面内に見える状態で存在するかどうかを返す
+	public boolean isVisiblePosition(int position) {
+		int first = getFirstVisiblePosition();
+		int last = getLastVisiblePosition();
+		if (getCount() > 0) {
+			if (getChildAt(0).getTop() < 0) first++;
+			
+			return (first <= position && position < last );
+		}
+		return false;
+	}
+	
 	private class HighlightTimer extends CountDownTimer {
 		public HighlightTimer(long millisInFuture, long countDownInterval) {
 			super(millisInFuture, countDownInterval);
@@ -130,5 +142,4 @@ public class ListViewEx extends ListView {
 		@Override
 		public void onTick(long millisUntilFinished) { invalidate(hlRect); }
 	}
-	
 }

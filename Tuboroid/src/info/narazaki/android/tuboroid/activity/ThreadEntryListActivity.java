@@ -124,6 +124,8 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     
     // アンカージャンプ中管理フラグ
     private LinkedList<Integer> anchor_jump_stack_ = null;
+    private int restore_position;
+    private int restore_position_y;
     
     // フィルタ情報
     private ParcelableFilterData filter_ = null;
@@ -1102,17 +1104,15 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         ListView lv = getListView();
         if (lv instanceof ListViewEx) {
         	final ListViewEx lvx = (ListViewEx)lv;
-        	lvx.post(new Runnable() {
-				
-				@Override
-				public void run() {
-		        	lvx.setHighlight(pos, 750);
-		        	lvx.scrollToPosition(pos, lvx.getMeasuredHeight()/10, 250, 30);
-				}
-			});
+        	lvx.setHighlight(pos, 750);
+        	if (!lvx.isVisiblePosition(pos)) {
+        		setListPosition(pos, callback);
+        	} else {
+        		if (callback != null) callback.run();
+        	}
         }
         else {
-            setListPosition(pos, callback);
+        	setListPosition(pos, callback);
         }
         
     }
@@ -1161,6 +1161,9 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     private void jumpToAnchor(int current_num, int num) {
         if (anchor_jump_stack_.size() == 0) {
             anchor_jump_stack_.add(current_num);
+            ListView lv = getListView();
+            restore_position = lv.getFirstVisiblePosition();
+            restore_position_y = getListView().getChildAt(0).getTop();
         }
         if (anchor_jump_stack_.indexOf(num) == -1) {
             anchor_jump_stack_.add(num);
@@ -1174,6 +1177,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         int entry_id = disableAnchorBar();
         updateAnchorBar();
         setMappedListPosition(entry_id - 1, null);
+        setListPositionFromTop(restore_position, restore_position_y, null);
     }
     
     private int disableAnchorBar() {
