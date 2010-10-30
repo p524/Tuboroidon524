@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<item
+		android:icon="@android:drawable/ic_menu_preferences"
+		android:id="@+id/menu_size_setting"
+		android:title="@string/label_menu_font_setting"
+		android:alphabeticShortcut="p"
+		android:orderInCategory="100"></item>
+</menu>

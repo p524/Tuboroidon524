@@ -7,6 +7,7 @@ import info.narazaki.android.lib.toast.ManagedToast;
 import info.narazaki.android.lib.view.SimpleSpanTextViewOnTouchListener;
 import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.TuboroidApplication;
+import info.narazaki.android.tuboroid.TuboroidApplication.ViewConfig;
 import info.narazaki.android.tuboroid.activity.base.SearchableListActivity;
 import info.narazaki.android.tuboroid.adapter.ThreadEntryListAdapter;
 import info.narazaki.android.tuboroid.agent.ThreadEntryListAgent;
@@ -30,6 +31,7 @@ import jp.syoboi.android.ListViewEx;
 import jp.syoboi.android.ListViewScrollButton;
 import jp.syoboi.android.ListViewScroller;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -37,6 +39,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
@@ -47,6 +50,7 @@ import android.text.ClipboardManager;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -423,42 +427,42 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     
     @Override
     protected SimpleListAdapterBase<?> createListAdapter() {
-        ThreadEntryListAdapter list_adapter = new ThreadEntryListAdapter(this, getAgent(), getListFontPref(),
-                new ThreadEntryData.ImageViewerLauncher() {
-                    @Override
-                    public void onRequired(ThreadData threadData, String imageLocalFilename, String imageUri) {
-                        Intent intent = new Intent(ThreadEntryListActivity.this, ImageViewerActivity.class);
-                        intent.setData(Uri.parse(threadData.getThreadURI()));
-                        intent.putExtra(ImageViewerActivity.INTENT_KEY_IMAGE_FILENAME, imageLocalFilename);
-                        intent.putExtra(ImageViewerActivity.INTENT_KEY_IMAGE_URI, imageUri);
-                        MigrationSDK5.Intent_addFlagNoAnimation(intent);
-                        startActivity(intent);
-                    }
-                }, new ThreadEntryData.OnAnchorClickedCallback() {
-                    
-                    @Override
-                    public void onNumberAnchorClicked(int jumpFrom, int jumpTo) {
-                        if (jumpTo > 0) {
-                            jumpToAnchor(jumpFrom, jumpTo);
-                        }
-                    }
-                    
-                    @Override
-                    public void onThreadLinkClicked(Uri uri) {
-                        Intent intent = new Intent(ThreadEntryListActivity.this, ThreadEntryListActivity.class);
-                        intent.setData(uri);
-                        MigrationSDK5.Intent_addFlagNoAnimation(intent);
-                        startActivity(intent);
-                    }
-                    
-                    @Override
-                    public void onBoardLinkClicked(Uri uri) {
-                        Intent intent = new Intent(ThreadEntryListActivity.this, ThreadListActivity.class);
-                        intent.setData(uri);
-                        MigrationSDK5.Intent_addFlagNoAnimation(intent);
-                        startActivity(intent);
-                    }
-                });
+        ThreadEntryListAdapter list_adapter = new ThreadEntryListAdapter(this, getAgent(), getListFontPref(), 
+        		new ThreadEntryData.ImageViewerLauncher() {
+    		        @Override
+    		        public void onRequired(ThreadData threadData, String imageLocalFilename, String imageUri) {
+    		            Intent intent = new Intent(ThreadEntryListActivity.this, ImageViewerActivity.class);
+    		            intent.setData(Uri.parse(threadData.getThreadURI()));
+    		            intent.putExtra(ImageViewerActivity.INTENT_KEY_IMAGE_FILENAME, imageLocalFilename);
+    		            intent.putExtra(ImageViewerActivity.INTENT_KEY_IMAGE_URI, imageUri);
+    		            MigrationSDK5.Intent_addFlagNoAnimation(intent);
+    		            startActivity(intent);
+    		        }
+        	    }, new ThreadEntryData.OnAnchorClickedCallback() {
+        	        
+        	        @Override
+        	        public void onNumberAnchorClicked(int jumpFrom, int jumpTo) {
+        	            if (jumpTo > 0) {
+        	                jumpToAnchor(jumpFrom, jumpTo);
+        	            }
+        	        }
+        	        
+        	        @Override
+        	        public void onThreadLinkClicked(Uri uri) {
+        	            Intent intent = new Intent(ThreadEntryListActivity.this, ThreadEntryListActivity.class);
+        	            intent.setData(uri);
+        	            MigrationSDK5.Intent_addFlagNoAnimation(intent);
+        	            startActivity(intent);
+        	        }
+        	        
+        	        @Override
+        	        public void onBoardLinkClicked(Uri uri) {
+        	            Intent intent = new Intent(ThreadEntryListActivity.this, ThreadListActivity.class);
+        	            intent.setData(uri);
+        	            MigrationSDK5.Intent_addFlagNoAnimation(intent);
+        	            startActivity(intent);
+        	        }
+        	    });
         list_adapter.setThreadData(thread_data_);
         return list_adapter;
     }
@@ -917,7 +921,119 @@ public class ThreadEntryListActivity extends SearchableListActivity {
             }
         });
         
+        getMenuInflater().inflate(R.menu.thread_entry_list_menu, menu);
         return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	switch (item.getItemId()) {
+    	case R.id.menu_size_setting:
+    		showSizeSettingDialog();
+    		break;
+    	}
+    	return super.onOptionsItemSelected(item);
+    }
+    
+    // ////////////////////////////////////////////////////////////
+    // ダイアログ
+    // ////////////////////////////////////////////////////////////
+    private void showSizeSettingDialog() {
+    	Log.d(TAG, "showStyleDialog");
+    	final TuboroidApplication app = getTuboroidApplication();
+    	final ViewConfig view_config = new ViewConfig(app.view_config_);
+    	
+    	final ListView listView = getListView();
+    	final int pos = listView.getFirstVisiblePosition();
+    	final Runnable restoreListPosition = new Runnable() {
+			@Override
+			public void run() {
+				listView.setSelectionFromTop(pos, 0);
+			}
+    	};
+    	
+    	// ダイアログを作る
+    	Dialog dlg = new Dialog(this);
+    	dlg.setContentView(R.layout.thread_entry_config_dialog);
+    	dlg.setTitle(R.string.dialog_thread_entry_config_title);
+
+    	final TextView bodySizeText = (TextView)dlg.findViewById(R.id.body_size_text);
+    	final TextView headerSizeText = (TextView)dlg.findViewById(R.id.header_size_text);
+    	final TextView aaSizeText = (TextView)dlg.findViewById(R.id.aa_size_text);
+    	final String sizeFormat = getString(R.string.dialog_thread_entry_config_size_format);
+    	
+    	// ボタンが押されたときに設定を変える
+    	OnClickListener onClickListener = new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (v != null) {
+					final int fontSizeMin = 4;
+					switch (v.getId()) {
+					case R.id.body_inc:	
+						view_config.entry_body_++; 
+						break;
+					case R.id.body_dec:
+						if (view_config.entry_body_ > fontSizeMin) view_config.entry_body_--; 
+						break;
+					case R.id.header_inc:
+						view_config.entry_header_++;
+						break;
+					case R.id.header_dec:
+						if (view_config.entry_header_ > fontSizeMin) view_config.entry_header_--;
+						break;
+					case R.id.aa_inc:
+						view_config.entry_aa_body_++;
+						break;
+					case R.id.aa_dec:
+						if (view_config.entry_aa_body_ > fontSizeMin) view_config.entry_aa_body_--;
+						break;
+					}
+				}
+				bodySizeText.setText(String.format(sizeFormat, view_config.entry_body_));
+				headerSizeText.setText(String.format(sizeFormat, view_config.entry_header_));
+				aaSizeText.setText(String.format(sizeFormat, view_config.entry_aa_body_));
+		    	
+		    	//Log.d(TAG, "header:" + view_config.entry_header_
+				//	+ " body:" + view_config.entry_body_
+				//	+ " aa:" + view_config.entry_aa_body_);
+
+		    	ThreadEntryListAdapter adapter = (ThreadEntryListAdapter) list_adapter_;
+		    	adapter.setFontSize(new ViewConfig(view_config));
+		    	listView.invalidateViews();
+		    	
+		    	listView.post(restoreListPosition);
+			}
+		};
+		onClickListener.onClick(null);
+    	
+    	int [] btns = new int [] {
+    		R.id.body_inc, R.id.body_dec,
+    		R.id.header_inc, R.id.header_dec,
+    		R.id.aa_inc, R.id.aa_dec,
+    	};
+    	for (int id: btns) {
+    		dlg.findViewById(id).setOnClickListener(onClickListener);
+    	}
+    	
+    	// ダイアログが閉じられるときに設定を保存
+    	dlg.setOnCancelListener(new DialogInterface.OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				//int bodySize = Integer.parseInt(pref.getString("pref_font_size_entry_body", "13"));
+		    	SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+				Editor editor = pref.edit(); 
+		    	editor.putString("pref_font_size_entry_body", String.valueOf(view_config.entry_body_));
+		    	editor.putString("pref_font_size_entry_header", String.valueOf(view_config.entry_header_));
+		    	editor.putString("pref_font_size_entry_aa_body", String.valueOf(view_config.entry_aa_body_));
+		    	editor.commit();
+				app.reloadPreferences(true);
+			}
+		});
+    	
+    	dlg.show();
+  		
+    	
+    	//getListView().invalidateViews();
     }
     
     // ////////////////////////////////////////////////////////////

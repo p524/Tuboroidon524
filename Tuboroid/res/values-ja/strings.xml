@@ -116,6 +116,8 @@
 	<string name="label_menu_share_image">画像を共有</string>
 	<string name="label_menu_save_image">画像を保存</string>
 	<string name="label_filepicker_save_here">ここにセーブ</string>
+	
+	<string name="label_menu_font_setting">フォントサイズ</string>
 
 	<!-- ボタンのラベル -->
 	<string name="btn_label_entry_edit_name">名前</string>
@@ -201,6 +203,13 @@
 	<string name="dialog_thread_list_moved_summary">2chサーバのトラブルか板移転と思われます。
 		板移転の場合は板一覧画面から「板一覧の更新」を行うと改善することがあります。
 	</string>
+
+	<!-- 設定ダイアログ -->
+	<string name="dialog_thread_entry_config_title">フォント設定</string>
+	<string name="dialog_thread_entry_config_body">本文の大きさ</string>
+	<string name="dialog_thread_entry_config_header">ヘッダーの大きさ</string>
+	<string name="dialog_thread_entry_config_aa">AAの大きさ</string>
+	<string name="dialog_thread_entry_config_size_format">%d px</string>
 
 	<!-- 設定画面 -->
 

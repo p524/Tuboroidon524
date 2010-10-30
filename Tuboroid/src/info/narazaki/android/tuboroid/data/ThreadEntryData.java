@@ -395,6 +395,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
         LinearLayout rev_anchor_box_view;
         TextView rev_anchor_view;
         TableLayout thumbnail_box;
+        TuboroidApplication.ViewConfig view_config;
         int header_bgcolor = -1;
         
         void setHeaderBackgroundColor(int color) {
@@ -433,6 +434,8 @@ public class ThreadEntryData implements NListAdapterDataInterface {
         
         ViewTag tag = new ViewTag();
         view.setTag(tag);
+        
+        tag.view_config = view_config;
         
         tag.header_view = (TextView) view.findViewById(R.id.entry_header);
         tag.header_view.setTextSize(view_config.entry_header_);
@@ -483,6 +486,11 @@ public class ThreadEntryData implements NListAdapterDataInterface {
             final ViewGroup parent, int read_count, final TuboroidApplication.ViewConfig view_config,
             final ViewStyle style, final boolean is_quick_show, int indent) {
         ViewTag tag = (ViewTag) view.getTag();
+        
+        if (tag.view_config != view_config) {
+        	initView(view, view_config, style, entry_is_aa_);
+        	tag = (ViewTag)view.getTag();
+        }
         
         // インデント
         indent *= style.entry_tree_indent;
