@@ -2,12 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/entry_main_box" android:layout_width="fill_parent"
 	android:layout_height="wrap_content" android:orientation="vertical"
-	android:layout_marginTop="1dip" android:layout_marginBottom="1dip">
+	android:paddingBottom="2dip">
 	<info.narazaki.android.tuboroid.view.EntryDataTextView
 		android:id="@+id/entry_header" android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:layout_marginRight="3sp" />
+		android:layout_height="wrap_content" 
+		android:paddingLeft="2dip" android:paddingRight="2dip"
+		android:paddingTop="1dip" android:paddingBottom="1dip"/>
 	<info.narazaki.android.tuboroid.view.EntryDataTextView
 		android:id="@+id/entry_body" android:layout_width="fill_parent"
+		android:padding="2dip"
 		android:layout_height="wrap_content" style="@style/EntryListEntryBody" />
 	<TableLayout android:id="@+id/thread_list_thumbnail_box"
 		android:layout_width="fill_parent" android:layout_height="wrap_content">

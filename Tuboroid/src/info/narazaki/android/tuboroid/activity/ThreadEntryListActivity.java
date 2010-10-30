@@ -162,7 +162,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         setContentView(R.layout.entry_list);
         
         registerForContextMenu(getListView());
-        
+
         if (savedInstanceState == null) {
             reload_on_resume_ = true;
         }
@@ -513,7 +513,14 @@ public class ThreadEntryListActivity extends SearchableListActivity {
                 	}
                 }
                 else {
-                    setListRollUp(null);
+                    //setListRollUp(null);
+                	// dividerHeight==0の場合の問題回避
+                	ListView lv = (ListView)getListView();
+                	int pos = lv.getFirstVisiblePosition();
+                	if (lv.getChildCount() > 0) {
+                		if (lv.getChildAt(0).getTop() == 0) pos--;
+                	}
+                	lv.setSelection(pos);
                 }
             }
             return true;
@@ -538,7 +545,15 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         	}
         }
         else {
-            setListRollDown(null);
+            //setListRollDown(null);
+        	ListView lv = (ListView)getListView();
+        	int pos = lv.getFirstVisiblePosition() + 1;
+        	if (lv.getChildCount() > 1) {
+        		// dividerHeightが0のときは、setSelection(pos)すると、
+        		// getFirstVisiblePosition() は pos のままになるので、+1しただけではスクロールしない
+        		if (lv.getChildAt(1).getTop()==0) pos++;
+        	}
+        	lv.setSelection(pos);
         }
     }
     

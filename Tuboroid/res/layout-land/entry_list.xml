@@ -39,6 +39,7 @@
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
 			android:choiceMode="none" android:clickable="false"
 			android:listSelector="@android:color/transparent"
+			android:divider="@null"
 			android:fastScrollEnabled="true" />
 		<HorizontalScrollView android:id="@+id/entry_anchor_stack_box"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"

@@ -12,6 +12,7 @@
 				android:layout_width="fill_parent" android:layout_height="fill_parent"
 				android:choiceMode="none" android:clickable="false"
 				android:listSelector="@android:color/transparent"
+				android:divider="@null"
 				android:fastScrollEnabled="true" />
 		</LinearLayout>
 		<jp.syoboi.android.ListViewScrollButton
