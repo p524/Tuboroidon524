@@ -1907,6 +1907,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         }
     }
     
+    // 関連レス抽出
     private void updateFilterByRelation(final long target_entry_id, final Runnable callback) {
         if (!is_active_) return;
         
@@ -1915,10 +1916,16 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         
         filter_ = new ParcelableFilterData(ParcelableFilterData.TYPE_PELATION, null, null, target_entry_id);
         
+        
         final HashSet<Long> result_id_map = new HashSet<Long>();
         final HashMap<Long, ThreadEntryData> inner_data_map = new HashMap<Long, ThreadEntryData>();
+        final HashMap<Long,Integer> indent_map = new HashMap<Long,Integer>();
         
-        ((ThreadEntryListAdapter) list_adapter_).setFilter(new ThreadEntryListAdapter.PrepareFilter<ThreadEntryData>() {
+        final ThreadEntryListAdapter adapter = (ThreadEntryListAdapter)list_adapter_;
+        
+        adapter.setFilter(new ThreadEntryListAdapter.PrepareFilter<ThreadEntryData>() {
+        	private int indentMin = 0;
+        	
             @Override
             public void prepare(ArrayList<ThreadEntryData> inner_data_list) {
                 ThreadEntryData target_data = null;
@@ -1929,20 +1936,25 @@ public class ThreadEntryListActivity extends SearchableListActivity {
                     }
                 }
                 if (target_data == null) return;
-                check(target_data);
+                check(target_data, 0);
+                adapter.setIndentMap(indent_map, indentMin);
             }
             
-            private void check(ThreadEntryData target_data) {
+            private void check(ThreadEntryData target_data, int indent) {
                 if (result_id_map.contains(target_data.entry_id_)) return;
                 result_id_map.add(target_data.entry_id_);
+                indent_map.put(target_data.entry_id_, indent);
+
+                if (indent < indentMin) indentMin = indent; 
+                
                 for (Long next_id : target_data.back_anchor_list_) {
                     ThreadEntryData data = inner_data_map.get(next_id);
-                    if (data != null) check(data);
+                    if (data != null) check(data, indent + 1);
                 }
                 
                 for (Long next_id : target_data.forward_anchor_list_) {
                     ThreadEntryData data = inner_data_map.get(next_id);
-                    if (data != null) check(data);
+                    if (data != null) check(data, indent - 1);
                 }
             }
             

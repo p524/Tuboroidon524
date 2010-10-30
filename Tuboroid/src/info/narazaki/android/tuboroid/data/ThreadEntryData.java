@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -40,11 +41,11 @@ import android.text.style.URLSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.ImageView.ScaleType;
 import android.widget.TextView.BufferType;
 
 public class ThreadEntryData implements NListAdapterDataInterface {
@@ -67,7 +68,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     private static final Pattern SHRINK_WHITESPACE_PATTERN = Pattern.compile("  +");
     public static final String IS_AA = "1";
     
-    public long entry_id_;
+    public long entry_id_;	// レス番
     
     public String author_name_;
     public String author_mail_;
@@ -480,8 +481,14 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     
     public View setView(final TuboroidAgent agent, final ThreadData thread_data, final View view,
             final ViewGroup parent, int read_count, final TuboroidApplication.ViewConfig view_config,
-            final ViewStyle style, final boolean is_quick_show) {
+            final ViewStyle style, final boolean is_quick_show, int indent) {
         ViewTag tag = (ViewTag) view.getTag();
+        
+        // インデント
+        indent *= style.entry_tree_indent;
+        if (view.getPaddingLeft() != indent) {
+        	view.setPadding(indent, view.getPaddingTop(), view.getPaddingRight(), view.getPaddingBottom());
+        }
         
         // 透明あぼーん判定
         if (isGone()) {
@@ -973,21 +980,26 @@ public class ThreadEntryData implements NListAdapterDataInterface {
         
         public int link_color_;
         public int on_clicked_bgcolor_;
+        public int entry_tree_indent;
         
         public SpanifyAdapter spanify_;
         public OnAnchorClickedCallback callback_;
         public ImageViewerLauncher image_viewer_launcher_;
         
         public ViewStyle(Activity activity, ImageViewerLauncher image_viewer_launcher, OnAnchorClickedCallback callback) {
-            style_header_color_default_ = activity.obtainStyledAttributes(R.styleable.Theme).getColor(
-                    R.styleable.Theme_headerColorDefault, 0);
-            style_header_color_emphasis_ = activity.obtainStyledAttributes(R.styleable.Theme).getColor(
+        	final TypedArray theme = activity.obtainStyledAttributes(R.styleable.Theme);
+        	
+            style_header_color_default_ = theme.getColor(
+            		R.styleable.Theme_headerColorDefault, 0);
+            style_header_color_emphasis_ = theme.getColor(
                     R.styleable.Theme_headerColorEmphasis, 0);
             
-            link_color_ = activity.obtainStyledAttributes(R.styleable.Theme).getColor(R.styleable.Theme_entryLinkColor,
+            link_color_ = theme.getColor(R.styleable.Theme_entryLinkColor,
                     0);
             
-            on_clicked_bgcolor_ = activity.obtainStyledAttributes(R.styleable.Theme).getColor(
+            entry_tree_indent = (int)theme.getDimension(R.styleable.Theme_entryTreeIndent, 10);
+            
+            on_clicked_bgcolor_ = theme.getColor(
                     R.styleable.Theme_entryLinkClickedBgColor, 0);
             
             entry_id_style_span_1_ = new TextAppearanceSpan(activity, R.style.EntryListEntryID1);

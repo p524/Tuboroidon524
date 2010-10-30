@@ -17,6 +17,7 @@
 		<attr name="drawableListDivider" format="reference|color" />
 		<attr name="entryLinkColor" format="color" />
 		<attr name="entryLinkClickedBgColor" format="color" />
+        <attr name="entryTreeIndent" format="dimension" />
         <attr name="toolbarBackground" format="reference|color" />
         <attr name="boardRowBackground" format="reference|color" />
         <attr name="titleRowTextColor" format="color" />

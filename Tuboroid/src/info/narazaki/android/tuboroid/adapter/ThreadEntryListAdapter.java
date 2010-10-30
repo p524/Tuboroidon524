@@ -9,6 +9,7 @@ import info.narazaki.android.tuboroid.data.ThreadEntryData;
 import info.narazaki.android.tuboroid.data.ThreadEntryData.ImageViewerLauncher;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -22,6 +23,9 @@ public class ThreadEntryListAdapter extends FilterableListAdapterBase<ThreadEntr
     ThreadEntryData.ViewStyle view_style_;
     TuboroidAgent agent_;
     ThreadData thread_data_;
+    
+    private HashMap<Long,Integer> 	indent_map_;
+    private int						indent_offset_;
     
     boolean is_quick_show_;
     
@@ -73,6 +77,11 @@ public class ThreadEntryListAdapter extends FilterableListAdapterBase<ThreadEntr
         });
     }
     
+	public void setIndentMap(HashMap<Long, Integer> indentMap, int min) {
+		indent_map_ = indentMap;
+		indent_offset_ = -min;
+	}
+    
     // ////////////////////////////////////////////////////////////
     @Override
     public void clearData() {
@@ -116,6 +125,20 @@ public class ThreadEntryListAdapter extends FilterableListAdapterBase<ThreadEntr
     @Override
     protected View setView(View view, ThreadEntryData data, ViewGroup parent) {
         if (data == null) return view;
-        return data.setView(agent_, thread_data_, view, parent, read_count_, view_config_, view_style_, is_quick_show_);
+        int indent = 0;
+        if (indent_map_ != null) {
+        	indent = indent_map_.get(data.entry_id_) + indent_offset_;
+        }
+        return data.setView(agent_, thread_data_, view, parent, read_count_, view_config_, view_style_, 
+        		is_quick_show_, indent);
     }
+    
+    @Override
+    public void setFilter(
+    		info.narazaki.android.lib.adapter.FilterableListAdapterBase.Filter<ThreadEntryData> filter,
+    		Runnable callback) {
+    	indent_map_ = null;
+    	super.setFilter(filter, callback);
+    }
+
 }

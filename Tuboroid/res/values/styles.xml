@@ -251,6 +251,7 @@
 		<item name="footerColorFavoriteManage">@color/middle_light_gray</item>
 		<item name="entryLinkColor">@color/dark_blue</item>
 		<item name="entryLinkClickedBgColor">@color/dark_green</item>
+		<item name="entryTreeIndent">@dimen/entryTreeIndent</item>
 		<item name="drawableListDivider">@android:drawable/divider_horizontal_bright</item>
 		<item name="toolbarBackground">@drawable/toolbar_background</item>
 		<item name="boardRowBackground">@color/darker</item>
@@ -281,6 +282,7 @@
 		<item name="footerColorFavoriteManage">@color/middle_dark_gray</item>
 		<item name="entryLinkColor">@color/light_blue</item>
 		<item name="entryLinkClickedBgColor">@color/light_green</item>
+		<item name="entryTreeIndent">@dimen/entryTreeIndent</item>
 		<item name="drawableListDivider">@android:drawable/divider_horizontal_dim_dark</item>
 		<item name="toolbarBackground">@drawable/toolbar_background_r</item>
 		<item name="boardRowBackground">@color/lighter</item>
@@ -399,4 +401,7 @@
 		<item name="footerColorFavoriteManage">@color/forest_light_green</item>
 		<item name="titleRowBackground">@color/forest_light_green</item>
 	</style>
+	
+	<dimen name="entryTreeIndent">15dip</dimen>
+	
 </resources>
