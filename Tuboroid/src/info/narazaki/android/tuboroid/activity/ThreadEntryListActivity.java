@@ -53,6 +53,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View.OnClickListener;
@@ -118,8 +119,8 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     private PositionData global_resume_data_ = null;
     private PositionData cache_resumed_pos_data_ = null;
     
-    // 検索・抽出から脱出した時の戻り先(0なら無効)
-    private int resume_entry_id_ = 0;
+    // 検索・抽出から脱出した時の戻り先(MAXなら無効)
+    private long resume_entry_id_ = Long.MAX_VALUE;
     private int resume_entry_y_ = 0;
     
     // アンカージャンプ中管理フラグ
@@ -214,14 +215,14 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         
         // フィルタ
         filter_ = new ParcelableFilterData();
-        resume_entry_id_ = 0;
+        resume_entry_id_ = Long.MAX_VALUE;
         resume_entry_y_ = 0;
         
         anchor_jump_stack_ = new LinkedList<Integer>();
         
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(INTENT_KEY_RESUME_ENTRY_ID)) {
-                resume_entry_id_ = savedInstanceState.getInt(INTENT_KEY_RESUME_ENTRY_ID);
+                resume_entry_id_ = savedInstanceState.getLong(INTENT_KEY_RESUME_ENTRY_ID);
             }
             if (savedInstanceState.containsKey(INTENT_KEY_RESUME_Y)) {
                 resume_entry_y_ = savedInstanceState.getInt(INTENT_KEY_RESUME_Y);
@@ -297,7 +298,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
             outState.putParcelable(INTENT_KEY_FILTER_PARCELABLE, filter_);
         }
         if (hasResumeItemPos()) {
-            outState.putInt(INTENT_KEY_RESUME_ENTRY_ID, resume_entry_id_);
+            outState.putLong(INTENT_KEY_RESUME_ENTRY_ID, resume_entry_id_);
             outState.putInt(INTENT_KEY_RESUME_Y, resume_entry_y_);
         }
         outState.putIntegerArrayList(INTENT_KEY_ANCHOR_JUMP_STACK, new ArrayList<Integer>(anchor_jump_stack_));
@@ -553,6 +554,26 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     // ////////////////////////////////////////////////////////////
     // アイテムタップ
     // ////////////////////////////////////////////////////////////
+    
+    private int doubleTupPosition;
+    private long doubleTupTime;
+    private static final int DOUBLE_TAP_TIMEOUT = ViewConfiguration.getDoubleTapTimeout();
+    
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+    	super.onListItemClick(l, v, position, id);
+    	
+    	long time = System.currentTimeMillis();
+    	if (time - doubleTupTime < DOUBLE_TAP_TIMEOUT && doubleTupPosition == position) {
+    		// ダブルタップ
+    		Toast.makeText(this, getString(R.string.ctx_menu_find_related_entries),
+    				Toast.LENGTH_SHORT).show();
+            ThreadEntryData entry_data = ((ThreadEntryListAdapter) list_adapter_).getData(position);
+            updateFilterByRelation(entry_data.entry_id_);
+    	}
+    	doubleTupTime = time;
+    	doubleTupPosition = position;
+    }
     
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menu_info) {
@@ -1123,10 +1144,11 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     /**
      * しおりを保存
      */
-    private void saveResumeEntryNum(int seved_entry_id, int saved_y) {
-        if (resume_entry_id_ == 0) {
+    private void saveResumeEntryNum(long seved_entry_id, int saved_y) {
+        if (resume_entry_id_ == Long.MAX_VALUE) {
             resume_entry_id_ = seved_entry_id;
             resume_entry_y_ = saved_y;
+        	//Log.d(TAG, "resume_entry_id: " + resume_entry_id_ + " y:"+resume_entry_y_);
         }
     }
     
@@ -1134,14 +1156,21 @@ public class ThreadEntryListActivity extends SearchableListActivity {
      * しおりのレジューム
      */
     private void resumeSavedEntryNum() {
-        if (resume_entry_id_ > 0) {
+        if (resume_entry_id_ != Long.MAX_VALUE) {
+        	
+        	final int pos = ((ThreadEntryListAdapter) list_adapter_).getMappedPosition(
+        			(int)resume_entry_id_ - 1);
+        	//Log.d(TAG, "resume_entry_id: " + resume_entry_id_ + " y:"+resume_entry_y_);
+            ListViewEx lvx = (ListViewEx)getListView();
+            lvx.setHighlight(pos, 750);
             if (hasResumeItemPos()) {
-                setResumeItemPos(resume_entry_id_ - 1, resume_entry_y_);
+                setResumeItemPos(pos, resume_entry_y_);
             }
             else {
-                setListPositionFromTop(resume_entry_id_ - 1, resume_entry_y_, null);
+                setListPositionFromTop(pos, resume_entry_y_, null);
             }
-            resume_entry_id_ = 0;
+            
+            resume_entry_id_ = Long.MAX_VALUE;
             resume_entry_y_ = 0;
         }
     }
@@ -1150,7 +1179,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     // フィルタモード
     // ////////////////////////////////////////////////////////////
     
-    private void onEntryFilterMode(int seved_entry_id, int saved_y) {
+    private void onEntryFilterMode(long seved_entry_id, int saved_y) {
         saveResumeEntryNum(seved_entry_id, saved_y);
         updateAnchorBar();
     }
@@ -1784,9 +1813,12 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     private void updateStringFilter(String filter_string) {
         if (!is_active_) return;
         
+        
         filter_ = new ParcelableFilterData(ParcelableFilterData.TYPE_STRING, filter_string, null, 0);
+        
         PositionData pos_data = getCurrentPosition();
-        onEntryFilterMode(pos_data.position_ + 1, pos_data.y_);
+        onEntryFilterMode(getListAdapter().getItemId(pos_data.position_), pos_data.y_);
+        
         final String filter_lc = filter_.string_filter_word_.toLowerCase();
         ((ThreadEntryListAdapter) list_adapter_).setFilter(new BaseFilter() {
             @Override
@@ -1816,7 +1848,8 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     private void updateFilterByAuthorID(final long target_entry_id, final String target_author_id) {
         if (!is_active_) return;
         
-        onEntryFilterMode((int) target_entry_id, 0);
+        ListViewEx lvx = (ListViewEx)getListView();
+        onEntryFilterMode(target_entry_id, lvx.getViewTop((int)target_entry_id-1, 0));
         
         filter_ = new ParcelableFilterData(ParcelableFilterData.TYPE_AUTHOR_ID, null, target_author_id, target_entry_id);
         
@@ -1832,11 +1865,21 @@ public class ThreadEntryListActivity extends SearchableListActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        setMappedListPosition((int) (target_entry_id - 1), null);
+                    	highlightByEntryId(target_entry_id, true);
                     }
                 });
             }
         });
+    }
+    
+    private void highlightByEntryId(long entry_id, boolean center) {
+    	
+        int position = ((ThreadEntryListAdapter) list_adapter_).getMappedPosition((int)entry_id - 1);
+    	ListViewEx lvx = (ListViewEx)getListView();
+    	lvx.setHighlight(position, 750);
+        if (center) {
+        	lvx.setSelectionFromTop(position, lvx.getMeasuredHeight()/2);
+        }
     }
     
     private void updateFilterByRelation(final long target_entry_id) {
@@ -1848,7 +1891,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        setMappedListPosition((int) (target_entry_id - 1), null);
+                    	highlightByEntryId(target_entry_id, true);
                     }
                 });
             }
@@ -1867,7 +1910,8 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     private void updateFilterByRelation(final long target_entry_id, final Runnable callback) {
         if (!is_active_) return;
         
-        onEntryFilterMode((int) target_entry_id, 0);
+        ListViewEx lvx = (ListViewEx)getListView();
+        onEntryFilterMode(target_entry_id, lvx.getViewTop((int)target_entry_id-1,0));
         
         filter_ = new ParcelableFilterData(ParcelableFilterData.TYPE_PELATION, null, null, target_entry_id);
         

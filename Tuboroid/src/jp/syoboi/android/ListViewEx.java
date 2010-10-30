@@ -133,6 +133,21 @@ public class ListViewEx extends ListView {
 		return false;
 	}
 	
+	public View getView(int position) {
+		int first = getFirstVisiblePosition();
+		int idx = position - first;
+		if (idx >= 0 && idx < getChildCount()) {
+			return getChildAt(idx);
+		}
+		return null;
+	}
+	
+	public int getViewTop(int position, int defaultValue) {
+		View view = getView(position);
+		if (view != null) return view.getTop();
+		return defaultValue;
+	}
+	
 	private class HighlightTimer extends CountDownTimer {
 		public HighlightTimer(long millisInFuture, long countDownInterval) {
 			super(millisInFuture, countDownInterval);
