@@ -479,18 +479,21 @@ abstract public class ThreadData implements NListAdapterDataInterface {
     }
     
     public static View initView(View view, TuboroidApplication.ViewConfig view_config) {
+    	
+    	int smallFontSize = (int)(view_config.thread_list_base_ * 0.8);
         TextView thread_id_view = (TextView) view.findViewById(R.id.thread_list_timestamp);
-        thread_id_view.setTextSize(view_config.thread_list_base_);
+        thread_id_view.setTextSize(smallFontSize);
         
         TextView thread_name_view = (TextView) view.findViewById(R.id.thread_list_name);
         thread_name_view.setTextSize(view_config.thread_list_base_);
+        
         thread_name_view.setMinLines(2);
         
         TextView online_count_view = (TextView) view.findViewById(R.id.thread_list_online_count);
-        online_count_view.setTextSize(view_config.thread_list_base_);
+        online_count_view.setTextSize(smallFontSize);
         
         TextView cache_count_view = (TextView) view.findViewById(R.id.thread_list_online_count_diff);
-        cache_count_view.setTextSize(view_config.thread_list_base_);
+        cache_count_view.setTextSize(smallFontSize);
         
         TextView online_speed_view = (TextView) view.findViewById(R.id.thread_list_online_count_speed);
         online_speed_view.setTextSize(view_config.thread_list_speed_);
