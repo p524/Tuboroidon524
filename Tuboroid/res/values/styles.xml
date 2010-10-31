@@ -470,7 +470,7 @@
 		<item name="textColorAuthorID2">#AF2C35</item>
 		<item name="textColorAuthorID3">#E73DA3</item>
 		<item name="headerColorDefault">#D7E2F9</item>
-		<item name="headerColorEmphasis">#FFE6FF</item>
+		<item name="headerColorEmphasis">#F5DAF5</item>
 		<item name="footerColorFavoriteManage">#C8C8C8</item>
 		<item name="entryLinkColor">#3E61B3</item>
 		<item name="entryLinkClickedBgColor">#F7B7F9</item>
