@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
 	android:orientation="horizontal">
-	<LinearLayout android:layout_height="fill_parent"
+	<jp.syoboi.android.ToolbarView android:layout_height="fill_parent"
 		android:orientation="vertical" style="@style/ToolBarBoxV">
 		<ScrollView android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:scrollbars="none"
@@ -12,9 +12,9 @@
 				<ImageButton android:id="@+id/button_tab_board_list"
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
 					android:src="@drawable/toolbar_btn_board_list" style="@style/ToolBarButtonWidgetV" />
-				<ImageButton android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:src="@drawable/toolbar_btn_favorite_list_3"
-					style="@style/ToolBarButtonWidgetV" />
+				<jp.syoboi.android.ToolbarButtonView android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:src="@drawable/toolbar_btn_favorite_list"
+					style="@style/ToolBarButtonWidgetV.currentTab" />
 				<ImageButton android:id="@+id/button_tab_recents"
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
 					android:src="@drawable/toolbar_btn_recent_list" style="@style/ToolBarButtonWidgetV" />
@@ -26,7 +26,7 @@
 		<ImageButton android:id="@+id/button_tab_check_update"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:src="@drawable/toolbar_btn_reload" style="@style/ToolBarButtonWidgetV" />
-	</LinearLayout>
+	</jp.syoboi.android.ToolbarView>
 	<LinearLayout android:layout_width="wrap_content"
 		android:layout_height="fill_parent" android:layout_weight="1">
 		<ListView android:id="@+id/android:list"

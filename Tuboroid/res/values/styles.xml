@@ -25,7 +25,7 @@
 	</style>
 
 	<style name="ToolBarButtonWidget">
-		<item name="android:background">@android:color/transparent</item>
+		<item name="android:background">@drawable/toolbar_button</item>
 		<item name="android:paddingTop">8dip</item>
 		<item name="android:paddingBottom">8dip</item>
 		<item name="android:paddingLeft">12dip</item>
@@ -33,14 +33,17 @@
 	</style>
 
 	<style name="ToolBarBox">
-		<item name="android:background">?attr/toolbarBackground</item>
+		<item name="android:paddingTop">2px</item>
+		<item name="android:paddingBottom">2px</item>
 		<item name="android:paddingLeft">2dip</item>
 		<item name="android:paddingRight">2dip</item>
-		<item name="android:layout_height">46dip</item>
+		<item name="android:gravity">center_vertical</item>
+		<item name="android:minHeight">46dip</item>
+		<item name="android:layout_height">wrap_content</item>
 	</style>
 
 	<style name="ToolBarButtonWidgetV">
-		<item name="android:background">@android:color/transparent</item>
+		<item name="android:background">@drawable/toolbar_button</item>
 		<item name="android:layout_width">42dip</item>
 		<item name="android:layout_height">42dip</item>
 		<item name="android:paddingTop">8dip</item>
@@ -49,9 +52,21 @@
 		<item name="android:paddingRight">8dip</item>
 	</style>
 
+	<style name="ToolBarButtonWidget.currentTab" parent="ToolBarButtonWidget">
+		<item name="android:focusable">false</item>
+		<item name="android:enabled">false</item>
+		<item name="android:checked">true</item>
+	</style>
+	<style name="ToolBarButtonWidgetV.currentTab" parent="ToolBarButtonWidgetV">
+		<item name="android:focusable">false</item>
+		<item name="android:enabled">false</item>
+		<item name="android:checked">true</item>
+	</style>
+
 	<style name="ToolBarBoxV">
-		<item name="android:background">?attr/toolbarBackground</item>
 		<item name="android:paddingTop">2dip</item>
+		<item name="android:paddingLeft">1px</item>
+		<item name="android:paddingRight">2px</item>
 		<item name="android:paddingBottom">2dip</item>
 		<item name="android:layout_width">46dip</item>
 	</style>
@@ -227,7 +242,7 @@
 	<style name="Widget.ProgressBar.Horizontal" parent="@android:style/Widget.ProgressBar.Horizontal">
 		<item name="android:progressDrawable">@drawable/progress_horizontal</item>
 	</style>
-
+	
 	<style name="Theme.TuboroidLight" parent="@android:style/Theme.Light">
 		<item name="android:windowBackground">@color/white</item>
 		<item name="android:listViewStyle">@style/Widget.ListView.Light</item>
@@ -253,10 +268,15 @@
 		<item name="entryLinkClickedBgColor">@color/dark_green</item>
 		<item name="entryTreeIndent">@dimen/entryTreeIndent</item>
 		<item name="drawableListDivider">@android:drawable/divider_horizontal_bright</item>
-		<item name="toolbarBackground">@drawable/toolbar_background</item>
+<!--		<item name="toolbarBackground">@drawable/toolbar_background</item>-->
 		<item name="boardRowBackground">@color/darker</item>
 		<item name="titleRowTextColor">@color/white</item>
 		<item name="titleRowBackground">@color/dark_gray</item>
+		<item name="toolbarTopBorderColor">#000000</item>
+		<item name="toolbarHighlightColor">#EBEBEB</item>
+		<item name="toolbarLightColor">#CACACA</item>
+		<item name="toolbarDarkColor">#A5A5A5</item>
+		<item name="toolbarBottomBorderColor">#929292</item>
 	</style>
 
 	<style name="Theme.TuboroidDark" parent="@android:style/Theme">
@@ -284,10 +304,15 @@
 		<item name="entryLinkClickedBgColor">@color/light_green</item>
 		<item name="entryTreeIndent">@dimen/entryTreeIndent</item>
 		<item name="drawableListDivider">@android:drawable/divider_horizontal_dim_dark</item>
-		<item name="toolbarBackground">@drawable/toolbar_background_r</item>
+<!--		<item name="toolbarBackground">@drawable/toolbar_background_r</item>-->
 		<item name="boardRowBackground">@color/lighter</item>
 		<item name="titleRowTextColor">@color/white</item>
 		<item name="titleRowBackground">@color/dark_gray</item>
+		<item name="toolbarTopBorderColor">#000000</item>
+		<item name="toolbarHighlightColor">#9E9E9E</item>
+		<item name="toolbarLightColor">#787878</item>
+		<item name="toolbarDarkColor">#5D5D5D</item>
+		<item name="toolbarBottomBorderColor">#4B4B4B</item>
 	</style>
 
 	<style name="Theme.TuboroidLightSimple" parent="@style/Theme.TuboroidLight">
@@ -321,6 +346,10 @@
 		<item name="headerColorEmphasis">@color/middle_dark_sepia</item>
 		<item name="footerColorFavoriteManage">@color/dark_sepia</item>
 		<item name="titleRowBackground">@color/darker_sepia</item>
+		<item name="toolbarHighlightColor">#CDB998</item>
+		<item name="toolbarLightColor">#B0915B</item>
+		<item name="toolbarDarkColor">#A78650</item>
+		<item name="toolbarBottomBorderColor">#8A7042</item>
 	</style>
 
 	<style name="Widget.ListView.IceBlue" parent="@android:style/Widget.ListView.White">
@@ -344,6 +373,10 @@
 		<item name="headerColorEmphasis">@color/ice_middle_blue</item>
 		<item name="footerColorFavoriteManage">@color/ice_dark_blue</item>
 		<item name="titleRowBackground">@color/ice_darker_blue</item>
+		<item name="toolbarHighlightColor">#D7EFFF</item>
+		<item name="toolbarLightColor">#B0DFFF</item>
+		<item name="toolbarDarkColor">#8CD1FF</item>
+		<item name="toolbarBottomBorderColor">#60BFFF</item>
 	</style>
 
 	<style name="Widget.ListView.Lime" parent="@android:style/Widget.ListView.White">
@@ -367,6 +400,10 @@
 		<item name="headerColorEmphasis">@color/lime_middle_darkgreen</item>
 		<item name="footerColorFavoriteManage">@color/lime_darkgreen</item>
 		<item name="titleRowBackground">@color/lime_darker_green</item>
+		<item name="toolbarHighlightColor">#C5FDC1</item>
+		<item name="toolbarLightColor">#98FB93</item>
+		<item name="toolbarDarkColor">#6DEB67</item>
+		<item name="toolbarBottomBorderColor">#4FDC47</item>
 	</style>
 
 	<style name="Theme.TuboroidSunset" parent="@style/Theme.TuboroidDark">
@@ -378,6 +415,10 @@
 		<item name="headerColorEmphasis">@color/sunset_middle_red</item>
 		<item name="footerColorFavoriteManage">@color/sunset_light_red</item>
 		<item name="titleRowBackground">@color/sunset_light_red</item>
+		<item name="toolbarHighlightColor">#CA6868</item>
+		<item name="toolbarLightColor">#BA4141</item>
+		<item name="toolbarDarkColor">#8C3131</item>
+		<item name="toolbarBottomBorderColor">#7C2C2C</item>
 	</style>
 
 	<style name="Theme.TuboroidMidnight" parent="@style/Theme.TuboroidDark">
@@ -389,6 +430,10 @@
 		<item name="headerColorEmphasis">@color/midnight_middle_blue</item>
 		<item name="footerColorFavoriteManage">@color/midnight_light_blue</item>
 		<item name="titleRowBackground">@color/midnight_light_blue</item>
+		<item name="toolbarHighlightColor">#6464CA</item>
+		<item name="toolbarLightColor">#3E3EB3</item>
+		<item name="toolbarDarkColor">#31318C</item>
+		<item name="toolbarBottomBorderColor">#272772</item>
 	</style>
 
 	<style name="Theme.TuboroidForest" parent="@style/Theme.TuboroidDark">
@@ -400,8 +445,48 @@
 		<item name="headerColorEmphasis">@color/forest_middle_green</item>
 		<item name="footerColorFavoriteManage">@color/forest_light_green</item>
 		<item name="titleRowBackground">@color/forest_light_green</item>
+		<item name="toolbarHighlightColor">#4DC14D</item>
+		<item name="toolbarLightColor">#39A439</item>
+		<item name="toolbarDarkColor">#318C31</item>
+		<item name="toolbarBottomBorderColor">#277027</item>
+	</style>
+
+	<style name="Theme.Tuboroidon" parent="@android:style/Theme.Light">
+		<item name="android:windowBackground">@color/white</item>
+		<item name="android:listViewStyle">@style/Widget.ListView.Light</item>
+		<item name="android:expandableListViewStyle">@style/Widget.ExpandableListView.Light</item>
+		<item name="android:listSeparatorTextViewStyle">@style/Widget.TextView.ListSeparator</item>
+		<item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
+		<item name="android:windowTitleStyle">@style/WindowTitle</item>
+		<item name="android:progressBarStyleHorizontal">@style/Widget.ProgressBar.Horizontal</item>
+		<item name="textColorPrimaryUnclickable">@color/black</item>
+		<item name="textColorSecondaryUnclickable">@color/dark_gray</item>
+		<item name="textColorAuthorName">#2E7A2E</item>
+		<item name="textColorThreadEmphasis">@color/dark_blue</item>
+		<item name="textColorEntryID1">#000000</item>
+		<item name="textColorEntryID2">#AF2C35</item>
+		<item name="textColorEntryID3">#E73DA3</item>
+		<item name="textColorAuthorID1">#000000</item>
+		<item name="textColorAuthorID2">#AF2C35</item>
+		<item name="textColorAuthorID3">#E73DA3</item>
+		<item name="headerColorDefault">#D7E2F9</item>
+		<item name="headerColorEmphasis">#FFE6FF</item>
+		<item name="footerColorFavoriteManage">#C8C8C8</item>
+		<item name="entryLinkColor">#3E61B3</item>
+		<item name="entryLinkClickedBgColor">#F7B7F9</item>
+		<item name="entryTreeIndent">@dimen/entryTreeIndent</item>
+		<item name="drawableListDivider">@android:drawable/divider_horizontal_bright</item>
+<!--		<item name="toolbarBackground">@drawable/toolbar_background</item>-->
+		<item name="boardRowBackground">@color/darker</item>
+		<item name="titleRowTextColor">@color/white</item>
+		<item name="titleRowBackground">#5772B0</item>
+		<item name="toolbarTopBorderColor">#000000</item>
+		<item name="toolbarHighlightColor">#E6EDFB</item>
+		<item name="toolbarLightColor">#9AAEDC</item>
+		<item name="toolbarDarkColor">#748FCF</item>
+		<item name="toolbarBottomBorderColor">#5772B0</item>
 	</style>
 	
-	<dimen name="entryTreeIndent">15dip</dimen>
+	<dimen name="entryTreeIndent">12dip</dimen>
 	
 </resources>

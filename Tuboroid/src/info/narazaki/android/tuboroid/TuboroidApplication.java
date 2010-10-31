@@ -312,6 +312,7 @@ public class TuboroidApplication extends NSimpleApplication {
         theme_id_map_.put(8, R.style.Theme_TuboroidSunset);
         theme_id_map_.put(9, R.style.Theme_TuboroidMidnight);
         theme_id_map_.put(10, R.style.Theme_TuboroidForest);
+        theme_id_map_.put(11, R.style.Theme_Tuboroidon);
     }
     
     public int applyTheme(final Activity activity) {
@@ -328,6 +329,7 @@ public class TuboroidApplication extends NSimpleApplication {
         case R.style.Theme_TuboroidSepia:
         case R.style.Theme_TuboroidIceBlue:
         case R.style.Theme_TuboroidLime:
+        case R.style.Theme_Tuboroidon:
             return true;
         }
         return false;

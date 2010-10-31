@@ -4,7 +4,7 @@
 	android:orientation="vertical">
 	<ListView android:id="@+id/android:list" android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:layout_weight="1" />
-	<LinearLayout android:id="@+id/toolbar"
+	<jp.syoboi.android.ToolbarView android:id="@+id/toolbar"
 		android:layout_width="fill_parent" android:orientation="horizontal"
 		style="@style/ToolBarBox">
 		<HorizontalScrollView android:layout_width="fill_parent"
@@ -27,5 +27,5 @@
 		<ImageButton android:id="@+id/button_toolbar_reload"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:src="@drawable/toolbar_btn_reload" style="@style/ToolBarButtonWidget" />
-	</LinearLayout>
+	</jp.syoboi.android.ToolbarView>
 </LinearLayout>

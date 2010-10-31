@@ -63,6 +63,7 @@
 	</array>
 
 	<array name="theme_list_titles">
+		<item>Tuboroidon</item>
 		<item>Light</item>
 		<item>Dark</item>
 		<item>Light(Simple)</item>
@@ -76,6 +77,7 @@
 	</array>
 
 	<string-array name="theme_list_values">
+		<item>11</item>
 		<item>1</item>
 		<item>2</item>
 		<item>3</item>

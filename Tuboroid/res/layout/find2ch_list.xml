@@ -14,7 +14,7 @@
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:src="@drawable/ic_btn_search" />
 	</LinearLayout>
-	<LinearLayout android:id="@+id/toolbar"
+	<jp.syoboi.android.ToolbarView android:id="@+id/toolbar"
 		android:layout_width="fill_parent" android:orientation="horizontal"
 		style="@style/ToolBarBox">
 		<HorizontalScrollView android:layout_width="fill_parent"
@@ -37,5 +37,5 @@
 			</LinearLayout>
 
 		</HorizontalScrollView>
-	</LinearLayout>
+	</jp.syoboi.android.ToolbarView>
 </LinearLayout>

@@ -23,4 +23,12 @@
         <attr name="titleRowTextColor" format="color" />
         <attr name="titleRowBackground" format="reference|color" />
     </declare-styleable>
+    
+    <declare-styleable name="ToolbarStyle">
+        <attr name="toolbarTopBorderColor" format="color" />
+        <attr name="toolbarHighlightColor" format="color" />
+        <attr name="toolbarLightColor" format="color" />
+        <attr name="toolbarDarkColor" format="color" />
+        <attr name="toolbarBottomBorderColor" format="color" />
+    </declare-styleable>
 </resources>

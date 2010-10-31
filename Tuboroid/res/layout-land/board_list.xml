@@ -2,16 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
 	android:orientation="horizontal">
-	<LinearLayout android:layout_height="fill_parent"
+	<jp.syoboi.android.ToolbarView android:layout_height="fill_parent"
 		android:orientation="vertical" style="@style/ToolBarBoxV">
 		<ScrollView android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:scrollbars="none"
 			android:layout_weight="1">
 			<LinearLayout android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:orientation="vertical">
-				<ImageButton android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:src="@drawable/toolbar_btn_board_list_3"
-					style="@style/ToolBarButtonWidgetV" />
+				<jp.syoboi.android.ToolbarButtonView android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:src="@drawable/toolbar_btn_board_list"
+					style="@style/ToolBarButtonWidgetV.currentTab" />
 				<ImageButton android:id="@+id/button_tab_favorite"
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
 					android:src="@drawable/toolbar_btn_favorite_list" style="@style/ToolBarButtonWidgetV" />
@@ -23,7 +23,7 @@
 		<ImageButton android:id="@+id/button_tab_find2ch"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:src="@drawable/toolbar_btn_find2ch" style="@style/ToolBarButtonWidgetV" />
-	</LinearLayout>
+	</jp.syoboi.android.ToolbarView>
 	<ExpandableListView android:id="@+id/android:list"
 		android:layout_width="wrap_content" android:layout_height="fill_parent"
 		android:layout_weight="1" android:drawSelectorOnTop="false" />
