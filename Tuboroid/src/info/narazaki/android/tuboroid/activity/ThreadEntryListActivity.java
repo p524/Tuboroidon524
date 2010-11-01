@@ -275,8 +275,8 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         getListView().addFooterView(footer_row);
 
 		//TypedArray ta = obtainStyledAttributes(new int [] { R.attr.toolbarDarkColor });
-		//getListView().setDivider(new ColorDrawable(ta.getColor(0, 0x40000000)));
-		getListView().setDivider(new ColorDrawable(0x60000000));
+		//getListView().setDivider(new ColorDrawable(ta.getColor(0, 0x40888888)));
+		getListView().setDivider(new ColorDrawable(0x80606060));
 
         ListViewScrollButton btn = (ListViewScrollButton)findViewById(R.id.button_scroll);
         if (btn != null) {
