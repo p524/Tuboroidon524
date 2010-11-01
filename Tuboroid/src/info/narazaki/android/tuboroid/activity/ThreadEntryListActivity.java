@@ -16,6 +16,7 @@ import info.narazaki.android.tuboroid.agent.thread.SQLiteAgent;
 import info.narazaki.android.tuboroid.data.IgnoreData;
 import info.narazaki.android.tuboroid.data.ThreadData;
 import info.narazaki.android.tuboroid.data.ThreadEntryData;
+import info.narazaki.android.tuboroid.dialog.ThreadEntryListConfigDialog;
 import info.narazaki.android.tuboroid.service.ITuboroidService;
 import info.narazaki.android.tuboroid.service.TuboroidService;
 import info.narazaki.android.tuboroid.service.TuboroidServiceTask;
@@ -31,7 +32,6 @@ import jp.syoboi.android.ListViewEx;
 import jp.syoboi.android.ListViewScrollButton;
 import jp.syoboi.android.ListViewScroller;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -39,7 +39,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
+import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
@@ -50,8 +51,8 @@ import android.text.ClipboardManager;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -64,6 +65,7 @@ import android.view.View.OnClickListener;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -71,6 +73,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.FrameLayout.LayoutParams;
 import android.widget.TextView.BufferType;
 
 public class ThreadEntryListActivity extends SearchableListActivity {
@@ -271,7 +274,10 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         footer_view_.setVisibility(View.GONE);
         getListView().addFooterView(footer_row);
 
-        // スクロールボタン
+		//TypedArray ta = obtainStyledAttributes(new int [] { R.attr.toolbarDarkColor });
+		//getListView().setDivider(new ColorDrawable(ta.getColor(0, 0x40000000)));
+		getListView().setDivider(new ColorDrawable(0x60000000));
+
         ListViewScrollButton btn = (ListViewScrollButton)findViewById(R.id.button_scroll);
         if (btn != null) {
         	btn.setListView(getListView());
@@ -282,11 +288,12 @@ public class ThreadEntryListActivity extends SearchableListActivity {
 				}
 			});
         }
-        
+
         // スクロールキー
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         use_scroll_key_ = pref.getBoolean("pref_use_page_up_down_key", true);
         
+        applyViewConfig(getListFontPref());
     }
     
     @Override
@@ -354,6 +361,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         });
         
         updateAnchorBar();
+        applyViewConfig(getListFontPref());
     }
     
     @Override
@@ -939,101 +947,65 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     // ダイアログ
     // ////////////////////////////////////////////////////////////
     private void showSizeSettingDialog() {
-    	Log.d(TAG, "showStyleDialog");
-    	final TuboroidApplication app = getTuboroidApplication();
-    	final ViewConfig view_config = new ViewConfig(app.view_config_);
     	
     	final ListView listView = getListView();
     	final int pos = listView.getFirstVisiblePosition();
-    	final Runnable restoreListPosition = new Runnable() {
-			@Override
-			public void run() {
-				listView.setSelectionFromTop(pos, 0);
-			}
-    	};
     	
-    	// ダイアログを作る
-    	Dialog dlg = new Dialog(this);
-    	dlg.setContentView(R.layout.thread_entry_config_dialog);
-    	dlg.setTitle(R.string.dialog_thread_entry_config_title);
-
-    	final TextView bodySizeText = (TextView)dlg.findViewById(R.id.body_size_text);
-    	final TextView headerSizeText = (TextView)dlg.findViewById(R.id.header_size_text);
-    	final TextView aaSizeText = (TextView)dlg.findViewById(R.id.aa_size_text);
-    	final String sizeFormat = getString(R.string.dialog_thread_entry_config_size_format);
-    	
-    	// ボタンが押されたときに設定を変える
-    	OnClickListener onClickListener = new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (v != null) {
-					final int fontSizeMin = 4;
-					switch (v.getId()) {
-					case R.id.body_inc:	
-						view_config.entry_body_++; 
-						break;
-					case R.id.body_dec:
-						if (view_config.entry_body_ > fontSizeMin) view_config.entry_body_--; 
-						break;
-					case R.id.header_inc:
-						view_config.entry_header_++;
-						break;
-					case R.id.header_dec:
-						if (view_config.entry_header_ > fontSizeMin) view_config.entry_header_--;
-						break;
-					case R.id.aa_inc:
-						view_config.entry_aa_body_++;
-						break;
-					case R.id.aa_dec:
-						if (view_config.entry_aa_body_ > fontSizeMin) view_config.entry_aa_body_--;
-						break;
+    	ThreadEntryListConfigDialog dlg = new ThreadEntryListConfigDialog(this,
+    			null,
+    			new ThreadEntryListConfigDialog.OnChangedListener() {
+					@Override
+					public void onChanged(ViewConfig config) {
+						listView.setSelectionFromTop(pos, 0);
+				    	ThreadEntryListAdapter adapter = (ThreadEntryListAdapter) list_adapter_;
+				    	adapter.setFontSize(new ViewConfig(config));
+				    	applyViewConfig(config);
+				    	listView.invalidateViews();
+				    	
+				    	listView.setSelectionFromTop(pos, 0);
 					}
-				}
-				bodySizeText.setText(String.format(sizeFormat, view_config.entry_body_));
-				headerSizeText.setText(String.format(sizeFormat, view_config.entry_header_));
-				aaSizeText.setText(String.format(sizeFormat, view_config.entry_aa_body_));
-		    	
-		    	//Log.d(TAG, "header:" + view_config.entry_header_
-				//	+ " body:" + view_config.entry_body_
-				//	+ " aa:" + view_config.entry_aa_body_);
-
-		    	ThreadEntryListAdapter adapter = (ThreadEntryListAdapter) list_adapter_;
-		    	adapter.setFontSize(new ViewConfig(view_config));
-		    	listView.invalidateViews();
-		    	
-		    	listView.post(restoreListPosition);
-			}
-		};
-		onClickListener.onClick(null);
-    	
-    	int [] btns = new int [] {
-    		R.id.body_inc, R.id.body_dec,
-    		R.id.header_inc, R.id.header_dec,
-    		R.id.aa_inc, R.id.aa_dec,
-    	};
-    	for (int id: btns) {
-    		dlg.findViewById(id).setOnClickListener(onClickListener);
-    	}
-    	
-    	// ダイアログが閉じられるときに設定を保存
-    	dlg.setOnCancelListener(new DialogInterface.OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				//int bodySize = Integer.parseInt(pref.getString("pref_font_size_entry_body", "13"));
-		    	SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-				Editor editor = pref.edit(); 
-		    	editor.putString("pref_font_size_entry_body", String.valueOf(view_config.entry_body_));
-		    	editor.putString("pref_font_size_entry_header", String.valueOf(view_config.entry_header_));
-		    	editor.putString("pref_font_size_entry_aa_body", String.valueOf(view_config.entry_aa_body_));
-		    	editor.commit();
-				app.reloadPreferences(true);
-			}
-		});
-    	
+    			}
+    	);
     	dlg.show();
-  		
+    }
+    
+    private void applyViewConfig(ViewConfig view_config) {
+    	ListView lv = getListView();
+    	Resources res = getResources();
     	
-    	//getListView().invalidateViews();
+    	lv.setDividerHeight(view_config.entry_divider > 0 ? 
+    			res.getDimensionPixelSize(R.dimen.entryDividerHeight) : 0);
+
+    	ListViewScrollButton sb = (ListViewScrollButton)findViewById(R.id.button_scroll);
+    	if (sb != null) {
+    		FrameLayout.LayoutParams lp = (LayoutParams) sb.getLayoutParams();
+    		lp.bottomMargin = res.getDimensionPixelSize(R.dimen.scrollButtonMargin);
+    		lp.leftMargin = lp.rightMargin = lp.bottomMargin;
+    		boolean visibility = true;
+    		boolean reverse = true;
+    		switch (view_config.scroll_button_position) {
+    		case ViewConfig.SCROLL_BUTTON_CENTER:
+        		lp.bottomMargin = res.getDimensionPixelSize(R.dimen.scrollButtonBottomMargin);
+        		lp.gravity = Gravity.CENTER | Gravity.BOTTOM;
+        		reverse = false;
+        		break;
+    		case ViewConfig.SCROLL_BUTTON_BOTTOM:
+        		lp.gravity = Gravity.CENTER | Gravity.BOTTOM;
+    			break;
+    		case ViewConfig.SCROLL_BUTTON_LB:
+    			lp.gravity = Gravity.LEFT | Gravity.BOTTOM;
+    			break;
+    		case ViewConfig.SCROLL_BUTTON_RB:
+    			lp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
+    			break;
+    		case ViewConfig.SCROLL_BUTTON_NONE:
+    			visibility = false;
+    			break;
+    		}
+    		sb.setReverse(reverse);
+    		sb.setLayoutParams(lp);
+    		sb.setVisibility(visibility ? View.VISIBLE : View.GONE);
+    	}
     }
     
     // ////////////////////////////////////////////////////////////

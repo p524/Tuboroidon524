@@ -1,99 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
 	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:paddingLeft="8dip"
-	android:paddingRight="8dip"
-	android:paddingBottom="8dip">
+	android:layout_height="wrap_content">
 
-	<TableLayout
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content">
-		<!-- header -->
-		<TableRow
-			android:layout_width="wrap_content"
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:paddingLeft="8dip"
+		android:paddingRight="8dip"
+		android:paddingBottom="8dip">
+
+
+		<TableLayout
+			android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
-			<TextView
-				android:text="@string/dialog_thread_entry_config_header"
-				android:textColor="#eee"
+			<!-- header -->
+			<TableRow
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"></TextView>
-			<TextView
-				android:id="@+id/header_size_text"
-				android:textColor="#eee"
-				android:paddingLeft="6dip"
-				android:layout_gravity="right"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"></TextView>
-			<Button
-				android:id="@+id/header_dec"
-				android:text="-"
-				android:layout_width="50dip"
-				android:layout_height="wrap_content"></Button>
-			<Button
-				android:id="@+id/header_inc"
-				android:text="+"
-				android:layout_width="50dip"
-				android:layout_height="wrap_content"></Button>
-		</TableRow>
+				android:layout_height="wrap_content">
+				<TextView
+					android:text="@string/dialog_thread_entry_config_header"
+					android:textColor="#eee"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"></TextView>
+				<TextView
+					android:id="@+id/header_size_text"
+					android:textColor="#eee"
+					android:paddingLeft="6dip"
+					android:layout_gravity="right"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"></TextView>
+				<Button
+					android:id="@+id/header_dec"
+					android:text="-"
+					android:layout_width="50dip"
+					android:layout_height="wrap_content"></Button>
+				<Button
+					android:id="@+id/header_inc"
+					android:text="+"
+					android:layout_width="50dip"
+					android:layout_height="wrap_content"></Button>
+			</TableRow>
 
-		<!-- body -->
-		<TableRow
-			android:layout_width="wrap_content"
+			<!-- body -->
+			<TableRow
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+				<TextView
+					android:text="@string/dialog_thread_entry_config_body"
+					android:textColor="#eee"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"></TextView>
+				<TextView
+					android:id="@+id/body_size_text"
+					android:textColor="#eee"
+					android:paddingLeft="6dip"
+					android:layout_gravity="right"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"></TextView>
+				<Button
+					android:id="@+id/body_dec"
+					android:text="-"
+					android:layout_width="50dip"
+					android:layout_height="wrap_content"></Button>
+				<Button
+					android:id="@+id/body_inc"
+					android:text="+"
+					android:layout_width="50dip"
+					android:layout_height="wrap_content"></Button>
+			</TableRow>
+
+			<!-- AA -->
+			<TableRow
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+				<TextView
+					android:text="@string/dialog_thread_entry_config_aa"
+					android:textColor="#eee"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"></TextView>
+				<TextView
+					android:id="@+id/aa_size_text"
+					android:textColor="#eee"
+					android:paddingLeft="6dip"
+					android:layout_gravity="right"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"></TextView>
+				<Button
+					android:id="@+id/aa_dec"
+					android:text="-"
+					android:layout_width="50dip"
+					android:layout_height="wrap_content"></Button>
+				<Button
+					android:id="@+id/aa_inc"
+					android:text="+"
+					android:layout_width="50dip"
+					android:layout_height="wrap_content"></Button>
+			</TableRow>
+
+		</TableLayout>
+		<!-- 表示設定 -->
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
+			<CheckBox
+				android:id="@+id/entry_divider"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/dialog_thread_entry_config_divider" />
 			<TextView
-				android:text="@string/dialog_thread_entry_config_body"
 				android:textColor="#eee"
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"></TextView>
-			<TextView
-				android:id="@+id/body_size_text"
-				android:textColor="#eee"
-				android:paddingLeft="6dip"
-				android:layout_gravity="right"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"></TextView>
-			<Button
-				android:id="@+id/body_dec"
-				android:text="-"
-				android:layout_width="50dip"
-				android:layout_height="wrap_content"></Button>
-			<Button
-				android:id="@+id/body_inc"
-				android:text="+"
-				android:layout_width="50dip"
-				android:layout_height="wrap_content"></Button>
-		</TableRow>
+				android:layout_height="wrap_content"
+				android:text="@string/dialog_thread_entry_config_show_scroll_button" />
+			<Spinner
+				android:id="@+id/scroll_button_position"
+				android:prompt="@string/dialog_thread_entry_config_show_scroll_button"
+				android:entries="@array/scroll_button_position"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
+		</LinearLayout>
 
-		<!-- AA -->
-		<TableRow
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
-			<TextView
-				android:text="@string/dialog_thread_entry_config_aa"
-				android:textColor="#eee"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"></TextView>
-			<TextView
-				android:id="@+id/aa_size_text"
-				android:textColor="#eee"
-				android:paddingLeft="6dip"
-				android:layout_gravity="right"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"></TextView>
-			<Button
-				android:id="@+id/aa_dec"
-				android:text="-"
-				android:layout_width="50dip"
-				android:layout_height="wrap_content"></Button>
-			<Button
-				android:id="@+id/aa_inc"
-				android:text="+"
-				android:layout_width="50dip"
-				android:layout_height="wrap_content"></Button>
-		</TableRow>
-
-	</TableLayout>
-</LinearLayout>
+	</LinearLayout>
+</ScrollView>

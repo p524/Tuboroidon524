@@ -488,5 +488,8 @@
 	</style>
 	
 	<dimen name="entryTreeIndent">12dip</dimen>
+	<dimen name="entryDividerHeight">1dip</dimen>
+	<dimen name="scrollButtonBottomMargin">90dip</dimen>
+	<dimen name="scrollButtonMargin">6dip</dimen>
 	
 </resources>

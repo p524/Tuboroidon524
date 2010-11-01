@@ -33,4 +33,12 @@
 		<item>1行/1レス単位</item>
 	</array>
 
+	<array name="scroll_button_position">
+		<item>無し</item>
+		<item>下</item>
+		<item>ちょっと上</item>
+		<item>左下</item>
+		<item>右下</item>
+	</array>
+
 </resources>

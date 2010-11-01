@@ -34,13 +34,24 @@
 	<LinearLayout android:layout_width="wrap_content"
 		android:layout_height="fill_parent" android:orientation="vertical"
 		android:layout_weight="1">
-		<jp.syoboi.android.ListViewEx android:id="@+id/android:list"
+		<FrameLayout
 			android:layout_weight="1"
-			android:layout_width="fill_parent" android:layout_height="fill_parent"
-			android:choiceMode="none" android:clickable="false"
-			android:listSelector="@android:color/transparent"
-			android:divider="@null"
-			android:fastScrollEnabled="true" />
+			android:layout_width="fill_parent" android:layout_height="fill_parent">
+			<jp.syoboi.android.ListViewEx android:id="@+id/android:list"
+				android:layout_width="fill_parent" android:layout_height="fill_parent"
+				android:choiceMode="none" android:clickable="false"
+				android:listSelector="@android:color/transparent"
+				android:divider="@null"
+				android:fastScrollEnabled="true" />
+			<jp.syoboi.android.ListViewScrollButton
+				android:id="@+id/button_scroll"
+				android:focusable="false"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:background="@drawable/ic_btn_scroll"
+				android:layout_gravity="center|bottom"/>
+		</FrameLayout>
+			
 		<HorizontalScrollView android:id="@+id/entry_anchor_stack_box"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"
 			android:background="@drawable/anchor_stack_box_background"

@@ -98,6 +98,9 @@ public class TuboroidApplication extends NSimpleApplication {
         
         view_config_.entry_aa_body_ = Integer.parseInt(pref.getString("pref_font_size_entry_aa_body", "12"));
         
+        view_config_.entry_divider = pref.getInt(ViewConfig.PREF_ENTRY_DIVIDER, 1);
+        view_config_.scroll_button_position = pref.getInt(ViewConfig.PREF_SCROLL_BUTTON_POSITION, ViewConfig.SCROLL_BUTTON_CENTER);
+        
         view_config_.use_back_anchor_ = pref.getBoolean("pref_use_back_anchor", false);
         
         final float scale = getResources().getDisplayMetrics().density;
@@ -349,6 +352,15 @@ public class TuboroidApplication extends NSimpleApplication {
     // フォント
     // //////////////////////////////////////////////////
     public static class ViewConfig {
+    	public static final String PREF_ENTRY_DIVIDER 			= "pref_entry_divider";
+    	public static final String PREF_SCROLL_BUTTON_POSITION	= "pref_scroll_button_position";
+    	
+    	public static final int SCROLL_BUTTON_NONE 		= 0;
+    	public static final int SCROLL_BUTTON_CENTER 	= 1;
+    	public static final int SCROLL_BUTTON_LB 		= 2;
+    	public static final int SCROLL_BUTTON_BOTTOM	= 3;
+    	public static final int SCROLL_BUTTON_RB 		= 4;
+    	
         private final TuboroidApplication app_;
         public int board_list_;
         public int thread_list_base_;
@@ -357,6 +369,8 @@ public class TuboroidApplication extends NSimpleApplication {
         public int entry_body_;
         public int entry_aa_body_;
         private Typeface aa_font_;
+        public int scroll_button_position;
+        public int entry_divider;
         
         public int thumbnail_size_;
         public int real_thumbnail_size_;
@@ -389,6 +403,8 @@ public class TuboroidApplication extends NSimpleApplication {
             real_thumbnail_size_ = obj.real_thumbnail_size_;
             touch_margin_ = obj.touch_margin_;
             scrolling_amount_ = obj.scrolling_amount_;
+            scroll_button_position = obj.scroll_button_position;
+            entry_divider = obj.entry_divider;
         }
         
         public synchronized Typeface getAAFont() {

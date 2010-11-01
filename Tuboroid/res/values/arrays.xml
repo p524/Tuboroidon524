@@ -187,5 +187,13 @@
 		<item>256</item>
 	</string-array>
 
+	<integer-array name="scroll_button_position_value">
+		<item>0</item>
+		<item>3</item>
+		<item>1</item>
+		<item>2</item>
+		<item>4</item>
+	</integer-array>
+
 
 </resources>

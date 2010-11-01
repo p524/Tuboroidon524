@@ -4,7 +4,7 @@
 	<item
 		android:icon="@android:drawable/ic_menu_preferences"
 		android:id="@+id/menu_size_setting"
-		android:title="@string/label_menu_font_setting"
+		android:title="@string/label_menu_thread_entry_config"
 		android:alphabeticShortcut="p"
 		android:orderInCategory="100"></item>
 </menu>

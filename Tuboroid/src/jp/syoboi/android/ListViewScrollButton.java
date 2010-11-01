@@ -19,6 +19,7 @@ public class ListViewScrollButton extends ImageButton {
 	private int			scrollSpeedY;
 	private Scroller	scroller;
 	private float		moveY;
+	private boolean 	reverse;
 	
 	public ListViewScrollButton(Context context, AttributeSet attrs,
 			int defStyle) {
@@ -31,6 +32,10 @@ public class ListViewScrollButton extends ImageButton {
 
 	public void setListView(ListView listView) {
 		this.listView = listView;
+	}
+	
+	public void setReverse(boolean b) {
+		this.reverse = b;
 	}
 	
 	@Override
@@ -58,7 +63,7 @@ public class ListViewScrollButton extends ImageButton {
 					scroller = new Scroller(listView, 3*60*1000, 1000/30);
 					scroller.start();
 				}
-				scroller.scrollSpeedY = scrollSpeedY;
+				scroller.scrollSpeedY = (reverse ? -scrollSpeedY : scrollSpeedY);
 			}
 			return true;
 		case MotionEvent.ACTION_UP: 
