@@ -35,6 +35,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.format.DateFormat;
 import android.text.style.ClickableSpan;
 import android.text.style.TextAppearanceSpan;
 import android.text.style.URLSpan;
@@ -67,6 +68,9 @@ public class ThreadEntryData implements NListAdapterDataInterface {
             | Pattern.DOTALL);
     private static final Pattern SHRINK_WHITESPACE_PATTERN = Pattern.compile("  +");
     public static final String IS_AA = "1";
+    
+    // 年を表示するかどうかの判定に
+    private static String dateBorder = getNewDateBorder();
     
     public long entry_id_;	// レス番
     
@@ -283,6 +287,8 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     	final ThreadEntryData [] data_list = new ThreadEntryData [data_list_size];
         data_list_orig.toArray(data_list);
         HashMap<String, ThreadEntryData> author_id_map = new HashMap<String, ThreadEntryData>(data_list_size);
+        
+        dateBorder = getNewDateBorder();
         
         callback.onProgress(1, 8);
         for (ThreadEntryData data : data_list) {
@@ -793,9 +799,10 @@ public class ThreadEntryData implements NListAdapterDataInterface {
             if (author_mail_length > 0) {
                 author_mail_begin = buf.length();
                 author_mail_length += 2;
-                buf.append('[');
+                //buf.append('[');
                 buf.append(author_mail_);
-                buf.append("] ");
+                buf.append(' ');
+                //buf.append("] ");
                 author_mail_span = style.author_mail_style_span_;
             }
         }
@@ -803,8 +810,14 @@ public class ThreadEntryData implements NListAdapterDataInterface {
         // //////////////////////////////
         // 時間
         final int entry_time_begin = buf.length();
-        final int entry_time_length = entry_time_.length();
-        buf.append(entry_time_);
+        final int entry_time_length;
+        if (dateBorder.compareTo(entry_time_) > 0) {
+	        entry_time_length = entry_time_.length();
+	        buf.append(entry_time_);
+        } else {
+	        entry_time_length = entry_time_.length()-5;
+	        buf.append(entry_time_.substring(5));
+        }
         buf.append(' ');
         
         // //////////////////////////////
@@ -814,8 +827,9 @@ public class ThreadEntryData implements NListAdapterDataInterface {
         int author_id_length = 0;
         int author_id_count = 0;
         
-        buf.append("ID:");
-        final int author_id_prefix_length = 3;
+        //buf.append("ID:");
+        //final int author_id_prefix_length = 3;
+        final int author_id_prefix_length = 0;
         
         if (author_id_real_length > 0) {
             author_id_length = author_id_real_length;
@@ -966,6 +980,11 @@ public class ThreadEntryData implements NListAdapterDataInterface {
             }
         }
         entry_rev_cache_ = new SpannableCache(spanned, style, view_config);
+    }
+
+    private static String getNewDateBorder() {
+    	return (String) DateFormat.format("yyyy/MM/dd", 
+    			System.currentTimeMillis() - (long)31*24*60*60*1000);
     }
     
     static public class ViewStyle {

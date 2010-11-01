@@ -132,7 +132,7 @@
 	</style>
 	<style name="EntryListAuthorIDPrefix">
 		<item name="android:textColor">?attr/textColorPrimaryUnclickable</item>
-		<item name="android:textStyle">bold</item>
+<!--		<item name="android:textStyle">bold</item>-->
 	</style>
 	<style name="EntryListAuthorID1">
 		<item name="android:textColor">?attr/textColorAuthorID1</item>
@@ -460,13 +460,13 @@
 		<item name="android:windowTitleStyle">@style/WindowTitle</item>
 		<item name="android:progressBarStyleHorizontal">@style/Widget.ProgressBar.Horizontal</item>
 		<item name="textColorPrimaryUnclickable">@color/black</item>
-		<item name="textColorSecondaryUnclickable">@color/dark_gray</item>
+		<item name="textColorSecondaryUnclickable">#606060</item>
 		<item name="textColorAuthorName">#2E7A2E</item>
 		<item name="textColorThreadEmphasis">@color/dark_blue</item>
 		<item name="textColorEntryID1">#000000</item>
 		<item name="textColorEntryID2">#AF2C35</item>
 		<item name="textColorEntryID3">#E73DA3</item>
-		<item name="textColorAuthorID1">#000000</item>
+		<item name="textColorAuthorID1">#606060</item>
 		<item name="textColorAuthorID2">#AF2C35</item>
 		<item name="textColorAuthorID3">#E73DA3</item>
 		<item name="headerColorDefault">#D7E2F9</item>
