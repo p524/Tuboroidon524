@@ -57,11 +57,13 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.EditText;
@@ -289,6 +291,62 @@ public class ThreadEntryListActivity extends SearchableListActivity {
 			});
         }
 
+        // ダブルタップ
+        getListView().setOnTouchListener(new OnTouchListener() {
+            int doubleTapPosition;
+            long doubleTapTime;
+            float downX;
+            float downY;
+            boolean doubleTap;
+            final ListView listView = getListView();
+            final int DOUBLE_TAP_TIMEOUT = ViewConfiguration.getDoubleTapTimeout();
+                
+            @Override
+			public boolean onTouch(View v, MotionEvent event) {
+            	switch (event.getAction()) {
+            	case MotionEvent.ACTION_DOWN:
+            		doubleTap = (event.getEventTime() - doubleTapTime) < DOUBLE_TAP_TIMEOUT;
+            		if (doubleTap) {
+            			// ダブルタップの時間制限内に押され、
+            			// 1回目のダウンと2回目のダウンで同じアイテムがクリックされたか判定して
+            			// 同じならばダブルタップ判定
+            			int firstPosition = pointToPosition(downX, downY);
+            			doubleTapPosition = pointToPosition(event.getX(), event.getY());
+            			doubleTap = firstPosition == doubleTapPosition; 
+            		}
+            		downX = event.getX();
+            		downY = event.getY();
+            		doubleTapTime = event.getEventTime();
+            		break;
+            	case MotionEvent.ACTION_MOVE:
+            		if (Math.abs(event.getX() - downX) > 20 ||
+            				Math.abs(event.getY() - downY) > 20) {
+            			doubleTap = false;
+            		}
+            		break;
+            	case MotionEvent.ACTION_UP:
+            		if (doubleTap) {
+            			// ダブルタップ
+			    		Toast.makeText(ThreadEntryListActivity.this, 
+			    				getString(R.string.ctx_menu_find_related_entries),
+			    				Toast.LENGTH_SHORT).show();
+			    		if (doubleTapPosition != ListView.INVALID_POSITION) {
+				            ThreadEntryData entry_data = ((ThreadEntryListAdapter) list_adapter_).getData(doubleTapPosition);
+				            if (entry_data != null) {
+				            	updateFilterByRelation(entry_data.entry_id_);
+				            }
+		            		return true;
+			    		}
+            		}
+            		break;
+            	}
+				return false;
+			}
+            public int pointToPosition(float x, float y) {
+            	return listView.pointToPosition((int)x, (int)y);
+            }
+		});
+        
         // スクロールキー
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         use_scroll_key_ = pref.getBoolean("pref_use_page_up_down_key", true);
@@ -581,26 +639,6 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     // ////////////////////////////////////////////////////////////
     // アイテムタップ
     // ////////////////////////////////////////////////////////////
-    
-    private int doubleTupPosition;
-    private long doubleTupTime;
-    private static final int DOUBLE_TAP_TIMEOUT = ViewConfiguration.getDoubleTapTimeout();
-    
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-    	super.onListItemClick(l, v, position, id);
-    	
-    	long time = System.currentTimeMillis();
-    	if (time - doubleTupTime < DOUBLE_TAP_TIMEOUT && doubleTupPosition == position) {
-    		// ダブルタップ
-    		Toast.makeText(this, getString(R.string.ctx_menu_find_related_entries),
-    				Toast.LENGTH_SHORT).show();
-            ThreadEntryData entry_data = ((ThreadEntryListAdapter) list_adapter_).getData(position);
-            updateFilterByRelation(entry_data.entry_id_);
-    	}
-    	doubleTupTime = time;
-    	doubleTupPosition = position;
-    }
     
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menu_info) {
