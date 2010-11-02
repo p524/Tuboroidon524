@@ -811,12 +811,15 @@ public class ThreadEntryData implements NListAdapterDataInterface {
         // 時間
         final int entry_time_begin = buf.length();
         final int entry_time_length;
-        if (dateBorder.compareTo(entry_time_) > 0) {
-	        entry_time_length = entry_time_.length();
-	        buf.append(entry_time_);
-        } else {
+        // 0000/00/00(/) 00:00:00 の形式で1ヶ月以内のときだけ年を省略
+        if (entry_time_.length() == 12 && dateBorder.compareTo(entry_time_) < 0) {
+        	// 年を省略
 	        entry_time_length = entry_time_.length()-5;
 	        buf.append(entry_time_.substring(5));
+        }
+        else {
+	        entry_time_length = entry_time_.length();
+	        buf.append(entry_time_);
         }
         buf.append(' ');
         
