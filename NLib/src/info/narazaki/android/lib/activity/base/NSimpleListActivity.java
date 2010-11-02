@@ -204,8 +204,8 @@ abstract public class NSimpleListActivity extends NListActivity {
     
     protected void resumeItemPos(Runnable callback) {
         if (resume_data_ != null && list_adapter_ != null) {
-            setListPositionFromTop(resume_data_.position_, resume_data_.y_, callback);
-            return;
+            //setListPositionFromTop(resume_data_.position_, resume_data_.y_, callback);
+        	getListView().setSelectionFromTop(resume_data_.position_, resume_data_.y_);
         }
         if (callback != null) callback.run();
     }

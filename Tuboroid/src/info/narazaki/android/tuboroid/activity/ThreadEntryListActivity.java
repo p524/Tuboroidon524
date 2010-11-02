@@ -1547,7 +1547,6 @@ public class ThreadEntryListActivity extends SearchableListActivity {
             global_resume_data_ = null;
             return;
         }
-        
         PositionData data = getMappedPosition(global_resume_data_);
         if (data == null) return;
         setResumeItemPos(data.position_, data.y_);
@@ -1558,7 +1557,8 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         showFooterView();
         hasInitialData(true);
         inflateMappedPosition();
-        postListViewAndUiThread(new Runnable() {
+        
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 resumeItemPos(new Runnable() {
