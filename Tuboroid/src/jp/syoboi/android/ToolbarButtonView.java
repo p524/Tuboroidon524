@@ -1,7 +1,6 @@
 package jp.syoboi.android;
 
 import info.narazaki.android.tuboroid.R;
-import jp.syoboi.android.ToolbarView.ToolbarStyle;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -11,33 +10,38 @@ import android.util.AttributeSet;
 import android.widget.Checkable;
 import android.widget.ImageButton;
 
+
+// checked = true で選択状態っぽい描画をするだけのラジオボタンっぽい動作のImageButton
+// (R.styleable.ToolbarStyle の色を使って選択状態っぽい描画をする)
 public class ToolbarButtonView extends ImageButton implements Checkable {
 	
 	private ToolbarButtonStyle style;
 	private boolean isChecked;
-	private static final int[] CHECKED_STATE_SET = {
-		android.R.attr.state_checked
-	};
+//	private static final int[] CHECKED_STATE_SET = {
+//		android.R.attr.state_checked
+//	};
 	
 	public ToolbarButtonView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		initButton(context, attrs);
+        super(context, attrs, defStyle);
+		
+        // android:checked と android:focusable の属性を反映
+        // android:checked は ImageButton に無いので必要だけど
+        // android:focusable は ImageButton の実装がバグってるのでここで処理...
+        // obtainStyledAttribues に渡す int の配列の値はソートされている必要がある
+        TypedArray a = context.obtainStyledAttributes(
+                attrs, 
+                new int [] { android.R.attr.focusable, android.R.attr.checked });
+	
+        setFocusable(a.getBoolean(0, true));
+        setChecked(a.getBoolean(1, false));
+
+        style = new ToolbarButtonStyle(context, attrs);
 	}
 	
 	public ToolbarButtonView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		initButton(context, attrs);
+		this(context, attrs, 0);
 	}
 	
-	public void initButton(Context context, AttributeSet attrs) {
-        TypedArray a = context.obtainStyledAttributes(
-                    attrs, new int [] {0});
-		
-		style = new ToolbarButtonStyle(context, attrs);
-		setChecked(attrs.getAttributeBooleanValue(0, false));
-		//setChecked(true);
-	}
-
 	@Override
 	protected void onDraw(Canvas canvas) {
 		if (isChecked) {
@@ -46,14 +50,6 @@ public class ToolbarButtonView extends ImageButton implements Checkable {
 		}
 		super.onDraw(canvas);
 	}
-//	@Override
-//	protected int[] onCreateDrawableState(int extraSpace) {
-//		final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
-//		if (isChecked()) {
-//			mergeDrawableStates(drawableState, CHECKED_STATE_SET);
-//		}
-//		return drawableState;
-//	}
 
 	@Override
 	public boolean isChecked() {
