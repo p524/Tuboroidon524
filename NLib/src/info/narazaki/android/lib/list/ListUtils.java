@@ -27,7 +27,8 @@ public class ListUtils {
         return result;
     }
 	
-	// ���split�̍œK����
+	// 上のsplitの最適化版
+	// 戻り値は分割された数(result.lengthより大きくなることもある)
     public static int split(String with, String orig, String [] result) {
     	final int count_max = result.length;
         final int token_len = with.length();
