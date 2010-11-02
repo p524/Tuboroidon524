@@ -558,14 +558,20 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && anchor_jump_stack_.size() > 0) {
-            exitAnchorJumpMode();
-            return true;
-        }
-        if (keyCode == KeyEvent.KEYCODE_BACK && filter_.type_ != ParcelableFilterData.TYPE_NONE) {
-            cancelSearchBar();
-            return true;
-        }
+    	if (keyCode == KeyEvent.KEYCODE_BACK) {
+    		// BACKキーが押されたときの処理
+    		
+    		// アンカの履歴があれば戻す
+	        if (anchor_jump_stack_.size() > 0) {
+	            exitAnchorJumpMode();
+	            return true;
+	        }
+	        // フィルタされていれば戻す
+	        if (filter_.type_ != ParcelableFilterData.TYPE_NONE || isVisibleSearchBar()) {
+	            cancelSearchBar();
+	            return true;
+	        }
+    	}
         return super.onKeyDown(keyCode, event);
     }
     

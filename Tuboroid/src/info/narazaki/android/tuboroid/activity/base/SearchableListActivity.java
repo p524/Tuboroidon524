@@ -81,6 +81,10 @@ abstract public class SearchableListActivity extends TuboroidListActivity {
         }
     }
     
+    public boolean isVisibleSearchBar() {
+    	return search_bar_visible_;
+    }
+    
     protected void createSearchButton() {
         final EditText edit_text = getSearchEditView();
         edit_text.setOnEditorActionListener(new TextView.OnEditorActionListener() {
