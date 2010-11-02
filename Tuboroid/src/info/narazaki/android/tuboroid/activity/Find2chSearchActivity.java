@@ -42,6 +42,8 @@ public class Find2chSearchActivity extends TuboroidListActivity {
     private Find2chKeyData key_data_;
     private String default_keyword_;
     
+    private EditText edit_text;
+    
     // ////////////////////////////////////////////////////////////
     // ステート管理系
     // ////////////////////////////////////////////////////////////
@@ -66,13 +68,17 @@ public class Find2chSearchActivity extends TuboroidListActivity {
             }
         }
         
+        edit_text = (EditText) findViewById(R.id.edit_search_find2ch);
+        edit_text.requestFocus();
+        
         // ツールバーボタンの初期化
         createToolbarButtons();
+        
+        
     }
     
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        EditText edit_text = (EditText) findViewById(R.id.edit_search_find2ch);
         outState.putString(INTENT_KEY_SEARCH_KEYWORD, edit_text.getText().toString());
         super.onSaveInstanceState(outState);
     }
@@ -100,7 +106,6 @@ public class Find2chSearchActivity extends TuboroidListActivity {
     
     @Override
     protected void onFirstDataRequired() {
-        EditText edit_text = (EditText) findViewById(R.id.edit_search_find2ch);
         if (default_keyword_ != null) {
             edit_text.setText(default_keyword_);
             if (default_keyword_.length() > 0) {
@@ -112,7 +117,6 @@ public class Find2chSearchActivity extends TuboroidListActivity {
     
     @Override
     protected void onResumeDataRequired() {
-        EditText edit_text = (EditText) findViewById(R.id.edit_search_find2ch);
         String keyword = edit_text.getText().toString();
         if (keyword.length() > 0) {
             updateSearch(keyword, false);
@@ -137,7 +141,6 @@ public class Find2chSearchActivity extends TuboroidListActivity {
     @Override
     protected void createToolbarButtons() {
         super.createToolbarButtons();
-        final EditText edit_text = (EditText) findViewById(R.id.edit_search_find2ch);
         edit_text.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int action_id, KeyEvent event) {
@@ -159,7 +162,6 @@ public class Find2chSearchActivity extends TuboroidListActivity {
     }
     
     private void onSubmitSearchBar() {
-        EditText edit_text = (EditText) findViewById(R.id.edit_search_find2ch);
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(edit_text.getWindowToken(), 0);
         updateSearch(edit_text.getText().toString(), true);
