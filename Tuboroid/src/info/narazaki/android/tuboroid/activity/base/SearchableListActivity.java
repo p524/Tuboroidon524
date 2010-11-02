@@ -73,6 +73,7 @@ abstract public class SearchableListActivity extends TuboroidListActivity {
         if (show) {
             search_bar_visible_ = true;
             search_bar.setVisibility(View.VISIBLE);
+            search_bar.requestFocus();
         }
         else {
             search_bar_visible_ = false;
