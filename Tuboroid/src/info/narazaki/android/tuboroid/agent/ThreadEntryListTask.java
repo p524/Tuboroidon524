@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.os.Debug;
 import android.util.Log;
 
 abstract public class ThreadEntryListTask {
@@ -148,26 +149,27 @@ abstract public class ThreadEntryListTask {
         
         long thread_cur_count = 0;
         try {
+        	String [] tokens = new String [9];
             while (true) {
                 String line = reader.readLine();
                 if (line == null) break;
                 
                 thread_cur_count++;
-                ArrayList<String> tokens = ListUtils.split("<>", line);
+                int token_count = ListUtils.split("<>", line, tokens);
                 
                 ThreadEntryData data;
-                if (tokens.size() >= 8) {
-                    String author_name = tokens.get(0);
-                    String author_mail = tokens.get(1);
-                    String entry_body = tokens.get(2);
-                    String author_id = tokens.get(3);
-                    String author_be = tokens.get(4);
-                    String entry_time = tokens.get(5);
-                    String entry_is_aa = tokens.get(6);
-                    String forward_anchor_list_str = tokens.get(7);
+                if (token_count >= 8) {
+                    String author_name = tokens[0];
+                    String author_mail = tokens[1];
+                    String entry_body = tokens[2];
+                    String author_id = tokens[3];
+                    String author_be = tokens[4];
+                    String entry_time = tokens[5];
+                    String entry_is_aa = tokens[6];
+                    String forward_anchor_list_str = tokens[7];
                     
-                    if (thread_cur_count == 1 && tokens.size() >= 9 && tokens.get(8).length() > 0) {
-                        thread_data.thread_name_ = tokens.get(8);
+                    if (thread_cur_count == 1 && token_count >= 9 && tokens[8].length() > 0) {
+                        thread_data.thread_name_ = tokens[8];
                     }
                     
                     entry_body = HtmlUtils.unescapeHtml(entry_body.replace("<br>", "\n"));
@@ -208,7 +210,7 @@ abstract public class ThreadEntryListTask {
                 e.printStackTrace();
             }
         }
-        
+              
         if (reload) {
             reloadOnlineThreadEntryList(thread_data, null, callback);
         }

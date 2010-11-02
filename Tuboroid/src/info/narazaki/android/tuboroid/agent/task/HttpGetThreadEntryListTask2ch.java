@@ -11,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -197,11 +196,12 @@ public class HttpGetThreadEntryListTask2ch extends HttpTaskBase implements HttpG
         // ●使用の時、1行目はスキップ
         boolean skip_head = session_key_ != null;
         try {
+        	String [] tokens = new String [4]; 
             while (true) {
                 String line = reader.readLine();
                 if (line == null) break;
                 
-                ArrayList<String> tokens = ListUtils.split("<>", line);
+                int tokens_count = ListUtils.split("<>", line, tokens);
                 
                 if (skip_head && thread_cur_count == 0) {
                     skip_head = false;
@@ -211,12 +211,12 @@ public class HttpGetThreadEntryListTask2ch extends HttpTaskBase implements HttpG
                 ThreadEntryData data;
                 thread_cur_count++;
                 
-                if (tokens.size() < 2) {
+                if (tokens_count < 2) {
                     // <>が2個未満になるほど破損しているものは論外。多分datファイルですらない
                     Log.i(TAG, "BROKEN DATA :" + line);
                     throw new BrokenDataException();
                 }
-                else if (tokens.size() < 4) {
+                else if (tokens_count < 4) {
                     // >>1が破損しているのは論外。多分datファイルですらない
                     if (thread_cur_count == 1) {
                         Log.i(TAG, "BROKEN >>1");
@@ -226,13 +226,13 @@ public class HttpGetThreadEntryListTask2ch extends HttpTaskBase implements HttpG
                     data = new ThreadEntryData(false, thread_cur_count, "", "", "", "", "", "", "", "");
                 }
                 else {
-                    String author_name = tokens.get(0);
-                    String author_mail = tokens.get(1);
-                    String time_and_id = tokens.get(2);
-                    String entry_body = tokens.get(3);
+                    String author_name = tokens[0];
+                    String author_mail = tokens[1];
+                    String time_and_id = tokens[2];
+                    String entry_body = tokens[3];
                     
-                    if (thread_cur_count == 1 && tokens.size() >= 5 && tokens.get(4).length() > 0) {
-                        thread_data_.thread_name_ = HtmlUtils.stripAllHtmls(tokens.get(4), false);
+                    if (thread_cur_count == 1 && tokens_count >= 5 && tokens[4].length() > 0) {
+                        thread_data_.thread_name_ = HtmlUtils.stripAllHtmls(tokens[4], false);
                     }
                     
                     String author_id = "";
