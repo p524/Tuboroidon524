@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import android.os.Debug;
 import android.util.Log;
 
 abstract public class ThreadEntryListTask {
