@@ -196,7 +196,7 @@ public class HttpGetThreadEntryListTask2ch extends HttpTaskBase implements HttpG
         // ●使用の時、1行目はスキップ
         boolean skip_head = session_key_ != null;
         try {
-        	String [] tokens = new String [4]; 
+        	String [] tokens = new String [5]; 
             while (true) {
                 String line = reader.readLine();
                 if (line == null) break;
