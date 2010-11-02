@@ -33,20 +33,9 @@
 			android:paddingTop="4dip"
 			android:paddingBottom="4dip" />
 	</HorizontalScrollView>
-	<LinearLayout android:id="@+id/search_bar"
-		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:orientation="horizontal">
-		<EditText android:text="" android:id="@+id/edit_search"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:layout_weight="1" android:imeOptions="actionDone"
-			android:singleLine="true" />
-		<ImageButton android:id="@+id/button_search"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:src="@drawable/ic_btn_search" />
-		<ImageButton android:id="@+id/button_cancel_search"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:src="@drawable/ic_btn_x" />
-	</LinearLayout>
+	
+	<include layout="@layout/search_bar"/>
+
 	<jp.syoboi.android.ToolbarView android:layout_width="fill_parent"
 		android:id="@+id/toolbar" android:orientation="horizontal" style="@style/ToolBarBox">
 		<HorizontalScrollView android:layout_width="fill_parent"
