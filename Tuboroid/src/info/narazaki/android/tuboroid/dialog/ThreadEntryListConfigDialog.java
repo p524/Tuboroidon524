@@ -15,6 +15,8 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.Spinner;
@@ -133,7 +135,17 @@ public class ThreadEntryListConfigDialog extends Dialog {
 		    	editor.commit();
 				app.reloadPreferences(true);
 			}
-		});		
+		});
+    	
+    	entryDivider.post(new Runnable() {
+			@Override
+			public void run() {
+				Window w = getWindow();
+				WindowManager.LayoutParams lp = w.getAttributes();
+				lp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+				w.setAttributes(lp);
+			}
+		});
 	}
 	
 	public static interface OnChangedListener {
