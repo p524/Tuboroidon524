@@ -2,16 +2,12 @@ package jp.syoboi.android;
 
 import info.narazaki.android.tuboroid.R;
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.GradientDrawable.Orientation;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.LinearLayout;
 
 // ツールバーのクラス(ただ背景を塗るだけのLinearLayout)
@@ -28,47 +24,50 @@ public class ToolbarView extends LinearLayout {
 
 	@Override
 	protected void dispatchDraw(Canvas canvas) {
-		int width = getWidth();
-		int height = getHeight();
- 
-		if (getOrientation() == LinearLayout.HORIZONTAL) {
-			int y = 0;
-			Paint paint = new Paint();
-			paint.setColor(style.topBorderColor);
-			canvas.drawLine(0, y, width, y, paint);
-			y++;
-			
-			paint.setColor(style.highlightColor);
-			canvas.drawLine(0, y, width, y, paint);
-			y++;
-			
-			style.face.setBounds(0, y, width, height - 1);
-			style.face.draw(canvas);
-			
-			paint.setColor(style.bottomBorderColor);
-			canvas.drawLine(0, height - 1, width, height - 1, paint);
-		}
-		else {
-			int x = 0;
-			Paint paint = new Paint();
-			paint.setColor(style.highlightColor);
-			canvas.drawLine(x, 0, x, height, paint);
-			x++;
-			
-			style.face.setBounds(x, 0, width - 1, height);
-			style.face.draw(canvas);
-			
-			x = width - 2;
-			paint.setColor(style.bottomBorderColor);
-			canvas.drawLine(x, 0, x, height, paint);
-			x++;
-			
-			paint.setColor(style.topBorderColor);
-			canvas.drawLine(x, 0, x, height, paint);
+
+		if (!canvas.getClipBounds().isEmpty()) {
+			int width = getWidth();
+			int height = getHeight();
+	 
+			if (getOrientation() == LinearLayout.HORIZONTAL) {
+				int y = 0;
+				Paint paint = new Paint();
+				paint.setColor(style.topBorderColor);
+				canvas.drawLine(0, y, width, y, paint);
+				y++;
+				
+				paint.setColor(style.highlightColor);
+				canvas.drawLine(0, y, width, y, paint);
+				y++;
+				
+				style.face.setBounds(0, y, width, height - 1);
+				style.face.draw(canvas);
+				
+				paint.setColor(style.bottomBorderColor);
+				canvas.drawLine(0, height - 1, width, height - 1, paint);
+			}
+			else {
+				int x = 0;
+				Paint paint = new Paint();
+				paint.setColor(style.highlightColor);
+				canvas.drawLine(x, 0, x, height, paint);
+				x++;
+				
+				style.face.setBounds(x, 0, width - 1, height);
+				style.face.draw(canvas);
+				
+				x = width - 2;
+				paint.setColor(style.bottomBorderColor);
+				canvas.drawLine(x, 0, x, height, paint);
+				x++;
+				
+				paint.setColor(style.topBorderColor);
+				canvas.drawLine(x, 0, x, height, paint);
+			}
 		}
 		super.dispatchDraw(canvas);
-	} 
-	
+	}
+
 	public static class ToolbarStyle {
 		public int topBorderColor;
 		public int bottomBorderColor;
