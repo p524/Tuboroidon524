@@ -228,14 +228,15 @@ public class BoardListAgent {
                     }
                     List<BoardData> data_list = new LinkedList<BoardData>();
                     int order_id = 1;
+                    String[] line_splitted = new String[4];
                     while (true) {
                         String line;
                         line = reader.readLine();
                         if (line == null) break;
-                        ArrayList<String> line_splitted = ListUtils.split("\t", line);
-                        if (line_splitted.size() == 4) {
-                            BoardData data = BoardData.factory(order_id, line_splitted.get(0), line_splitted.get(1),
-                                    new BoardIdentifier(line_splitted.get(2), line_splitted.get(3), 0, 0));
+                        int line_splitted_count = ListUtils.split("\t", line, line_splitted);
+                        if (line_splitted_count == 4) {
+                            BoardData data = BoardData.factory(order_id, line_splitted[0], line_splitted[1],
+                                    new BoardIdentifier(line_splitted[2], line_splitted[3], 0, 0));
                             data_list.add(data);
                             order_id++;
                         }
