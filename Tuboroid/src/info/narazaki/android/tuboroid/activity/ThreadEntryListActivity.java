@@ -1335,7 +1335,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     // ////////////////////////////////////////////////////////////
     // アンカー管理
     // ////////////////////////////////////////////////////////////
-    private void jumpToAnchor(int current_num, int num) {
+    private void jumpToAnchor(int current_num, final int num) {
         if (anchor_jump_stack_.size() == 0) {
             anchor_jump_stack_.add(current_num);
             ListView lv = getListView();
@@ -1346,7 +1346,12 @@ public class ThreadEntryListActivity extends SearchableListActivity {
             anchor_jump_stack_.add(num);
             updateAnchorBar();
         }
-        setMappedListPosition(num - 1, null);
+        postListViewAndUiThread(new Runnable(){
+			@Override
+			public void run() {
+	        	setMappedListPosition(num - 1, null);
+			}
+		});
     }
     
     private void exitAnchorJumpMode() {
@@ -1354,7 +1359,13 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         int entry_id = disableAnchorBar();
         updateAnchorBar();
         setMappedListPosition(entry_id - 1, null);
-        setListPositionFromTop(restore_position, restore_position_y, null);
+        
+        postListViewAndUiThread(new Runnable() {
+			@Override
+			public void run() {
+		        setListPositionFromTop(restore_position, restore_position_y, null);
+			}
+        });
     }
     
     private int disableAnchorBar() {
@@ -1428,17 +1439,19 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     private void onAnchorBarClicked(int num) {
         if (anchor_jump_stack_.size() == 0) return;
         int index = anchor_jump_stack_.indexOf(num);
-        if (index >= 0) {
+        
+        if (index == 0) {
+        	// アンカの先頭がクリックされたら終了
+        	exitAnchorJumpMode();
+        } else if (index > 0) {
+        	// クリックされたアンカーの階層まで残して、下の階層を削除
             while (anchor_jump_stack_.size() - 1 > index) {
                 anchor_jump_stack_.removeLast();
             }
-            if (anchor_jump_stack_.size() <= 1) {
-                anchor_jump_stack_.clear();
-            }
             
             updateAnchorBar();
+            setMappedListPosition(num - 1, null);
         }
-        setMappedListPosition(num - 1, null);
     }
     
     // ////////////////////////////////////////////////////////////
