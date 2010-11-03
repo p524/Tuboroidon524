@@ -6,7 +6,7 @@
 	<LinearLayout android:id="@+id/entry_footer_box"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:orientation="horizontal" style="@style/EntryListFooterBox">
-		<ImageButton android:id="@+id/entry_footer_button"
+		<ImageView android:id="@+id/entry_footer_image_view"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			style="@style/ToolBarButtonWidget" />
 		<LinearLayout android:layout_width="fill_parent"

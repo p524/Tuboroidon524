@@ -70,6 +70,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -266,7 +267,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         View footer_row = LayoutInflater.from(this).inflate(R.layout.entry_list_footer_row, null);
         footer_view_ = footer_row.findViewById(R.id.entry_footer_box);
         
-        ImageButton footer_button = (ImageButton) footer_view_.findViewById(R.id.entry_footer_button);
+        ImageView footer_button = (ImageView) footer_view_.findViewById(R.id.entry_footer_image_view);
         footer_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -567,7 +568,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
 	            return true;
 	        }
 	        // フィルタされていれば戻す
-	        if (filter_.type_ != ParcelableFilterData.TYPE_NONE || isVisibleSearchBar()) {
+	        if (filter_.type_ != ParcelableFilterData.TYPE_NONE || hasVisibleSearchBar()) {
 	            cancelSearchBar();
 	            return true;
 	        }
@@ -1124,7 +1125,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         if (thread_data_ == null || list_adapter_ == null || list_adapter_.getCount() <= 0) return;
         
         if (footer_view_.getVisibility() == View.GONE) footer_view_.setVisibility(View.VISIBLE);
-        ImageButton button = (ImageButton) footer_view_.findViewById(R.id.entry_footer_button);
+        ImageView button = (ImageView) footer_view_.findViewById(R.id.entry_footer_image_view);
         TextView entry_footer_header = (TextView) footer_view_.findViewById(R.id.entry_footer_header);
         TextView entry_footer_body = (TextView) footer_view_.findViewById(R.id.entry_footer_body);
         if (favorite_check_update_progress_) {
