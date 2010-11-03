@@ -138,21 +138,16 @@ public class NListActivity extends ListActivity implements NAbstractListScrollMa
     }
     
     public void redrawListView() {
-        getListView().post(new Runnable() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ListAdapter adapter = getListAdapter();
-                        if (adapter == null) return;
-                        
-                        if (adapter instanceof BaseAdapter) {
-                            BaseAdapter base_adapter = (BaseAdapter) adapter;
-                            base_adapter.notifyDataSetChanged();
-                        }
-                    }
-                });
+                ListAdapter adapter = getListAdapter();
+                if (adapter == null) return;
+                
+                if (adapter instanceof BaseAdapter) {
+                    BaseAdapter base_adapter = (BaseAdapter) adapter;
+                    base_adapter.notifyDataSetChanged();
+                }
             }
         });
     }
@@ -190,19 +185,12 @@ public class NListActivity extends ListActivity implements NAbstractListScrollMa
     public void setListPositionFromTopImpl(final int position, final int y, final Runnable callback) {
         final ListAdapter adapter = getListAdapter();
         final ListView view = getListView();
-        view.post(new Runnable() {
-            @Override
-            public void run() {
-                if (adapter != null && view != null) {
-                    view.requestFocus();
-                    
-                    if (adapter.getCount() > position && position >= 0) {
-                        view.setSelectionFromTop(position, y);
-                    }
-                }
-                if (callback != null) callback.run();
+        if (adapter != null && view != null) {
+            if (adapter.getCount() > position && position >= 0) {
+                view.setSelectionFromTop(position, y);
             }
-        });
+        }
+        if (callback != null) callback.run();
     }
     
     public void setListPositionTop(final Runnable callback) {
