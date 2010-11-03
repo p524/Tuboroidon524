@@ -3,9 +3,6 @@ package info.narazaki.android.tuboroid.dialog;
 import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.TuboroidApplication;
 import info.narazaki.android.tuboroid.TuboroidApplication.ViewConfig;
-
-import java.util.Arrays;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -48,8 +45,13 @@ public class ThreadEntryListConfigDialog extends Dialog {
     	// スクロールボタンの位置の設定
     	final int [] scrollButtonPosValues = res.getIntArray(R.array.scroll_button_position_value);
     	final Spinner scrollButtonPos = (Spinner)findViewById(R.id.scroll_button_position);
-    	int idx = Arrays.binarySearch(scrollButtonPosValues, view_config.scroll_button_position);
-    	if (idx == -1) idx = scrollButtonPosValues[0];
+    	int idx = 0;
+    	for (int j=0; j<scrollButtonPosValues.length; j++) {
+    		if (scrollButtonPosValues[j] == view_config.scroll_button_position) {
+    			idx = j;
+    			break;
+    		}
+    	}
     	scrollButtonPos.setSelection(idx);
     	scrollButtonPos.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
