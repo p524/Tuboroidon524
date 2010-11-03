@@ -3,6 +3,9 @@
     <color name="darker">#10000000</color>
     <color name="lighter">#10ffffff</color>
     
+    <color name="more_dark">#33000000</color>
+    <color name="much_more_dark">#66000000</color>
+    
     <color name="dark_red">#bb0000</color>
     <color name="light_red">#ffaaaa</color>
 	<color name="dark_green">#009900</color>
