@@ -81,8 +81,8 @@ abstract public class SearchableListActivity extends TuboroidListActivity {
         }
     }
     
-    public boolean isVisibleSearchBar() {
-    	return search_bar_visible_;
+    public boolean hasVisibleSearchBar() {
+        return search_bar_visible_;
     }
     
     protected void createSearchButton() {

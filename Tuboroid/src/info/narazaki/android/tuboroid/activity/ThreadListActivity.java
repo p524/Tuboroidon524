@@ -157,10 +157,11 @@ public class ThreadListActivity extends SearchableListActivity {
     
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && filter_ != null) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && filter_ != null || hasVisibleSearchBar()) {
             cancelSearchBar();
             return true;
         }
+        
         return super.onKeyDown(keyCode, event);
     }
     
