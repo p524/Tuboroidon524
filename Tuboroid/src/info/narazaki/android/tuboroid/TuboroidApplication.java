@@ -23,6 +23,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Environment;
@@ -412,11 +413,13 @@ public class TuboroidApplication extends NSimpleApplication {
             
             File ext_font_file = app_.getAAFontFile();
             if (ext_font_file != null) {
+                if (ext_font_file.canRead()) {
                 aa_font_ = MigrationSDK4.Typeface_createFromFile(ext_font_file);
+                    return aa_font_;
             }
-            else {
-                aa_font_ = Typeface.createFromAsset(app_.getAssets(), "mona-outline.ttf");
             }
+            AssetManager assets = app_.getAssets();
+            aa_font_ = Typeface.createFromAsset(assets, "mona-outline.ttf");
             return aa_font_;
         }
     }
