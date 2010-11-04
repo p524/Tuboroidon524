@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:orientation="vertical" android:background="@color/more_dark">
+	android:orientation="vertical">
 	<ScrollView android:layout_width="fill_parent"
 		android:layout_height="0dip" android:layout_weight="1"
 		android:scrollbarStyle="outsideInset" android:fillViewport="true">
@@ -17,7 +17,7 @@
 						android:singleLine="true" />
 					<ImageButton android:id="@+id/entry_edit_name_clear"
 						android:layout_width="wrap_content" android:layout_height="wrap_content"
-						android:src="@drawable/ic_btn_x" style="@style/ToolBarButtonWidget" />
+						android:src="@drawable/ic_btn_x" />
 				</TableRow>
 
 				<TableRow>
@@ -28,7 +28,7 @@
 						android:singleLine="true" />
 					<ImageButton android:id="@+id/entry_edit_mail_clear"
 						android:layout_width="wrap_content" android:layout_height="wrap_content"
-						android:src="@drawable/ic_btn_x" style="@style/ToolBarButtonWidget" />
+						android:src="@drawable/ic_btn_x" />
 				</TableRow>
 			</TableLayout>
 			<EditText android:id="@+id/entry_edit_body"
@@ -39,7 +39,7 @@
 
 			<Button android:id="@+id/entry_edit_submit" android:text="@string/btn_label_entry_edit_submit"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:textSize="20sp" style="@style/ToolBarButtonWidget" />
+				android:textSize="20sp" />
 		</LinearLayout>
 	</ScrollView>
 </LinearLayout>
