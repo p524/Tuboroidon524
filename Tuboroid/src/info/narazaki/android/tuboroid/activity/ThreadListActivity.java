@@ -157,7 +157,7 @@ public class ThreadListActivity extends SearchableListActivity {
     
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && filter_ != null || hasVisibleSearchBar()) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && (filter_ != null || hasVisibleSearchBar())) {
             cancelSearchBar();
             return true;
         }
@@ -454,6 +454,7 @@ public class ThreadListActivity extends SearchableListActivity {
     
     @Override
     protected void updateFilter(final String filter) {
+    	new Exception().printStackTrace();
         if (!is_active_) return;
         
         filter_ = filter;
