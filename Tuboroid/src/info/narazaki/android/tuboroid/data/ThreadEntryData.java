@@ -940,7 +940,13 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     
     private synchronized void createSpannableEntryBody(final TuboroidApplication.ViewConfig view_config,
             final ViewStyle style) {
-        Spannable spannable = style.spanify_.apply(entry_body_, new Long(entry_id_));
+    	String body = entry_body_;
+    	if (body.length() > 0) {
+    		body = body.substring(body.charAt(0) == ' ' ? 1 : 0).replace("\n ", "\n");
+    	}
+        Spannable spannable = style.spanify_.apply(
+        		body, 
+        		new Long(entry_id_));
         entry_body_cache_ = new SpannableCache(spannable, style, view_config);
     }
     
