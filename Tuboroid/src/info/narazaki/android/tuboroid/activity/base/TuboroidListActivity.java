@@ -1,5 +1,7 @@
 package info.narazaki.android.tuboroid.activity.base;
 
+import java.lang.reflect.Method;
+
 import info.narazaki.android.lib.activity.base.NSimpleListActivity;
 import info.narazaki.android.lib.system.MigrationSDK5;
 import info.narazaki.android.tuboroid.R;
@@ -8,6 +10,7 @@ import info.narazaki.android.tuboroid.TuboroidApplication.SettingInvalidateCheck
 import info.narazaki.android.tuboroid.agent.TuboroidAgent;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -97,8 +100,14 @@ abstract public class TuboroidListActivity extends NSimpleListActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        updateToolbarButtons();
-    }
+
+        // ランドスケープモードのときはIS01のサイドバーを消す
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			IS01.setFullScreen();
+		}
+
+		updateToolbarButtons();
+     }
     
     @Override
     protected void onFirstResume() {
@@ -106,7 +115,22 @@ abstract public class TuboroidListActivity extends NSimpleListActivity {
         // ツールバーボタンの初期化
         createToolbarButtons();
     }
-    
+
+    public static class IS01 {
+		public static void setFullScreen() {
+			// http://blog.kcrt.net/2010/08/17/014820
+			Method setFullScreenMode;
+			try{
+	            Class<?> sgManager = Class.forName("jp.co.sharp.android.softguide.SoftGuideManager");
+	            Class<?> paramstype[] = {boolean.class};
+	            setFullScreenMode = sgManager.getMethod("setFullScreenMode", paramstype);
+	            setFullScreenMode.invoke(null, true);
+	        }
+			catch (Exception o) {
+	            //Log.d("is01fullscreen", "failed" + o.getMessage() + ":" + o.getClass().toString());
+	        }
+		}
+	}    
     protected void showToolBar(boolean show) {
         LinearLayout toolbar = (LinearLayout) findViewById(R.id.toolbar);
         if (toolbar == null) return;
