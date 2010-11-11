@@ -16,7 +16,7 @@
 	<string name="text_failed_to_login_p2">p2のログインに失敗しました</string>
 
 	<string name="text_no_new_entry_found_at_favorite_threads">お気に入りに新着レスはありません</string>
-	<string name="text_no_new_entry_found_at_favorite_threads_func">ボタンを押すと新着チェックを行います</string>
+	<string name="text_no_new_entry_found_at_favorite_threads_func">ここを押すと新着チェックを行います</string>
 	<string name="text_check_update_unread_favorite_threads">お気に入りの新着を確認しています</string>
 
 	<string name="text_new_entry_found_at_favorite_threads">個のお気に入りに未読があります</string>

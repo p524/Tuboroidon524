@@ -267,12 +267,11 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         View footer_row = LayoutInflater.from(this).inflate(R.layout.entry_list_footer_row, null);
         footer_view_ = footer_row.findViewById(R.id.entry_footer_box);
         
-        ImageView footer_button = (ImageView) footer_view_.findViewById(R.id.entry_footer_image_view);
-        footer_button.setOnClickListener(new View.OnClickListener() {
+        footer_row.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onFooterClicked();
-            }
+            } 
         });
         footer_view_.setVisibility(View.GONE);
         getListView().addFooterView(footer_row);
