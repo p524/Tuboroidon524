@@ -127,7 +127,10 @@ public class ThreadEntryListAdapter extends FilterableListAdapterBase<ThreadEntr
         if (data == null) return view;
         int indent = 0;
         if (indent_map_ != null) {
-        	indent = indent_map_.get(data.entry_id_) + indent_offset_;
+        	Integer entry_indent = indent_map_.get(data.entry_id_);
+        	if (entry_indent != null) {
+        		indent = entry_indent + indent_offset_;
+        	}
         }
         return data.setView(agent_, thread_data_, view, parent, read_count_, view_config_, view_style_, 
         		is_quick_show_, indent);
