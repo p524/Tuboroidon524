@@ -327,16 +327,22 @@ public class ThreadEntryListActivity extends SearchableListActivity {
             	case MotionEvent.ACTION_UP:
             		if (doubleTap) {
             			// ダブルタップ
-			    		Toast.makeText(ThreadEntryListActivity.this, 
-			    				getString(R.string.ctx_menu_find_related_entries),
-			    				Toast.LENGTH_SHORT).show();
-			    		if (doubleTapPosition != ListView.INVALID_POSITION) {
-				            ThreadEntryData entry_data = ((ThreadEntryListAdapter) list_adapter_).getData(doubleTapPosition);
-				            if (entry_data != null) {
-				            	updateFilterByRelation(entry_data.entry_id_);
-				            }
-		            		return true;
-			    		}
+            			if (filter_.type_ == ParcelableFilterData.TYPE_PELATION) {
+            				updateFilter(null);
+            				return true;
+            			}
+            			else if (filter_.type_ == ParcelableFilterData.TYPE_NONE) {
+				    		Toast.makeText(ThreadEntryListActivity.this, 
+				    				getString(R.string.ctx_menu_find_related_entries),
+				    				Toast.LENGTH_SHORT).show();
+				    		if (doubleTapPosition != ListView.INVALID_POSITION) {
+					            ThreadEntryData entry_data = ((ThreadEntryListAdapter) list_adapter_).getData(doubleTapPosition);
+					            if (entry_data != null) {
+					            	updateFilterByRelation(entry_data.entry_id_);
+					            }
+			            		return true;
+				    		}
+            			}
             		}
             		break;
             	}
@@ -1327,6 +1333,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     // ////////////////////////////////////////////////////////////
     
     private void onEntryFilterMode(long seved_entry_id, int saved_y) {
+    	footer_view_.setVisibility(View.GONE);
         saveResumeEntryNum(seved_entry_id, saved_y);
         updateAnchorBar();
     }
@@ -1930,6 +1937,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     @Override
     protected void updateFilter(String filter_string) {
         if (filter_string == null || filter_string.length() == 0) {
+        	footer_view_.setVisibility(View.VISIBLE);
             updateFilterNone();
             return;
         }
