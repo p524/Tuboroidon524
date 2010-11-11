@@ -487,7 +487,7 @@ abstract public class ThreadData implements NListAdapterDataInterface {
         TextView thread_name_view = (TextView) view.findViewById(R.id.thread_list_name);
         thread_name_view.setTextSize(view_config.thread_list_base_);
         
-        thread_name_view.setMinLines(2);
+        //thread_name_view.setMinLines(2);
         
         TextView online_count_view = (TextView) view.findViewById(R.id.thread_list_online_count);
         online_count_view.setTextSize(smallFontSize);
