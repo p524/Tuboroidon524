@@ -41,8 +41,9 @@ public class BoardData2chCompat extends BoardData2ch {
         long thread_id = 0;
         int entry_id = 0;
         try {
-            String host_name = uri.getHost();
-            if (uri.getUserInfo() != null) host_name = uri.getUserInfo() + "@" + host_name;
+            //String host_name = uri.getHost();
+            //if (uri.getUserInfo() != null) host_name = uri.getUserInfo() + "@" + host_name;
+            String host_name = uri.getEncodedAuthority();
             board_server_list.add(host_name);
             List<String> segments = uri.getPathSegments();
             for (int i = 0; i < segments.size(); i++) {
