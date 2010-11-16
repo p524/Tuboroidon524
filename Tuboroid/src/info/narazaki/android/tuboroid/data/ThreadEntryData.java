@@ -458,11 +458,13 @@ public class ThreadEntryData implements NListAdapterDataInterface {
         tag.entry_body_view = (TextView) view.findViewById(R.id.entry_body);
         if (!is_aa) {
             tag.entry_body_view.setTextSize(view_config.entry_body_);
+            tag.entry_body_view.getPaint().setSubpixelText(false);
         }
         else {
             tag.entry_body_view.setTextSize(view_config.entry_aa_body_);
             Typeface aa_font = view_config.getAAFont();
             if (aa_font != null) tag.entry_body_view.setTypeface(aa_font);
+            tag.entry_body_view.getPaint().setSubpixelText(true);
         }
         tag.rev_anchor_box_view = (LinearLayout) view.findViewById(R.id.entry_rev_anchor_box);
         
