@@ -1,5 +1,6 @@
 package info.narazaki.android.lib.activity.base;
 
+import jp.syoboi.android.ListViewScroller;
 import info.narazaki.android.lib.aplication.NApplication;
 
 import android.app.ListActivity;
@@ -11,9 +12,12 @@ import android.widget.ListView;
 
 public class NListActivity extends ListActivity implements NAbstractListScrollManager.Target {
     private static final String TAG = "NListActivity";
+    private final static int SCROLL_ANIMATION_TIME = 350; 
     
     private boolean on_first_shown_ = true;
     private NAbstractListScrollManager scroll_manager_ = null;
+    private ListViewScroller scroller;
+    private long prevScrollTime;
     
     public static class PositionData {
         public int position_;
@@ -93,6 +97,7 @@ public class NListActivity extends ListActivity implements NAbstractListScrollMa
         on_first_shown_ = true;
         scroll_manager_ = new ListScrollManager(this);
         scroll_manager_.onCreate(savedInstanceState);
+        scroller = new ListViewScroller();
         getListView().setOnScrollListener(scroll_manager_);
         super.onCreate(savedInstanceState);
     }
@@ -233,7 +238,9 @@ public class NListActivity extends ListActivity implements NAbstractListScrollMa
     }
     
     public void setListPageUp() {
-        scroll_manager_.setListPageUp();
+        //scroll_manager_.setListPageUp();
+    	scroller.scroll(getListView(), -getScrollingAmount()/110.0f,
+    			getScrollAnimationTime());
     }
     
     public void setListRollDown(final Runnable callback) {
@@ -241,6 +248,18 @@ public class NListActivity extends ListActivity implements NAbstractListScrollMa
     }
     
     public void setListPageDown() {
-        scroll_manager_.setListPageDown();
+        //scroll_manager_.setListPageDown();
+    	scroller.scroll(getListView(), getScrollingAmount()/110.0f,
+    			getScrollAnimationTime());
+    }
+    
+    private int getScrollAnimationTime() {
+    	long now = System.currentTimeMillis();
+    	int animationTime = 0;
+    	if (now - prevScrollTime > SCROLL_ANIMATION_TIME) {
+    		animationTime = SCROLL_ANIMATION_TIME;
+    	} 
+    	prevScrollTime = now;
+    	return animationTime;
     }
 }

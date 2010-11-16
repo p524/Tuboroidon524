@@ -83,7 +83,7 @@ public class ListViewEx extends ListView {
 				if (first <= position && position <= last) {
 					// 画面内に対象のアイテムが存在する
 					View v = getChildAt(position - first);
-					scroller.scrollMargin(ListViewEx.this, v, position, millis, fps, margin);
+					scroller.scrollMargin(ListViewEx.this, position, millis, fps, margin);
 				}
 			}
 		});

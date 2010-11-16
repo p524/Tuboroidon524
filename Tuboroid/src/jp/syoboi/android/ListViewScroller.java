@@ -2,6 +2,7 @@ package jp.syoboi.android;
 
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ListView;
 
 public class ListViewScroller {
@@ -10,9 +11,10 @@ public class ListViewScroller {
 	
 	public static final int ANCHOR_CENTER = 0; 
 	public static final int ANCHOR_TOP = 1; 
-	public static final int ANCHOR_BOTTOM = 2; 
-	
+	public static final int ANCHOR_BOTTOM = 2;
 	private MyScroller scroller;
+	
+	private AccelerateDecelerateInterpolator	interpolator = new AccelerateDecelerateInterpolator();
 	
 	public void cancel() {
 		if (scroller != null) {
@@ -21,112 +23,111 @@ public class ListViewScroller {
 		}
 	}
 	
-	public void scroll(ListView list, float page, boolean animation) {
+	public boolean isScrolling() {
+		return scroller != null;
+	}
+	
+	public boolean scroll(final ListView list, float page, int millis) {
+		cancel();
+		
+		int childCount = list.getChildCount();
+		if (childCount == 0) return false;
+		
 		int position = list.getFirstVisiblePosition();
+
 		int from = list.getChildAt(0).getTop();
-		cancel();
-		
-		int to = (int)(from - list.getMeasuredHeight() * page);
-		//Log.d(TAG, "from:"+from + " to:"+to);
-		
-		if (animation) {
-			scroller = new MyScroller(list, position, from, to, 200, 1000/60);
-			scroller.start();
-		} else {
-			list.setSelectionFromTop(position, to);
-		}
-	}
-	
-	public static void scrollCenterNow(ListView list, View v, int position, int anchor) {
-		list.setSelectionFromTop(position, calcScrollPosition(list, v, anchor)); 
-	}
-	
-	private static int calcScrollPosition(ListView list, View v, int anchor) {
-		final int listHeight = list.getMeasuredHeight();
-		final int selectedViewHeight = v.getMeasuredHeight();
-		
-		int to = listHeight / 2;
-		switch (anchor) {
-		case ANCHOR_CENTER:
-			to -= selectedViewHeight / 2;
-			break;
-		case ANCHOR_TOP:
-			break;
-		case ANCHOR_BOTTOM:
-			to -= selectedViewHeight;
-			break;
-		}
-		return to;
-	}
-	
-	public void scrollCenter(ListView list, View v, int position, int msec, int fps, int anchor) {
-		cancel();
-
-		final int from = v.getTop();
-		final int to = calcScrollPosition(list, v, anchor);
-
-		scroller = new MyScroller(list, position, from, to, msec, fps);
-		scroller.start();
-	}
-	
-	public void scrollMargin(ListView list, View v, int position, int msec, int fps, int margin) {
-		cancel();
-
-		final int from = v.getTop();
-		final int listHeight = list.getMeasuredHeight();
-		int to;
-		
-		if (v.getTop() < margin) {
-			to = margin;
-		}
-		else if (v.getBottom() > listHeight - margin) {
-			to = listHeight - margin - v.getHeight();
+		int to = from;
+		int range = (int)(list.getMeasuredHeight() * page);
+		if (page > 0) {
+			for (int j=0; j<childCount; j++) {
+				View child = list.getChildAt(j);
+				if (range <= child.getBottom()) {
+					if (j+1<childCount) {
+						child = list.getChildAt(j+1);
+						j++;
+					}
+					position += j;
+					from = child.getTop();
+					to = child.getTop() - range;
+					break;
+				}
+			}
 		}
 		else {
-			return;
+			to = from - range;
 		}
 		
-		scroller = new MyScroller(list, position, from, to, msec, fps);
-		scroller.start();
+		if (from != to) {
+			if (millis == 0) {
+				list.setSelectionFromTop(position, to);
+			} else {
+				scroller = new MyScroller(millis, 1000/60, list, position, from, to);
+				scroller.start();
+			}
+			return true;
+		}
+		return false;
 	}
 	
-	public static class MyScroller extends CountDownTimer {
-		private final int from;
-		private final int to;
-		private final int position;
-		private final long msec;
-		private ListView list;
-		private long remain; 
+	public boolean scrollMargin(final ListView list, int position, int millis,
+			int fps, int margin) {
+		if (scroller != null) scroller.cancel();
+
+		int idx = position - list.getFirstVisiblePosition();
+		if (idx < list.getChildCount()) {
+			View v = list.getChildAt(idx);
+			int from = v.getTop();
+			final int listHeight = list.getMeasuredHeight();
+			
+			int to = from;
+			
+			if (from < margin) {
+				to = margin;
+			}
+			else if (v.getBottom() > listHeight - margin) {
+				to = listHeight - margin - v.getHeight();
+			}
+			if (from != to) {
+				if (millis == 0) {
+					list.setSelectionFromTop(position, to);
+				} else {
+					scroller = new MyScroller(millis, 1000/fps, list, position, from, to);
+					scroller.start();
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private class MyScroller extends CountDownTimer {
+		private final ListView 	list;
+		private final int 		position;
+		private final int 		from;
+		private final int 		to;
+		private final long 		millis;
 		
-		public MyScroller(ListView list, int position, int from, int to, long msec, int fps) {
-			super(msec, fps);
-			this.msec = msec;
-			this.list = list;
+		public MyScroller(long millisInFuture, long countDownInterval, ListView lv, int position, int from, int to) {
+			super(millisInFuture, countDownInterval);
+			this.list = lv;
 			this.position = position;
 			this.from = from;
 			this.to = to;
-			this.remain = msec;
+			this.millis = millisInFuture;
 		}
 
 		@Override
 		public void onFinish() {
-			this.remain = 0;
 			list.setSelectionFromTop(position, to);
-			list = null;
+			scroller = null;
 		}
 
 		@Override
 		public void onTick(long millisUntilFinished) {
-			remain = millisUntilFinished;
-			double pos = (msec - millisUntilFinished) * Math.PI / msec;
-			double pos2 = (from - to) * (Math.cos(pos) + 1) / 2; 
-			//Log.d("MyScroller", "pos:" + pos + " pos2:" + pos2);
-			int y = to + (int)pos2;
+			int y = from + (int)((to - from) * interpolator.getInterpolation(
+					(float)(this.millis - millisUntilFinished)/this.millis));
+			// Log.d(TAG, "position:"+position+" from:"+from+" to:"+to+" y:"+y);
 			list.setSelectionFromTop(position, y);
-		}
-		
-		public float getRemain() {
-			return (float)remain / this.msec; 
 		}
 	}
 }
