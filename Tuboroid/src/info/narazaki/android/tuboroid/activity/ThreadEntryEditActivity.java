@@ -4,6 +4,7 @@ import info.narazaki.android.lib.dialog.SimpleDialog;
 import info.narazaki.android.lib.dialog.SimpleProgressDialog;
 import info.narazaki.android.lib.toast.ManagedToast;
 import info.narazaki.android.tuboroid.R;
+import info.narazaki.android.tuboroid.TuboroidApplication;
 import info.narazaki.android.tuboroid.activity.base.TuboroidActivity;
 import info.narazaki.android.tuboroid.agent.PostEntryTask;
 import info.narazaki.android.tuboroid.agent.thread.SQLiteAgent;
@@ -12,6 +13,7 @@ import info.narazaki.android.tuboroid.data.ThreadData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -24,6 +26,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ToggleButton;
 
 public class ThreadEntryEditActivity extends TuboroidActivity {
     public static final String TAG = "ThreadEntryEditActivity";
@@ -91,9 +94,11 @@ public class ThreadEntryEditActivity extends TuboroidActivity {
         progress_dialog_ = new SimpleProgressDialog();
         
         createButtons();
+        
+        initAAButton();
     }
     
-    @Override
+ 	@Override
     protected void onResume() {
         super.onResume();
         if (thread_data_ == null) {
@@ -337,4 +342,31 @@ public class ThreadEntryEditActivity extends TuboroidActivity {
         SimpleDialog.showNotice(this, R.string.dialog_post_failed_title, R.string.dialog_post_error_summary, null);
     }
     
+    private void initAAButton() {
+        final ToggleButton toggle_aa = (ToggleButton)findViewById(R.id.toggle_aa);
+    	final EditText body = (EditText) findViewById(R.id.entry_edit_body);
+        final InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        final Typeface aaFont = ((TuboroidApplication)getApplication()).view_config_.getAAFont(); 
+        if (aaFont == null) {
+        	toggle_aa.setVisibility(View.GONE);
+        } 
+        else {
+        	final Typeface origFont = body.getTypeface();
+        	
+	        toggle_aa.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (toggle_aa.isChecked()) {
+						body.setTypeface(aaFont);
+						body.setHorizontallyScrolling(true);
+					} else {
+						body.setTypeface(origFont);
+						body.setHorizontallyScrolling(false);
+					}
+					imm.hideSoftInputFromWindow(body.getWindowToken(), 0);
+				}
+			});
+        }
+	}
+
 }

@@ -123,6 +123,7 @@
 	<string name="btn_label_entry_edit_name">名前</string>
 	<string name="btn_label_entry_edit_mail">メールアドレス</string>
 	<string name="btn_label_entry_edit_submit">書き込む</string>
+	<string name="btn_label_entry_edit_aa">AA表示</string>
 	<string name="dialog_aa_font_install">インストール</string>
 
 	<!-- トースト -->

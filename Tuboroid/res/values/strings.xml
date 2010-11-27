@@ -131,6 +131,7 @@
 	<string name="btn_label_entry_edit_name">Name</string>
 	<string name="btn_label_entry_edit_mail">Mailaddress</string>
 	<string name="btn_label_entry_edit_submit">Submit</string>
+	<string name="btn_label_entry_edit_aa">AA View</string>
 	<string name="dialog_aa_font_install">Install</string>
 
 	<!-- トースト -->
