@@ -49,6 +49,7 @@
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:text="@string/dialog_about_modified"
+				android:id="@+id/about_modified"
 				android:textColor="@color/white"
 				android:textSize="14dip">
 			</TextView>

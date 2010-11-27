@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -283,12 +284,12 @@ public class BoardListActivity extends TuboroidExpandableListActivityBase {
                 AlertDialog.Builder builder = new AlertDialog.Builder(BoardListActivity.this);
                 LayoutInflater layout_inflater = LayoutInflater.from(BoardListActivity.this);
                 View about_view = layout_inflater.inflate(R.layout.about_dialog, null);
+                ((TextView)about_view.findViewById(R.id.about_modified)).setMovementMethod(LinkMovementMethod.getInstance());
                 TextView version_view = (TextView) about_view.findViewById(R.id.about_version);
                 try {
                 	String packageName = getApplicationContext().getPackageName();
                     String version_string = getPackageManager().getPackageInfo(packageName, 0).versionName;
                     version_view.setText(" " + version_string);
-                    
                 }
                 catch (NameNotFoundException e) {
                 }

@@ -125,6 +125,8 @@
 	<string name="label_menu_save_image">Save</string>
 	<string name="label_filepicker_save_here">Save here</string>
 
+	<string name="label_menu_thread_entry_config">表示設定</string>
+
 	<!-- ボタンのラベル -->
 	<string name="btn_label_entry_edit_name">Name</string>
 	<string name="btn_label_entry_edit_mail">Mailaddress</string>
@@ -161,7 +163,7 @@
 	<string name="notif_check_upadted">new entry found at favorite threads</string>
 
 	<!-- abount -->
-	<string name="dialog_about_modified">Tuboroidon は  gaeeyo が Tuboroid 0.2.2.28.2 に修正を加えた物です。\nOriginal:</string>
+	<string name="dialog_about_modified">Tuboroidon は  gaeeyo が Tuboroid 0.2.2.28.2 に修正を加えた物です。\n<a href="http://sites.google.com/site/nikenonomonooki/tuboroidon">Tuboroidon のサイト</a>\n\nOriginal:</string>
 	<string name="dialog_about_author_uri">http://www.narazaki.info/</string>
 	<string name="dialog_about_copyright">Copyright (C) 2009-2010 H.Narazaki</string>
 	<string name="dialog_about_lisence">This software is provided &quot;as-is&quot;,
