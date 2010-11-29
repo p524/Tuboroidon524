@@ -239,8 +239,14 @@ public class NListActivity extends ListActivity implements NAbstractListScrollMa
     
     public void setListPageUp() {
         //scroll_manager_.setListPageUp();
-    	scroller.scroll(getListView(), -getScrollingAmount()/110.0f,
-    			getScrollAnimationTime());
+    	int scrollAmount = getScrollingAmount();
+    	if (scrollAmount == 0) {
+    		setListRollUp(null);
+    	}
+    	else {
+    		scroller.scroll(getListView(), -scrollAmount/110.0f,
+    				getScrollAnimationTime());
+    	}
     }
     
     public void setListRollDown(final Runnable callback) {
@@ -249,8 +255,14 @@ public class NListActivity extends ListActivity implements NAbstractListScrollMa
     
     public void setListPageDown() {
         //scroll_manager_.setListPageDown();
-    	scroller.scroll(getListView(), getScrollingAmount()/110.0f,
-    			getScrollAnimationTime());
+    	int scrollAmount = getScrollingAmount();
+    	if (scrollAmount == 0) {
+    		setListRollDown(null);
+    	}
+    	else {
+        	scroller.scroll(getListView(), scrollAmount/110.0f,
+        			getScrollAnimationTime());
+    	}
     }
     
     private int getScrollAnimationTime() {
