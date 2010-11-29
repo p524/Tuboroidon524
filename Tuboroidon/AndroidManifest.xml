@@ -62,7 +62,28 @@
 			android:name="info.narazaki.android.tuboroid.activity.SimilarThreadListActivity"></activity>
 
 		<activity
-			android:name="info.narazaki.android.tuboroid.activity.ThreadEntryEditActivity"></activity>
+			android:name="info.narazaki.android.tuboroid.activity.ThreadEntryEditActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.SENDTO" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data
+					android:scheme="http"
+					android:host="*.2ch.net"
+					android:pathPrefix="/test/read.cgi/" />
+				<data
+					android:scheme="http"
+					android:host="*.bbspink.com"
+					android:pathPrefix="/test/read.cgi/" />
+				<data
+					android:scheme="http"
+					android:host="jbbs.livedoor.jp"
+					android:pathPrefix="/bbs/read.cgi/" />
+				<data
+					android:scheme="http"
+					android:host="*.machi.to"
+					android:pathPrefix="/bbs/read.cgi/" />
+			</intent-filter>
+		</activity>
 
 		<activity
 			android:name="info.narazaki.android.tuboroid.activity.HelpActivity"></activity>
