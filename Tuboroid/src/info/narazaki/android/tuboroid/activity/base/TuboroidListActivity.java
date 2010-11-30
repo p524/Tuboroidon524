@@ -1,26 +1,27 @@
 package info.narazaki.android.tuboroid.activity.base;
 
-import java.lang.reflect.Method;
-
 import info.narazaki.android.lib.activity.base.NSimpleListActivity;
 import info.narazaki.android.lib.system.MigrationSDK5;
-import info.narazaki.android.tuboroid.FlickDetector;
 import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.TuboroidApplication;
 import info.narazaki.android.tuboroid.TuboroidApplication.SettingInvalidateChecker;
+import info.narazaki.android.tuboroid.activity.ForwardableActivityUtil;
 import info.narazaki.android.tuboroid.agent.TuboroidAgent;
+
+import java.lang.reflect.Method;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -69,15 +70,27 @@ abstract public class TuboroidListActivity extends NSimpleListActivity {
                 getTuboroidApplication().setHomeTabActivity(home_activity_id);
             }
         }
+        ForwardableActivityUtil.onCreate(this);
+    }
+    
+    @Override
+    public void startActivity(Intent intent) {
+    	startActivityForResult(intent, 0);
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	ForwardableActivityUtil.onActivityResult(this, data);
+    	super.onActivityResult(requestCode, resultCode, data);
     }
     
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
     	super.onPostCreate(savedInstanceState);
     	
-    	final GestureDetector gd = FlickDetector.createFlickDetector(this) {
+
+        final GestureDetector gd = ForwardableActivityUtil.createFlickGestureDetector(this);
     		
-    	};
         getListView().setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {

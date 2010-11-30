@@ -10,6 +10,8 @@ import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.TuboroidApplication;
 import info.narazaki.android.tuboroid.TuboroidApplication.ViewConfig;
 import info.narazaki.android.tuboroid.activity.base.SearchableListActivity;
+import info.narazaki.android.tuboroid.activity.base.TuboroidActivity;
+import info.narazaki.android.tuboroid.activity.base.TuboroidExpandableListActivityBase;
 import info.narazaki.android.tuboroid.adapter.ThreadEntryListAdapter;
 import info.narazaki.android.tuboroid.agent.ThreadEntryListAgent;
 import info.narazaki.android.tuboroid.agent.FavoriteCacheListAgent.NextFavoriteThreadFetchedCallback;
@@ -300,7 +302,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
     	super.onPostCreate(savedInstanceState);
     	
-    	final GestureDetector gd = FlickDetector.createFlickDetector(this);
+    	final GestureDetector gd = ForwardableActivityUtil.createFlickGestureDetector(this);
     	
         // ダブルタップ
         getListView().setOnTouchListener(new OnTouchListener() {
