@@ -2,12 +2,17 @@ package info.narazaki.android.tuboroid.activity.base;
 
 import info.narazaki.android.lib.activity.base.NSimpleExpandableListActivity;
 import info.narazaki.android.lib.system.MigrationSDK5;
+import info.narazaki.android.tuboroid.FlickDetector;
 import info.narazaki.android.tuboroid.TuboroidApplication;
 import info.narazaki.android.tuboroid.TuboroidApplication.SettingInvalidateChecker;
 import info.narazaki.android.tuboroid.agent.TuboroidAgent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
+import android.view.View.OnTouchListener;
 
 abstract public class TuboroidExpandableListActivityBase extends NSimpleExpandableListActivity {
     private static final String TAG = "TuboroidExpandableListActivityBase";
@@ -37,6 +42,19 @@ abstract public class TuboroidExpandableListActivityBase extends NSimpleExpandab
         setting_invalidate_checker_ = getTuboroidApplication().getSettingInvalidateChecker();
         
         super.onCreate(savedInstanceState);
+    }
+    
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+    	super.onPostCreate(savedInstanceState);
+    	final GestureDetector gd = FlickDetector.createFlickDetector(this);
+    	
+    	getExpandableListView().setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				return gd.onTouchEvent(event);
+			}
+		});
     }
     
     @Override

@@ -5,6 +5,7 @@ import info.narazaki.android.lib.dialog.SimpleDialog;
 import info.narazaki.android.lib.system.MigrationSDK5;
 import info.narazaki.android.lib.toast.ManagedToast;
 import info.narazaki.android.lib.view.SimpleSpanTextViewOnTouchListener;
+import info.narazaki.android.tuboroid.FlickDetector;
 import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.TuboroidApplication;
 import info.narazaki.android.tuboroid.TuboroidApplication.ViewConfig;
@@ -51,6 +52,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ClickableSpan;
 import android.view.ContextMenu;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -286,7 +288,20 @@ public class ThreadEntryListActivity extends SearchableListActivity {
 				}
 			});
         }
-
+        
+        // スクロールキー
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        use_scroll_key_ = pref.getBoolean("pref_use_page_up_down_key", true);
+        
+        applyViewConfig(getListFontPref());
+    }
+    
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+    	super.onPostCreate(savedInstanceState);
+    	
+    	final GestureDetector gd = FlickDetector.createFlickDetector(this);
+    	
         // ダブルタップ
         getListView().setOnTouchListener(new OnTouchListener() {
             int doubleTapPosition;
@@ -342,18 +357,12 @@ public class ThreadEntryListActivity extends SearchableListActivity {
             		}
             		break;
             	}
-				return false;
+				return gd.onTouchEvent(event);
 			}
             public int pointToPosition(float x, float y) {
             	return listView.pointToPosition((int)x, (int)y);
             }
 		});
-        
-        // スクロールキー
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        use_scroll_key_ = pref.getBoolean("pref_use_page_up_down_key", true);
-        
-        applyViewConfig(getListFontPref());
     }
     
     @Override

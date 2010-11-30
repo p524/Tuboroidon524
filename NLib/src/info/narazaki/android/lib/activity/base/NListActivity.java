@@ -1,11 +1,14 @@
 package info.narazaki.android.lib.activity.base;
 
-import jp.syoboi.android.ListViewScroller;
 import info.narazaki.android.lib.aplication.NApplication;
-
+import info.narazaki.android.tuboroid.FlickDetector;
+import jp.syoboi.android.ListViewScroller;
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -100,6 +103,19 @@ public class NListActivity extends ListActivity implements NAbstractListScrollMa
         scroller = new ListViewScroller();
         getListView().setOnScrollListener(scroll_manager_);
         super.onCreate(savedInstanceState);
+    }
+    
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+    	super.onPostCreate(savedInstanceState);
+    	
+    	final GestureDetector gd = FlickDetector.createFlickDetector(this);
+        getListView().setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				return gd.onTouchEvent(event);
+			}
+		});
     }
     
     protected NApplication getNApplication() {
