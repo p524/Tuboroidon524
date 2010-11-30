@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 
 import info.narazaki.android.lib.activity.base.NSimpleListActivity;
 import info.narazaki.android.lib.system.MigrationSDK5;
+import info.narazaki.android.tuboroid.FlickDetector;
 import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.TuboroidApplication;
 import info.narazaki.android.tuboroid.TuboroidApplication.SettingInvalidateChecker;
@@ -15,6 +16,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -67,6 +71,21 @@ abstract public class TuboroidListActivity extends NSimpleListActivity {
         }
     }
     
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+    	super.onPostCreate(savedInstanceState);
+    	
+    	final GestureDetector gd = FlickDetector.createFlickDetector(this) {
+    		
+    	};
+        getListView().setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				return gd.onTouchEvent(event);
+			}
+		});
+    }
+   
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
