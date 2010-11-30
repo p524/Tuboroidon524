@@ -1,6 +1,7 @@
 package info.narazaki.android.tuboroid;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.GestureDetector.OnGestureListener;
 
@@ -34,7 +35,6 @@ public abstract class FlickDetector {
 				if (Math.abs(e1.getX()-e2.getX()) > Math.abs(e1.getY()-e2.getY())) {
 					handled = (velocityX > 0 ? onFlickRight() : onFlickLeft());
 					if (handled) {
-						e1.setAction(MotionEvent.ACTION_CANCEL);
 						e2.setAction(MotionEvent.ACTION_CANCEL);
 					}
 					return handled;
