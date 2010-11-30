@@ -1,7 +1,6 @@
 package info.narazaki.android.tuboroid;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.GestureDetector.OnGestureListener;
 
