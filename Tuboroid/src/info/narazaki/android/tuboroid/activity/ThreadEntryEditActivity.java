@@ -12,6 +12,7 @@ import info.narazaki.android.tuboroid.data.PostEntryData;
 import info.narazaki.android.tuboroid.data.ThreadData;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -69,9 +70,13 @@ public class ThreadEntryEditActivity extends TuboroidActivity {
         thread_data_ = ThreadData.factory(thread_uri_);
         if (thread_data_ == null) return;
         getAgent().initNewThreadData(thread_data_, null);
-        
-        if (getIntent().hasExtra(INTENT_KEY_THREAD_DEFAULT_TEXT)) {
-            String default_text = getIntent().getStringExtra(INTENT_KEY_THREAD_DEFAULT_TEXT);
+
+        // デフォルトのテキストを設定
+        String default_text = getIntent().getStringExtra(INTENT_KEY_THREAD_DEFAULT_TEXT);
+        if (default_text == null) {
+        	default_text = getIntent().getStringExtra(Intent.EXTRA_TEXT);
+        }
+        if (default_text != null) {
             EditText view = (EditText) findViewById(R.id.entry_edit_body);
             view.setText(default_text);
         }
