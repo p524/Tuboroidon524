@@ -944,7 +944,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
             final ViewStyle style) {
     	String body = entry_body_;
     	if (body.length() > 0) {
-    		body = body.substring(body.charAt(0) == ' ' ? 1 : 0).replace("\n ", "\n");
+    		body = getEntryBodyText();
     	}
         Spannable spannable = style.spanify_.apply(
         		body, 
@@ -1148,5 +1148,9 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     
     public boolean canAddNGID() {
         return author_id_.length() > 0 && author_id_.indexOf('?') == -1;
+    }
+    
+    public String getEntryBodyText() {
+		return entry_body_.substring(entry_body_.charAt(0) == ' ' ? 1 : 0).replace("\n ", "\n");
     }
 }

@@ -908,7 +908,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         builder.setView(layout_view);
         
         final EditText copy_orig = (EditText) layout_view.findViewById(R.id.copy_orig);
-        copy_orig.setText(entry_data.entry_body_);
+        copy_orig.setText(entry_data.getEntryBodyText());
         copy_orig.setSingleLine(false);
         
         builder.setCancelable(true);
