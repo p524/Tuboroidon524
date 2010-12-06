@@ -8,7 +8,9 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.ListView;
 
 public class ListViewEx extends ListView {
@@ -53,6 +55,44 @@ public class ListViewEx extends ListView {
 		hlTimer.start();
 	}
 	
+	// -----------------------------------------------------
+	// リストを横方向にドラッグしたときにロングクリックにならないようにする(無理矢理
+	// -----------------------------------------------------
+	
+	private static final int TOUCH_SLOP = ViewConfiguration.getTouchSlop();
+	private float touchDownX;
+	private Runnable mPendingCheckForLongPress;
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent ev) {
+		boolean handled = super.onTouchEvent(ev);
+		
+		switch (ev.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			touchDownX = ev.getX();
+			break;
+		case MotionEvent.ACTION_MOVE:
+			if (mPendingCheckForLongPress != null) {
+				if (Math.abs(touchDownX - ev.getX()) > TOUCH_SLOP) {
+					getHandler().removeCallbacks(mPendingCheckForLongPress);
+					mPendingCheckForLongPress = null;
+				}
+			}
+			break;
+		}
+		return handled;
+	}
+	
+	@Override
+	public boolean postDelayed(Runnable action, long delayMillis) {
+		if ("CheckForLongPress".equals(action.getClass().getSimpleName())) {
+			mPendingCheckForLongPress = action;
+		}
+		return super.postDelayed(action, delayMillis);
+	}
+	
+	
+	
 	private ListViewScroller getScroller() {
 		if (scroller != null) {
 			scroller.cancel();
@@ -82,7 +122,7 @@ public class ListViewEx extends ListView {
 				int last = getLastVisiblePosition();
 				if (first <= position && position <= last) {
 					// 画面内に対象のアイテムが存在する
-					View v = getChildAt(position - first);
+					//View v = getChildAt(position - first);
 					scroller.scrollMargin(ListViewEx.this, position, millis, fps, margin);
 				}
 			}

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
 	android:orientation="vertical">
-	<ListView android:id="@+id/android:list" android:layout_width="fill_parent"
+	<jp.syoboi.android.ListViewEx android:id="@+id/android:list" android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:layout_weight="1" />
 	<jp.syoboi.android.ToolbarView android:id="@+id/toolbar"
 		android:layout_width="fill_parent" android:orientation="horizontal"

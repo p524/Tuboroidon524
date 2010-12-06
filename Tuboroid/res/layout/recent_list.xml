@@ -4,7 +4,7 @@
 	android:orientation="vertical">
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:layout_weight="1">
-		<ListView android:id="@+id/android:list"
+		<jp.syoboi.android.ListViewEx android:id="@+id/android:list"
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
 			android:fastScrollEnabled="true" />
 	</LinearLayout>
