@@ -111,7 +111,8 @@
 		<EditTextPreference android:key="pref_maru_user_id"
 			android:dependency="pref_use_maru" android:title="@string/pref_title_maru_user_id"
 			android:summary="@string/pref_summary_maru_user_id"
-			android:defaultValue="" android:lines="1" android:singleLine="true" />
+			android:defaultValue="" android:lines="1" android:singleLine="true"
+			android:inputType="textEmailAddress" />
 		<EditTextPreference android:key="pref_maru_password"
 			android:dependency="pref_use_maru" android:title="@string/pref_title_maru_password"
 			android:summary="@string/pref_summary_maru_password"
@@ -126,7 +127,8 @@
 		<EditTextPreference android:key="pref_p2_user_id"
 			android:dependency="pref_use_p2" android:title="@string/pref_title_p2_user_id"
 			android:summary="@string/pref_summary_p2_user_id"
-			android:defaultValue="" android:lines="1" android:singleLine="true" />
+			android:defaultValue="" android:lines="1" android:singleLine="true"
+			android:inputType="textEmailAddress" />
 		<EditTextPreference android:key="pref_p2_password"
 			android:dependency="pref_use_p2" android:title="@string/pref_title_p2_password"
 			android:summary="@string/pref_summary_p2_password"
