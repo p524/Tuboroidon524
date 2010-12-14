@@ -1,7 +1,5 @@
 package info.narazaki.android.lib.system;
 
-import java.lang.reflect.Field;
-
 import android.content.Intent;
 import android.os.Build;
 
@@ -11,6 +9,7 @@ public class MigrationSDK5 {
     }
     
     public static void Intent_addFlagNoAnimation(Intent intent) {
+        /*
         if (!supported()) return;
         try {
             Field field = Intent.class.getField("FLAG_ACTIVITY_NO_ANIMATION");
@@ -29,5 +28,6 @@ public class MigrationSDK5 {
         catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+        */
     }
 }
