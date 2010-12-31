@@ -122,6 +122,22 @@ public class ThreadEntryListConfigDialog extends Dialog {
     	CheckBox entryDivider = (CheckBox)findViewById(R.id.entry_divider);
     	entryDivider.setChecked(view_config.entry_divider != 0);
     	
+    	// AA モード
+    	final Spinner aaMode = (Spinner)findViewById(R.id.aa_mode);
+    	//final int [] aaModeValues = res.getIntArray(R.array.aa_mode);
+    	
+    	aaMode.setSelection(view_config.aa_mode);
+    	aaMode.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int position, long id) {
+				view_config.aa_mode = position;
+				changedListener.onChanged(view_config);
+			}
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {}
+		});
+    	
     	// ダイアログが閉じられるときに設定を保存
     	setOnCancelListener(new DialogInterface.OnCancelListener() {
 			@Override
@@ -134,6 +150,7 @@ public class ThreadEntryListConfigDialog extends Dialog {
 		    	editor.putString("pref_font_size_entry_aa_body", String.valueOf(view_config.entry_aa_body_));
 		    	editor.putInt(ViewConfig.PREF_ENTRY_DIVIDER, view_config.entry_divider);
 		    	editor.putInt(ViewConfig.PREF_SCROLL_BUTTON_POSITION, view_config.scroll_button_position);
+		    	editor.putInt(ViewConfig.PREF_AA_MODE, view_config.aa_mode);
 		    	editor.commit();
 				app.reloadPreferences(true);
 			}

@@ -3,6 +3,7 @@ package info.narazaki.android.tuboroid.adapter;
 import info.narazaki.android.lib.adapter.FilterableListAdapterBase;
 import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.TuboroidApplication;
+import info.narazaki.android.tuboroid.TuboroidApplication.ViewConfig;
 import info.narazaki.android.tuboroid.agent.TuboroidAgent;
 import info.narazaki.android.tuboroid.data.ThreadData;
 import info.narazaki.android.tuboroid.data.ThreadEntryData;
@@ -112,7 +113,18 @@ public class ThreadEntryListAdapter extends FilterableListAdapterBase<ThreadEntr
     @Override
     protected View createView(ThreadEntryData data) {
         LayoutInflater layout_inflater = LayoutInflater.from(activity_);
-        if (data == null || !data.entry_is_aa_) {
+        
+        //設定も考慮してAAモードで表示するか決定する
+        boolean is_aa_considering_config = false;
+        if(view_config_.aa_mode == ViewConfig.AA_MODE_DEFAULT) {
+        	is_aa_considering_config = data.entry_is_aa_;
+        }else if(view_config_.aa_mode == ViewConfig.AA_MODE_ALL_AA) {
+        	is_aa_considering_config = true;
+        }else {
+        	is_aa_considering_config = false;
+        }  
+        
+        if (data == null || !is_aa_considering_config) {
             View view = layout_inflater.inflate(R.layout.entry_list_row, null);
             ThreadEntryData.initView(view, view_config_, view_style_, false);
             return view;

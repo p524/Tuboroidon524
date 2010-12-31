@@ -123,6 +123,18 @@
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content" />
 		</LinearLayout>
+		
+		<TextView
+				android:textColor="#eee"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/dialog_thread_entry_config_aa_mode" />
+		<Spinner
+				android:id="@+id/aa_mode"
+				android:prompt="@string/dialog_thread_entry_config_aa_mode"
+				android:entries="@array/aa_mode"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
 
 	</LinearLayout>
 </ScrollView>

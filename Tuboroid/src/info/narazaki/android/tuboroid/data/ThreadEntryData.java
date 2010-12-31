@@ -443,6 +443,16 @@ public class ThreadEntryData implements NListAdapterDataInterface {
         
         tag.view_config = view_config;
         
+        //設定も考慮してAAモードで表示するか決定する
+        boolean is_aa_considering_config = false;
+        if(view_config.aa_mode == ViewConfig.AA_MODE_DEFAULT) {
+        	is_aa_considering_config = is_aa;
+        }else if(view_config.aa_mode == ViewConfig.AA_MODE_ALL_AA) {
+        	is_aa_considering_config = true;
+        }else {
+        	is_aa_considering_config = false;
+        }  
+        
         tag.header_view = (TextView) view.findViewById(R.id.entry_header);
         tag.header_view.setTextSize(view_config.entry_header_);
         tag.header_view.setOnTouchListener(on_touch_listener);
@@ -456,13 +466,15 @@ public class ThreadEntryData implements NListAdapterDataInterface {
         tag.entry_body_view.setLongClickable(is_aa);
         
         tag.entry_body_view = (TextView) view.findViewById(R.id.entry_body);
-        if (!is_aa) {
+
+        if (!is_aa_considering_config) {
             tag.entry_body_view.setTextSize(view_config.entry_body_);
             tag.entry_body_view.getPaint().setSubpixelText(false);
         }
         else {
             tag.entry_body_view.setTextSize(view_config.entry_aa_body_);
             Typeface aa_font = view_config.getAAFont();
+            
             if (aa_font != null) tag.entry_body_view.setTypeface(aa_font);
             tag.entry_body_view.getPaint().setSubpixelText(true);
         }
@@ -801,10 +813,10 @@ public class ThreadEntryData implements NListAdapterDataInterface {
             if (author_mail_length > 0) {
                 author_mail_begin = buf.length();
                 author_mail_length += 2;
-                //buf.append('[');
+                buf.append('[');
                 buf.append(author_mail_);
-                buf.append(' ');
-                //buf.append("] ");
+                //buf.append(' ');
+                buf.append("] ");
                 author_mail_span = style.author_mail_style_span_;
             }
         }
@@ -814,15 +826,15 @@ public class ThreadEntryData implements NListAdapterDataInterface {
         final int entry_time_begin = buf.length();
         final int entry_time_length;
         // 0000/00/00(/) 00:00:00 の形式で1ヶ月以内のときだけ年を省略
-        if (entry_time_.length() == 12 && dateBorder.compareTo(entry_time_) < 0) {
+        //if (entry_time_.length() == 12 && dateBorder.compareTo(entry_time_) < 0) {
         	// 年を省略
-	        entry_time_length = entry_time_.length()-5;
-	        buf.append(entry_time_.substring(5));
-        }
-        else {
+	    //    entry_time_length = entry_time_.length()-5;
+	    //    buf.append(entry_time_.substring(5));
+       // }
+        //else {
 	        entry_time_length = entry_time_.length();
 	        buf.append(entry_time_);
-        }
+        //}
         buf.append(' ');
         
         // //////////////////////////////

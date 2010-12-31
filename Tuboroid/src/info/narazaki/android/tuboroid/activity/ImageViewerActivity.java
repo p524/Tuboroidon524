@@ -14,10 +14,14 @@ import info.narazaki.android.tuboroid.data.ThreadData;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -44,6 +48,7 @@ public class ImageViewerActivity extends TuboroidActivity {
     public static final int MENU_KEY_SHARE = 20;
     
     private File image_local_file_;
+    private String image_uri_;
     
     private boolean is_fill_parent_mode_;
     private SimpleProgressDialog progress_dialog_;
@@ -88,6 +93,7 @@ public class ImageViewerActivity extends TuboroidActivity {
         final File image_local_file = new File(image_filename);
         final String const_image_uri = image_uri;
         image_local_file_ = image_local_file;
+        image_uri_ = image_uri;
         
         ImageView image_view = (ImageView) findViewById(R.id.image_viewer_image);
         image_view.setOnClickListener(new View.OnClickListener() {
@@ -167,7 +173,16 @@ public class ImageViewerActivity extends TuboroidActivity {
                 intent.putExtra(PickFileActivityBase.INTENT_KEY_ALERT_OVERWRITE, true);
                 intent.putExtra(PickFileActivityBase.INTENT_KEY_FILE_EXTENTION, file_info.getExtention());
                 intent.putExtra(PickFileActivityBase.INTENT_KEY_CHECK_WRITABLE, true);
-                intent.putExtra(PickFileActivityBase.INTENT_KEY_DEFAULT_NEW_FILENAME, image_local_file_.getName());
+                
+                Matcher m = Pattern.compile("^[^:]*://[^/]*/([^?]*/)?([^?/]*)(\\?.*)?").matcher(image_uri_);
+                String filename = "";
+                if(m.find()){
+                	filename = m.group(2);
+                }
+                if(filename == null || filename == ""){
+                	filename = image_local_file_.getName();
+                }
+                intent.putExtra(PickFileActivityBase.INTENT_KEY_DEFAULT_NEW_FILENAME, filename);
                 intent.putExtra(PickFileActivityBase.INTENT_KEY_ROOT, Environment.getExternalStorageDirectory()
                         .getAbsolutePath());
                 intent.putExtra(PickFileActivityBase.INTENT_KEY_NEW_FILE_CAPTION,
@@ -244,6 +259,7 @@ public class ImageViewerActivity extends TuboroidActivity {
             image_view.setMaxHeight(height);
         }
         else {
+        	Rect r = image_view.getDrawable().getBounds();
             image_view.setMaxWidth(width * 16);
             image_view.setMaxHeight(height * 16);
         }
@@ -306,7 +322,13 @@ public class ImageViewerActivity extends TuboroidActivity {
         Display display = getWindowManager().getDefaultDisplay();
         final int width = (int) (display.getWidth() / scale);
         final int height = (int) (display.getHeight() / scale);
-        getAgent().fetchImage(callback, image_local_file, uri, width * 2, height * 2, false);
+        
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(image_local_file.getAbsolutePath(), options);
+        
+        getAgent().fetchImage(callback, image_local_file, uri, options.outWidth, options.outHeight, false);
     }
     
 }

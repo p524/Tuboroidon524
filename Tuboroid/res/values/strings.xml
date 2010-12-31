@@ -202,6 +202,8 @@
 	<string name="dialog_label_dat_dropped_use_maru">use ●</string>
 
 	<string name="dialog_do_you_post_it_title">Do you post it?</string>
+	<string name="dialog_label_normal">Post</string>
+	<string name="dialog_label_with_p2">With p2</string>
 	<string name="dialog_post_notice_title">Notice</string>
 	<string name="dialog_post_failed_title">Post failed</string>
 	<string name="dialog_post_error_summary">Some connection error occured</string>
@@ -337,5 +339,15 @@
 
 	<string name="pref_title_bbsmenu_url">Board List URL</string>
 	<string name="pref_summary_bbsmenu_url">URL of "BBS MENU"</string>
+	
+	<!-- 設定ダイアログ -->
+	<string name="dialog_thread_entry_config_title">表示設定</string>
+	<string name="dialog_thread_entry_config_body">本文の大きさ</string>
+	<string name="dialog_thread_entry_config_header">ヘッダーの大きさ</string>
+	<string name="dialog_thread_entry_config_aa">AAの大きさ</string>
+	<string name="dialog_thread_entry_config_size_format">%d px</string>
+	<string name="dialog_thread_entry_config_show_scroll_button">スクロールボタン</string>
+	<string name="dialog_thread_entry_config_aa_mode">AAモード</string>
+	<string name="dialog_thread_entry_config_divider">レス間の区切り</string>
 
 </resources>

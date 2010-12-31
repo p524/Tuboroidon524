@@ -35,9 +35,10 @@ public class HttpGetBoardListTask extends TextHttpGetTaskBase {
     public HttpGetBoardListTask(String request_uri, Callback callback) {
         super(request_uri);
         callback_ = callback;
-        pattern_category_ = Pattern.compile("^<BR\\><BR\\><B\\>([^<]+?)</B\\><BR\\>");
+        pattern_category_ = Pattern.compile("<BR\\><B\\>([^<]+?)</B\\><BR\\>");
         pattern_board_ = Pattern
-                .compile("^<A HREF=http://([\\w\\-]+\\.2ch\\.net|[\\w\\-]+\\.bbspink\\.com)/([\\w\\-]+)/\\>([^<]+?)</A\\>");
+        		.compile("^<A HREF=http://([^/]*)/([\\w\\-]+)/\\>([^<]+?)</A\\>");
+                //.compile("^<A HREF=http://([\\w\\-]+\\.2ch\\.net|[\\w\\-]+\\.bbspink\\.com)/([\\w\\-]+)/\\>([^<]+?)</A\\>");
     }
     
     @Override
@@ -45,25 +46,23 @@ public class HttpGetBoardListTask extends TextHttpGetTaskBase {
             IOException {
         List<BoardData> data_list = new LinkedList<BoardData>();
         String current_category = "";
-        
+
         try {
-            long order_id = 1;
-            while (true) {
-                String line = reader.readLine();
-                if (line == null) break;
-                if (line.startsWith("<BR><BR><B>")) {
-                    Matcher matcher = pattern_category_.matcher(line);
-                    matcher.reset();
-                    if (matcher.find()) {
-                        current_category = matcher.group(1);
-                    }
-                }
-                else if (current_category.length() > 0 && line.startsWith("<A HREF=http://")) {
-                    Matcher matcher = pattern_board_.matcher(line);
-                    matcher.reset();
-                    if (matcher.find()) {
-                        BoardData data = BoardData.factory(order_id, matcher.group(3), current_category,
-                                new BoardIdentifier(matcher.group(1), matcher.group(2), 0, 0));
+        	long order_id = 1;
+        	while (true) {
+        		String line = reader.readLine();
+        		if (line == null) break;
+
+        		Matcher matcher = pattern_category_.matcher(line);
+        		matcher.reset();
+        		if (matcher.find()) {
+        			current_category = matcher.group(1);
+        		}else if (current_category.length() > 0 && line.startsWith("<A HREF=http://")) {
+        			matcher = pattern_board_.matcher(line);
+        			matcher.reset();
+        			if (matcher.find()) {
+        				BoardData data = BoardData.factory(order_id, matcher.group(3), current_category,
+        						new BoardIdentifier(matcher.group(1), matcher.group(2), 0, 0));
                         data_list.add(data);
                         order_id++;
                     }

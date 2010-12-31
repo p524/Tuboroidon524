@@ -3,11 +3,13 @@
 	<array name="bbsmenu_url">
 		<item>menu.2ch.net</item>
 		<item>menu.70.kg</item>
+		<item>http://azlucky.s25.xrea.com/2chboard/bbsmenu2.html</item>
 	</array>
 
 	<array name="bbsmenu_url_values">
 		<item>http://menu.2ch.net/bbsmenu.html</item>
 		<item>http://menu.70.kg/bbsmenu.html</item>
+		<item>http://azlucky.s25.xrea.com/2chboard/bbsmenu2.html</item>
 	</array>
 
 	<array name="full_screen_mode_titles">
@@ -195,5 +197,18 @@
 		<item>4</item>
 	</integer-array>
 
+	<array name="scroll_button_position">
+		<item>None</item>
+		<item>Buttom</item>
+		<item>Slight above</item>
+		<item>Left buttom</item>
+		<item>Right buttom</item>
+	</array>
+	
+	<array name="aa_mode">
+		<item>デフォルト</item>
+		<item>すべて非AA</item>
+		<item>すべてAA</item>
+	</array>
 
 </resources>

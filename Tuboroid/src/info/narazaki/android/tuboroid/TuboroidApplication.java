@@ -101,6 +101,9 @@ public class TuboroidApplication extends NSimpleApplication {
         
         view_config_.entry_divider = pref.getInt(ViewConfig.PREF_ENTRY_DIVIDER, 1);
         view_config_.scroll_button_position = pref.getInt(ViewConfig.PREF_SCROLL_BUTTON_POSITION, ViewConfig.SCROLL_BUTTON_CENTER);
+        view_config_.aa_mode = pref.getInt(ViewConfig.PREF_AA_MODE, ViewConfig.AA_MODE_DEFAULT);
+        
+        
         
         view_config_.use_back_anchor_ = pref.getBoolean("pref_use_back_anchor", false);
         
@@ -142,12 +145,12 @@ public class TuboroidApplication extends NSimpleApplication {
     private File getAAFontFile() {
         try {
             File ext_font_file = getExternalFontFile();
-            long ext_font_size = Long.parseLong(getString(R.string.const_filesize_AAFont));
+            //long ext_font_size = Long.parseLong(getString(R.string.const_filesize_AAFont));
             if (ext_font_file != null) {
-                if (ext_font_file.length() == ext_font_size) {
+                //if (ext_font_file.length() == ext_font_size) {
                     return ext_font_file;
-                }
-                ext_font_file.delete();
+                //}
+                //ext_font_file.delete();
             }
         }
         catch (SecurityException e) {
@@ -355,6 +358,7 @@ public class TuboroidApplication extends NSimpleApplication {
     public static class ViewConfig {
     	public static final String PREF_ENTRY_DIVIDER 			= "pref_entry_divider";
     	public static final String PREF_SCROLL_BUTTON_POSITION	= "pref_scroll_button_position";
+    	public static final String PREF_AA_MODE	= "pref_aa_mode";
     	
     	public static final int SCROLL_BUTTON_NONE 		= 0;
     	public static final int SCROLL_BUTTON_CENTER 	= 1;
@@ -372,6 +376,10 @@ public class TuboroidApplication extends NSimpleApplication {
         private Typeface aa_font_;
         public int scroll_button_position;
         public int entry_divider;
+        public static final int AA_MODE_DEFAULT = 0;
+        public static final int AA_MODE_ALL_NOT_AA = 1;
+        public static final int AA_MODE_ALL_AA = 2;
+        public int aa_mode;
         
         public int thumbnail_size_;
         public int real_thumbnail_size_;
@@ -406,6 +414,7 @@ public class TuboroidApplication extends NSimpleApplication {
             scrolling_amount_ = obj.scrolling_amount_;
             scroll_button_position = obj.scroll_button_position;
             entry_divider = obj.entry_divider;
+            aa_mode = obj.aa_mode;
         }
         
         public synchronized Typeface getAAFont() {

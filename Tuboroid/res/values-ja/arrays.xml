@@ -40,5 +40,10 @@
 		<item>左下</item>
 		<item>右下</item>
 	</array>
-
+	
+	<array name="aa_mode">
+		<item>デフォルト</item>
+		<item>すべて非AA</item>
+		<item>すべてAA</item>
+	</array>
 </resources>

@@ -202,18 +202,24 @@ public class ThreadEntryEditActivity extends TuboroidActivity {
     }
     
     private void checkSubmitEntryPosting(final String name, final String value) {
-        SimpleDialog.showYesNo(this, R.string.dialog_post_notice_title, R.string.dialog_do_you_post_it_title,
+        SimpleDialog.showYesEtcNo(this, R.string.dialog_post_notice_title, R.string.dialog_do_you_post_it_title
+        		, R.string.dialog_label_normal, R.string.dialog_label_with_p2, 
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        submitEntryPosting(null, null, false);
+                        submitEntryPosting(null, null, false, false);
+                    }
+                },new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        submitEntryPosting(null, null, false, true);
                     }
                 }, new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialog) {}
                 });
     }
-    
+    /*
     public void retrySubmitEntryPosting(final String name, final String value, String message) {
         if (!is_active_) return;
         progress_dialog_.hide();
@@ -229,8 +235,8 @@ public class ThreadEntryEditActivity extends TuboroidActivity {
             }
         });
     }
-    
-    private void submitEntryPosting(final String name, final String value, final boolean is_retry) {
+    */
+    private void submitEntryPosting(final String name, final String value, final boolean is_retry, final boolean with_p2) {
         if (!is_active_) return;
         
         EditText entry_edit_name = (EditText) findViewById(R.id.entry_edit_name);
@@ -241,10 +247,10 @@ public class ThreadEntryEditActivity extends TuboroidActivity {
         
         PostEntryData post_entry_data = new PostEntryData(entry_edit_name.getText().toString(), entry_edit_mail
                 .getText().toString(), entry_edit_body.getText().toString());
-        postEntry(post_entry_data);
+        postEntry(post_entry_data, with_p2);
     }
     
-    private void postEntry(final PostEntryData post_entry_data) {
+    private void postEntry(final PostEntryData post_entry_data, final boolean with_p2) {
         progress_dialog_.show(this, R.string.dialog_posting_progress, new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
@@ -252,7 +258,8 @@ public class ThreadEntryEditActivity extends TuboroidActivity {
             }
         });
         
-        pending_ = getAgent().postEntry(thread_data_, post_entry_data, getTuboroidApplication().getAccountPref(),
+        pending_ = getAgent().postEntry(thread_data_, post_entry_data
+        		, with_p2 ? getTuboroidApplication().getAccountPref() : null,
                 new PostEntryTask.OnPostEntryCallback() {
                     
                     @Override
@@ -270,7 +277,7 @@ public class ThreadEntryEditActivity extends TuboroidActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                ThreadEntryEditActivity.this.onPostRetryNotice(retryPostEntryData, message);
+                                ThreadEntryEditActivity.this.onPostRetryNotice(retryPostEntryData, message, with_p2);
                             }
                         });
                     }
@@ -309,12 +316,12 @@ public class ThreadEntryEditActivity extends TuboroidActivity {
         finish();
     }
     
-    private void onPostRetryNotice(final PostEntryData retryPostEntryData, String message) {
+    private void onPostRetryNotice(final PostEntryData retryPostEntryData, String message, final boolean with_p2) {
         if (!is_active_) return;
         pending_ = null;
         
         if (getTuboroidApplication().isSkipAgreementNotice()) {
-            postEntry(retryPostEntryData);
+            postEntry(retryPostEntryData, with_p2);
             return;
         }
         
@@ -324,7 +331,7 @@ public class ThreadEntryEditActivity extends TuboroidActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 getTuboroidApplication().setSkipAgreementNotice(true);
-                postEntry(retryPostEntryData);
+                postEntry(retryPostEntryData, with_p2);
             }
         }, new DialogInterface.OnCancelListener() {
             @Override

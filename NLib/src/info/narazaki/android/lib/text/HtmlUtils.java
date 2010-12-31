@@ -275,6 +275,7 @@ public class HtmlUtils {
     
     public static String escapeHtml(String orig, boolean escape_single_quote) {
         if (!need_escaping_pattern.matcher(orig).find()) return orig;
+        if(true)return orig;
         
         StringBuilder buf = new StringBuilder();
         for (int i = 0; i < orig.length(); i++) {
@@ -324,28 +325,31 @@ public class HtmlUtils {
             if (j == -1) break;
             
             String entity = orig.substring(i, j + 1);
-            if (!html_entities.containsKey(entity)) {
+            
+            String value = "";
+            try {
+            if(entity.startsWith("&#x") || entity.startsWith("&#X")) {
+                // 数値文字参照(16進数)
+                char c = (char) Integer.parseInt(entity.substring(3, entity.length() - 1), 16);
+                value = new String(new char[] { c });
+            }
+            else if(entity.startsWith("&#")) {
+                // 数値文字参照
+                char c = (char) Integer.parseInt(entity.substring(2, entity.length() - 1));
+                value = new String(new char[] { c });
+            }else if(html_entities.containsKey(entity)) {
+            	value = (String) html_entities.get(entity);
+            }else{
                 result.append(orig.substring(pos, j + 1));
                 pos = j + 1;
                 continue;
             }
-            
-            String value = (String) html_entities.get(entity);
-            try {
-                if (entity.startsWith("&#x") || entity.startsWith("&#X")) {
-                    // 数値文字参照(16進数)
-                    char c = (char) Integer.parseInt(entity.substring(3, entity.length() - 1), 16);
-                    value = new String(new char[] { c });
-                }
-                else if (entity.startsWith("&#")) {
-                    // 数値文字参照
-                    char c = (char) Integer.parseInt(entity.substring(2, entity.length() - 1));
-                    value = new String(new char[] { c });
-                }
             }
             catch (NumberFormatException e) {
                 value = "";
             }
+            
+           
             result.append(orig.substring(pos, i));
             result.append(value);
             pos = j + 1;

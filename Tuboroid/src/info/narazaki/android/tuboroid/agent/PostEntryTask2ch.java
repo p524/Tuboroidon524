@@ -21,7 +21,9 @@ public class PostEntryTask2ch extends PostEntryTask {
     @Override
     public FuturePostEntry post(final ThreadData thread_data, final PostEntryData post_entry_data,
             final AccountPref account_pref, final String user_agent, final OnPostEntryCallback callback) {
-        if (!thread_data.canSpecialPost(account_pref)) {
+    	if(account_pref == null){
+    		postEntry(thread_data, post_entry_data, null, callback);
+    	}else if (!thread_data.canSpecialPost(account_pref)) {
             postEntry(thread_data, post_entry_data, null, callback);
         }
         else if (account_pref.use_maru_) {

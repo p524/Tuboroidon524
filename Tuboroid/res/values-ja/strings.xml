@@ -185,6 +185,8 @@
 	<string name="dialog_label_dat_dropped_use_maru">●使用</string>
 
 	<string name="dialog_do_you_post_it_title">書き込んでよろしいですか?</string>
+	<string name="dialog_label_normal">書き込む</string>
+	<string name="dialog_label_with_p2">p2で</string>
 	<string name="dialog_post_notice_title">書き込み確認</string>
 	<string name="dialog_post_failed_title">書き込み失敗</string>
 	<string name="dialog_post_error_summary">書き込み時に通信エラーが発生しました</string>
@@ -212,6 +214,7 @@
 	<string name="dialog_thread_entry_config_aa">AAの大きさ</string>
 	<string name="dialog_thread_entry_config_size_format">%d px</string>
 	<string name="dialog_thread_entry_config_show_scroll_button">スクロールボタン</string>
+	<string name="dialog_thread_entry_config_aa_mode">AAモード</string>
 	<string name="dialog_thread_entry_config_divider">レス間の区切り</string>
 
 	<!-- 設定画面 -->
