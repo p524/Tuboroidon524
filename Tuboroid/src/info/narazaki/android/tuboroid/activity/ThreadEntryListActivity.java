@@ -69,6 +69,8 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.ScaleAnimation;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
@@ -78,7 +80,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.TextView.BufferType;
 
@@ -916,6 +920,25 @@ public class ThreadEntryListActivity extends SearchableListActivity {
             @Override
             public void onCancel(DialogInterface dialog) {}
         });
+        
+        final Button copy_all_button = (Button)layout_view.findViewById(R.id.copy_all_button);
+        copy_all_button.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v){
+				 ClipboardManager cm = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE); 
+				 cm.setText(copy_orig.getText());
+			}
+		});
+        
+        final ToggleButton aa_toggle_button = (ToggleButton)layout_view.findViewById(R.id.aa_toggle_button);
+        aa_toggle_button.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
+					copy_orig.setHorizontallyScrolling(isChecked);
+			}
+		});
         
         builder.create().show();
     }

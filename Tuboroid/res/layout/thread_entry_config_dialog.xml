@@ -14,7 +14,7 @@
 
 
 		<TableLayout
-			android:layout_width="fill_parent"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
 			<!-- header -->
 			<TableRow
@@ -104,7 +104,7 @@
 		<!-- 表示設定 -->
 		<LinearLayout
 			android:orientation="vertical"
-			android:layout_width="fill_parent"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
 			<CheckBox
 				android:id="@+id/entry_divider"

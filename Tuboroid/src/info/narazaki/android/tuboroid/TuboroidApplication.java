@@ -268,7 +268,7 @@ public class TuboroidApplication extends NSimpleApplication {
             return null;
         }
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        String path = pref.getString("pref_external_storage_path", "tuboroid");
+        String path = pref.getString("pref_external_storage_path", context.getString(R.string.pref_default_external_storage_path));
         if (!pref.getBoolean("pref_use_external_storage", true) || path == null || path.length() == 0) {
             return null;
         }

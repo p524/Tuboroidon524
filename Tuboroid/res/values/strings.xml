@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Tuboroidon</string>
-	<string name="app_name_send">View by Tuboroidon</string>
+	<string name="app_name">Tuboroidon524</string>
+	<string name="app_name_send">View by Tuboroidon524</string>
 
 	<!-- データファイルの定義 -->
 	<string name="const_filename_bbsmenu_dat">bbsmenu.dat</string>
@@ -133,6 +133,7 @@
 	<string name="btn_label_entry_edit_submit">Submit</string>
 	<string name="btn_label_entry_edit_aa">AA View</string>
 	<string name="dialog_aa_font_install">Install</string>
+	<string name="btn_label_copy_all">Copy All</string>
 
 	<!-- トースト -->
 	<string name="toast_reload_board_list_failed">failed to load board list</string>
@@ -164,7 +165,7 @@
 	<string name="notif_check_upadted">new entry found at favorite threads</string>
 
 	<!-- abount -->
-	<string name="dialog_about_modified">Tuboroidon は  gaeeyo が Tuboroid 0.2.2.28.2 に修正を加えた物です。\n<a href="http://sites.google.com/site/nikenonomonooki/tuboroidon">Tuboroidon のサイト</a>\n\nOriginal:</string>
+	<string name="dialog_about_modified">Tuboroidon524 は p524 がTuboroidonに修正を加えたものです。\n\nOriginal:</string>
 	<string name="dialog_about_author_uri">http://www.narazaki.info/</string>
 	<string name="dialog_about_copyright">Copyright (C) 2009-2010 H.Narazaki</string>
 	<string name="dialog_about_lisence">This software is provided &quot;as-is&quot;,
@@ -350,4 +351,5 @@
 	<string name="dialog_thread_entry_config_aa_mode">AAモード</string>
 	<string name="dialog_thread_entry_config_divider">レス間の区切り</string>
 
+<string name="pref_default_external_storage_path">tuboroidon524</string>
 </resources>

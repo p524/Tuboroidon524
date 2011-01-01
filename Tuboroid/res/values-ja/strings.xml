@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Tuboroidon</string>
-	<string name="app_name_send">Tuboroidonで開く</string>
+	<string name="app_name">Tuboroidon524</string>
+	<string name="app_name_send">Tuboroidon524で開く</string>
 
 	<!-- データファイルの定義 -->
 	<!-- string name="const_filename_bbsmenu_dat" -->
@@ -125,6 +125,7 @@
 	<string name="btn_label_entry_edit_submit">書き込む</string>
 	<string name="btn_label_entry_edit_aa">AA表示</string>
 	<string name="dialog_aa_font_install">インストール</string>
+	<string name="btn_label_copy_all">全てコピー</string>
 
 	<!-- トースト -->
 	<string name="toast_reload_board_list_failed">板リストの取得中に通信エラーが発生しました</string>
