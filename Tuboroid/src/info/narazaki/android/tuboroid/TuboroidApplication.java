@@ -141,21 +141,17 @@ public class TuboroidApplication extends NSimpleApplication {
             view_config_.use_ext_aa_font_ = true;
         }
     }
-    
+
     private File getAAFontFile() {
-        try {
-            File ext_font_file = getExternalFontFile();
-            //long ext_font_size = Long.parseLong(getString(R.string.const_filesize_AAFont));
-            if (ext_font_file != null) {
-                //if (ext_font_file.length() == ext_font_size) {
-                    return ext_font_file;
-                //}
-                //ext_font_file.delete();
-            }
-        }
-        catch (SecurityException e) {
-        }
-        return null;
+    	try {
+    		File ext_font_file = getExternalFontFile();
+    		if (ext_font_file != null && ext_font_file.exists()) {
+    			return ext_font_file;
+    		}
+    	}
+    	catch (SecurityException e) {
+    	}
+    	return null;
     }
     
     public File getExternalFontFile() {

@@ -51,6 +51,11 @@ public class SettingAAFontActivity extends TuboroidActivity {
                 }
             });
         }
+        
+        TextView aa_font_path_view = (TextView) findViewById(R.id.aa_font_path);
+        aa_font_path_view.setText(
+        		String.format(getText(R.string.dialog_aa_font_path).toString()
+        			, getTuboroidApplication().getExternalFontFile().getPath()));
     }
     
     @Override

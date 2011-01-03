@@ -14,6 +14,8 @@
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 			<TextView android:text="@string/dialog_aa_font_notice_3"
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />
+			<TextView android:id="@+id/aa_font_path" android:text=""
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 			<TextView android:id="@+id/aa_font_already_installed"
 				android:text="@string/dialog_aa_font_already_installed"
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />

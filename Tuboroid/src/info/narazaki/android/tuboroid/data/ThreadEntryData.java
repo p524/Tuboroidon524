@@ -1164,7 +1164,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     
     public String getEntryBodyText() {
     	String tmp;
-    	if(entry_body_.startsWith(" ") && entry_body_.endsWith(" ")) {
+    	if(entry_body_.length() >= 2 && entry_body_.startsWith(" ") && entry_body_.endsWith(" ")) {
     		tmp = entry_body_.substring(1, entry_body_.length() - 1);
     	}else {
     		tmp = entry_body_;

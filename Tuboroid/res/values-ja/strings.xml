@@ -165,7 +165,8 @@
 	</string>
 
 	<string name="dialog_aa_font_already_installed">フォントは既にインストールされています</string>
-
+	<string name="dialog_aa_font_path">フォントのパスは %s です</string>
+	
 	<string name="dialog_loading_progress">読み込んでいます……</string>
 	<string name="dialog_posting_progress">書き込んでいます……</string>
 
