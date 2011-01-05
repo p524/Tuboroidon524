@@ -168,7 +168,7 @@
 
 	<!-- abount -->
 	<string name="dialog_about_modified">Tuboroidon524 は p524 がTuboroidonに修正を加えたものです。\n\nOriginal:</string>
-	<string name="dialog_about_author_uri">http://www.narazaki.info/</string>
+	<string name="dialog_about_author_uri">Tuboroid:http://www.narazaki.info\nTuboroidon:http://sites.google.com/site/nikenonomonooki/tuboroidon</string>
 	<string name="dialog_about_copyright">Copyright (C) 2009-2010 H.Narazaki</string>
 	<string name="dialog_about_lisence">This software is provided &quot;as-is&quot;,
 		without any
