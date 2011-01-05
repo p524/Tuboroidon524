@@ -59,6 +59,9 @@ public class ThreadListActivity extends SearchableListActivity {
     // ソート方式の変更
     public static final int MENU_KEY_SORT = 30;
     
+    // 共有
+    public static final int MENU_KEY_SHARE = 31;
+    
     // プログレスバー
     private final static int DEFAULT_MAX_PROGRESS = 300;
     private final static int DEFAULT_FAKE_PROGRESS = 60;
@@ -272,6 +275,19 @@ public class ThreadListActivity extends SearchableListActivity {
             }
         });
         
+        // URLの共有
+        MenuItem share = menu.add(0, MENU_KEY_SHARE, MENU_KEY_SHARE, getString(R.string.label_menu_share_board));
+        share.setIcon(android.R.drawable.ic_menu_share);
+        share.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(board_data_.getBoardTopURI()));
+                intent.putExtra("TEXT", board_data_.getBoardTopURI());
+                startActivity(intent);
+                return false;
+            }
+        });
+        
         return true;
     }
     
@@ -291,6 +307,7 @@ public class ThreadListActivity extends SearchableListActivity {
         });
         builder.create().show();
     }
+
     
     // ////////////////////////////////////////////////////////////
     // その他

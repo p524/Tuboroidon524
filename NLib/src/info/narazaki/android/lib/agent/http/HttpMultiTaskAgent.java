@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.concurrent.Future;
 
+import org.apache.http.HttpHost;
+
 import android.content.Context;
 import android.net.Uri;
 
@@ -15,13 +17,15 @@ public class HttpMultiTaskAgent implements HttpTaskAgentInterface {
     private static final String TAG = "HttpMultiTaskAgent";
     final private Context context_;
     final private String user_agent_;
+    final private HttpHost proxy_;
     
     private HashMap<String, SoftReference<HttpTaskAgent>> agent_map_;
     
-    public HttpMultiTaskAgent(Context context, final String user_agent) {
+    public HttpMultiTaskAgent(Context context, final String user_agent, final HttpHost proxy) {
         super();
         context_ = context;
         user_agent_ = user_agent;
+        proxy_ = proxy;
         agent_map_ = new HashMap<String, SoftReference<HttpTaskAgent>>();
     }
     
@@ -39,7 +43,7 @@ public class HttpMultiTaskAgent implements HttpTaskAgentInterface {
             agent_map_.remove(host);
         }
         
-        HttpTaskAgent agent = new HttpTaskAgent(context_, user_agent_);
+        HttpTaskAgent agent = new HttpTaskAgent(context_, user_agent_, proxy_);
         agent_map_.put(host, new SoftReference<HttpTaskAgent>(agent));
         return agent;
     }

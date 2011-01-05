@@ -66,6 +66,7 @@
 	<string name="ctx_submenu_copy_to_clipboard_id">ID</string>
 	<string name="ctx_submenu_copy_to_clipboard_name">Name</string>
 	<string name="ctx_submenu_copy_to_clipboard_body">entry body</string>
+	<string name="ctx_submenu_copy_to_clipboard_whole_entry">whole entry</string>
 
 	<string name="ctx_menu_title_board">operation for this board</string>
 	<string name="ctx_menu_delete_board">delete</string>
@@ -101,6 +102,7 @@
 	<string name="label_menu_manual_order">manage order</string>
 	<string name="label_menu_auto_order">auto order</string>
 	<string name="label_menu_clear_cache">clear cache</string>
+	<string name="label_menu_share_board">share</string>
 
 	<string name="label_submenu_delete_filled">delete filled</string>
 	<string name="label_submenu_auto_sort">auto sort</string>
@@ -330,6 +332,14 @@
 
 	<string name="pref_title_favorites_update_service_fetch_entries">Download Service</string>
 	<string name="pref_summary_favorites_update_service_fetch_entries">Fetch entries by update service</string>
+	
+	<string name="pref_cat_title_network">Network Settings</string>
+	<string name="pref_title_use_proxy">Use proxy</string>
+	<string name="pref_summay_use_proxy">Use http proxy</string>
+	<string name="pref_title_proxy_host">Proxy host</string>
+	<string name="pref_summay_proxy_host">Proxy Host</string>
+	<string name="pref_title_proxy_port">Proxy port</string>
+	<string name="pref_summay_proxy_port">Proxy port(default:8080)</string>
 
 	<string name="pref_cat_title_other">Other Settings</string>
 	<string name="pref_title_clear_ignores">Clear Ignore IDs/words</string>

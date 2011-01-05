@@ -52,6 +52,10 @@ public class TuboroidAgent {
         man_.getSingleHttpAgent().setCookieStoreData(null);
     }
     
+    public void onResetProxyPreference() {
+    	man_.onResetProxyPreference();
+    }
+    
     public boolean fetchBoardList(final boolean no_cache, final boolean force_reload,
             final BoardListAgent.BoardListFetchedCallback callback) {
         return man_.getBoardListAgent().fetchBoardList(no_cache, force_reload, callback);

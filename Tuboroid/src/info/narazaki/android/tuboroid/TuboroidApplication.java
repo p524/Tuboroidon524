@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
+import org.apache.http.HttpHost;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -124,6 +126,8 @@ public class TuboroidApplication extends NSimpleApplication {
         account_pref_ = new AccountPref(use_maru, use_p2, maru_user_id, maru_password, p2_user_id, p2_password);
         
         if (invalidate) getAgent().clearCookie();
+        
+        getAgent().onResetProxyPreference();
         
         setVolumeButtonScrolling(pref.getBoolean("pref_use_volume_button_scrolling", false));
         setCameraButtonScrolling(pref.getBoolean("pref_use_camera_button_scrolling", false));
@@ -474,6 +478,32 @@ public class TuboroidApplication extends NSimpleApplication {
         return account_pref_;
     }
     
+    // //////////////////////////////////////////////////
+    // ネットワーク設定
+    // //////////////////////////////////////////////////
+    public boolean useProxy() {
+    	SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+    	boolean pref_use_proxy = pref.getBoolean("pref_use_proxy", false);
+    	if(!pref_use_proxy) {
+    		return false;
+    	}
+    	int port = Integer.parseInt(pref.getString("pref_proxy_port", "8080"));
+    	if(pref.getString("pref_proxy_host", "") == "" || port < 0 || (1 << 16) <= port) {
+    		return false;
+    	}
+    	return true;
+    }
+    
+    public HttpHost getProxy() {
+    	if(useProxy()) {
+    		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        	return new HttpHost(pref.getString("pref_proxy_host", ""), Integer.parseInt(pref.getString("pref_proxy_port", "8080")));
+    	}else {
+    		return null;
+    	}
+    }
+    
+
     // //////////////////////////////////////////////////
     //
     // //////////////////////////////////////////////////

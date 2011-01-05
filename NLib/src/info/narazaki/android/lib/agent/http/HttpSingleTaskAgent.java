@@ -7,14 +7,16 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.apache.http.HttpHost;
+
 import android.content.Context;
 
 public class HttpSingleTaskAgent extends HttpTaskAgent {
     Future<?> pending_;
     HttpTaskBase prev_task_;
     
-    public HttpSingleTaskAgent(Context context, String user_agent) {
-        super(context, user_agent);
+    public HttpSingleTaskAgent(Context context, String user_agent, HttpHost proxy) {
+        super(context, user_agent, proxy);
         pending_ = null;
         prev_task_ = null;
     }

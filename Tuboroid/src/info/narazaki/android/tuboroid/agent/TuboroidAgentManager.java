@@ -5,6 +5,7 @@ import info.narazaki.android.lib.agent.http.HttpSingleTaskAgent;
 import info.narazaki.android.lib.agent.http.HttpTaskAgent.SaveCookieStoreCallback;
 import info.narazaki.android.lib.aplication.NSimpleApplication;
 import info.narazaki.android.tuboroid.R;
+import info.narazaki.android.tuboroid.TuboroidApplication;
 import info.narazaki.android.tuboroid.agent.http.HttpMaruTaskAgent;
 import info.narazaki.android.tuboroid.agent.thread.DataFileAgent;
 import info.narazaki.android.tuboroid.agent.thread.SQLiteAgent;
@@ -57,6 +58,12 @@ public class TuboroidAgentManager {
         getIgnoreListAgent();
     }
     
+    public void onResetProxyPreference() {
+    	multi_http_agent_ = null;
+        single_http_agent_ = null;
+        maru_http_agent_ = null;
+    }
+    
     public String getHttpUserAgentName() {
         return USER_AGENT;
     }
@@ -92,7 +99,8 @@ public class TuboroidAgentManager {
         if (multi_http_agent_ == null) {
             synchronized (this) {
                 if (multi_http_agent_ == null) {
-                    multi_http_agent_ = new HttpMultiTaskAgent(context_, USER_AGENT);
+                    multi_http_agent_ = new HttpMultiTaskAgent(context_, USER_AGENT
+                    	, ((TuboroidApplication)context_.getApplicationContext()).getProxy());
                     
                 }
             }
@@ -106,7 +114,8 @@ public class TuboroidAgentManager {
                 if (single_http_agent_ == null) {
                     SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context_);
                     String cookie_data = pref.getString("pref_cookie_data", "");
-                    single_http_agent_ = new HttpSingleTaskAgent(context_, USER_AGENT);
+                    single_http_agent_ = new HttpSingleTaskAgent(context_, USER_AGENT
+                    	, ((TuboroidApplication)context_.getApplicationContext()).getProxy());
                     single_http_agent_.setCookieStoreData(cookie_data);
                     single_http_agent_.setSaveCookieCallback(new SaveCookieStoreCallback() {
                         @Override
@@ -128,7 +137,8 @@ public class TuboroidAgentManager {
         if (maru_http_agent_ == null) {
             synchronized (this) {
                 if (maru_http_agent_ == null) {
-                    maru_http_agent_ = new HttpMaruTaskAgent(context_, MARU_USER_AGENT);
+                    maru_http_agent_ = new HttpMaruTaskAgent(context_, MARU_USER_AGENT
+                    	, ((TuboroidApplication)context_.getApplicationContext()).getProxy());
                     maru_http_agent_.setTimeoutMS(POST_ENTRY_TIMEOUT_MS);
                 }
             }

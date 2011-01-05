@@ -19,6 +19,7 @@ import org.apache.http.Header;
 import org.apache.http.HeaderElement;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpException;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpRequestInterceptor;
 import org.apache.http.HttpResponse;
@@ -26,6 +27,7 @@ import org.apache.http.HttpResponseInterceptor;
 import org.apache.http.client.params.ClientPNames;
 import org.apache.http.client.params.CookiePolicy;
 import org.apache.http.client.protocol.ClientContext;
+import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.HttpEntityWrapper;
@@ -68,12 +70,12 @@ public class HttpTaskAgent implements HttpTaskAgentInterface {
     
     protected SaveCookieStoreCallback save_cookie_callback_;
     
-    public HttpTaskAgent(Context context, final String user_agent) {
+    public HttpTaskAgent(Context context, final String user_agent, final HttpHost proxy) {
         super();
         context_ = context;
         executor_ = Executors.newSingleThreadExecutor();
         
-        http_client_ = createHttpClient(user_agent);
+        http_client_ = createHttpClient(user_agent, proxy);
         cookie_store_ = createCookieStore();
         
         http_context_ = createContext(cookie_store_);
@@ -105,12 +107,15 @@ public class HttpTaskAgent implements HttpTaskAgentInterface {
         timeout_ms_ = timeout;
     }
     
-    protected AbstractHttpClient createHttpClient(final String user_agent) {
+    protected AbstractHttpClient createHttpClient(final String user_agent, final HttpHost proxy) {
         AbstractHttpClient http_client = new DefaultHttpClient();
         http_client.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.BROWSER_COMPATIBILITY);
         http_client.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, getTimeoutMS());
         http_client.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, getTimeoutMS());
         
+        if(proxy != null) {
+        	http_client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+        }
         http_client.addRequestInterceptor(new HttpRequestInterceptor() {
             @Override
             public void process(final HttpRequest request, final HttpContext context) throws HttpException, IOException {

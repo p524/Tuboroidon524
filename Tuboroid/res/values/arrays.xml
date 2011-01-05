@@ -57,6 +57,11 @@
 		<item>Cached</item>
 	</array>
 
+	<array name="thread_share_list">
+		<item>Board Top</item>
+		<item>Create Thread Uri</item>
+	</array>
+	
 	<array name="add_favorite_thread_rule">
 		<item>follow similar</item>
 		<item>follow board</item>

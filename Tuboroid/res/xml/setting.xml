@@ -158,6 +158,22 @@
 			android:entries="@array/service_update_interval" android:entryValues="@array/service_update_interval_values"
 			android:defaultValue="30" />
 	</PreferenceCategory>
+	
+	<PreferenceCategory android:title="@string/pref_cat_title_network">
+		<CheckBoxPreference android:key="pref_use_proxy"
+			android:title="@string/pref_title_use_proxy"
+			android:summary="@string/pref_summay_use_proxy"
+			android:defaultValue="false" />
+		<EditTextPreference android:key="pref_proxy_host"
+			android:dependency="pref_use_proxy" android:title="@string/pref_title_proxy_host"
+			android:summary="@string/pref_summay_proxy_host"
+			android:defaultValue="" android:lines="1" android:singleLine="true" />
+		<EditTextPreference android:key="pref_proxy_port"
+			android:dependency="pref_use_proxy" android:title="@string/pref_title_proxy_port"
+			android:summary="@string/pref_summay_proxy_port"
+			android:defaultValue="8080" android:lines="1" android:singleLine="true"
+			android:inputType="number" />
+		</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/pref_cat_title_other">
 		<Preference android:key="manage_clear_ignores"

@@ -25,11 +25,14 @@ import info.narazaki.android.tuboroid.service.TuboroidService;
 import info.narazaki.android.tuboroid.service.TuboroidServiceTask;
 import info.narazaki.android.tuboroid.service.TuboroidServiceTask.ServiceSender;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.xmlpull.v1.XmlPullParserException;
 
 import jp.syoboi.android.ListViewEx;
 import jp.syoboi.android.ListViewScrollButton;
@@ -42,6 +45,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -63,12 +67,14 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.WindowManager;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.ScaleAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -846,7 +852,8 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     private void showDialogCopyToClipboard(final ThreadEntryData entry_data) {
         String[] menu_strings = new String[] { getString(R.string.ctx_submenu_copy_to_clipboard_id),
                 getString(R.string.ctx_submenu_copy_to_clipboard_name),
-                getString(R.string.ctx_submenu_copy_to_clipboard_body) };
+                getString(R.string.ctx_submenu_copy_to_clipboard_body),
+                getString(R.string.ctx_submenu_copy_to_clipboard_whole_entry) };
         
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.ctx_menu_copy_to_clipboard);
@@ -862,7 +869,10 @@ public class ThreadEntryListActivity extends SearchableListActivity {
                     cm.setText(entry_data.author_name_);
                     break;
                 case 2:
-                    showDialogCopyEntryBody(entry_data);
+                	cm.setText(entry_data.getEntryBodyText());
+                    break;
+                case 3:
+                	showDialogCopyEntryBody(entry_data);
                     return;
                 default:
                     return;
@@ -912,7 +922,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         builder.setView(layout_view);
         
         final EditText copy_orig = (EditText) layout_view.findViewById(R.id.copy_orig);
-        copy_orig.setText(entry_data.getEntryBodyText());
+        copy_orig.setText(entry_data.getEntryWholeText());
         copy_orig.setSingleLine(false);
         
         builder.setCancelable(true);
@@ -926,21 +936,28 @@ public class ThreadEntryListActivity extends SearchableListActivity {
 			
 			@Override
 			public void onClick(View v){
-				 ClipboardManager cm = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE); 
+				 ClipboardManager cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE); 
 				 cm.setText(copy_orig.getText());
 			}
 		});
         
+        final Typeface origFont = copy_orig.getTypeface();
+        final Typeface aaFont = ((TuboroidApplication)getApplication()).view_config_.getAAFont();
+       
         final ToggleButton aa_toggle_button = (ToggleButton)layout_view.findViewById(R.id.aa_toggle_button);
         aa_toggle_button.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
-					copy_orig.setHorizontallyScrolling(isChecked);
-			}
-		});
-        
-        builder.create().show();
+
+        	@Override
+        	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
+        		copy_orig.setHorizontallyScrolling(isChecked);
+        		copy_orig.setHorizontalScrollBarEnabled(isChecked);
+        		copy_orig.setTypeface(isChecked ? aaFont : origFont);
+        	}
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
+        dialog.show();
     }
     
     // ////////////////////////////////////////////////////////////

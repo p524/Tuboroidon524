@@ -64,7 +64,7 @@ public class ThreadData2chCompat extends ThreadData2ch {
     
     @Override
     public boolean canSpecialPost(AccountPref account_pref) {
-        return false;
+        return account_pref.use_p2_;
     }
     
     @Override

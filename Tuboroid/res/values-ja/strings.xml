@@ -58,6 +58,7 @@
 	<string name="ctx_submenu_copy_to_clipboard_id">ID</string>
 	<string name="ctx_submenu_copy_to_clipboard_name">名前</string>
 	<string name="ctx_submenu_copy_to_clipboard_body">書き込み本文</string>
+	<string name="ctx_submenu_copy_to_clipboard_whole_entry">レス全体</string>
 
 	<string name="ctx_menu_title_board">この板に対して</string>
 	<string name="ctx_menu_delete_board">削除する</string>
@@ -93,6 +94,7 @@
 	<string name="label_menu_manual_order">手動整理</string>
 	<string name="label_menu_auto_order">自動整理</string>
 	<string name="label_menu_clear_cache">キャッシュ削除</string>
+	<string name="label_menu_share_board">共有</string>
 
 	<string name="label_submenu_delete_filled">埋まったスレを削除</string>
 	<string name="label_submenu_auto_sort">自動で並べなおす</string>
@@ -320,6 +322,14 @@
 
 	<string name="pref_title_favorites_update_service_fetch_entries">更新時にダウンロード</string>
 	<string name="pref_summary_favorites_update_service_fetch_entries">更新チェック時に新着レスをDLしてキャッシュします</string>
+		
+	<string name="pref_cat_title_network">ネットワーク設定</string>
+	<string name="pref_title_use_proxy">プロキシを使用する</string>
+	<string name="pref_summay_use_proxy">HTTP接続に対してプロキシを使用する</string>
+	<string name="pref_title_proxy_host">ホスト名</string>
+	<string name="pref_summay_proxy_host">プロキシのホスト名</string>
+	<string name="pref_title_proxy_port">ポート</string>
+	<string name="pref_summay_proxy_port">プロキシのポート番号(デフォルトは8080)</string>
 
 	<string name="pref_cat_title_other">その他の設定</string>
 	<string name="pref_title_clear_ignores">あぼーん設定のクリア</string>

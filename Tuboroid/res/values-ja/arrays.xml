@@ -13,6 +13,11 @@
 		<item>新しく立った順</item>
 		<item>既読を上に</item>
 	</string-array>
+	
+	<array name="thread_share_list">
+		<item>板トップ</item>
+		<item>スレ立て画面</item>
+	</array>
 
 	<array name="add_favorite_thread_rule">
 		<item>類似スレの次</item>

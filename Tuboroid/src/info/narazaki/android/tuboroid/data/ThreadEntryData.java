@@ -69,6 +69,9 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     private static final Pattern SHRINK_WHITESPACE_PATTERN = Pattern.compile("  +");
     public static final String IS_AA = "1";
     
+    //BEのコピペ向け成型用正規表現
+    private static final Pattern copy_be_pattern_ = Pattern.compile("^BE:\\d+-([^(]+)(.*)$");
+    
     // 年を表示するかどうかの判定に
     private static String dateBorder = getNewDateBorder();
     
@@ -1170,5 +1173,36 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     		tmp = entry_body_;
     	}
 		return tmp.replace(" \n", "\n").replace("\n ", "\n");
+    }
+    
+    public String getEntryWholeText() {
+    	StringBuilder text = new StringBuilder();
+    	text.append(entry_id_);
+    	text.append(" 名前：");
+    	text.append(author_name_);
+    	text.append('[');
+    	text.append(author_mail_);
+    	text.append(']');
+    	text.append(" 投稿日：");
+    	text.append(entry_time_);
+    	if(author_id_.length() != 0) {
+    		text.append(" ID:");
+    		text.append(author_id_);
+    	}
+    	if(author_be_.length() != 0) {
+    		text.append(' ');
+    		Matcher matcher = copy_be_pattern_.matcher(author_be_);
+    		matcher.reset();
+    		if(matcher.find()) {
+    			text.append('?');
+    			text.append(matcher.group(1));
+    			text.append(matcher.group(2));
+    		}else {
+    			text.append(author_be_);
+    		}
+    	}
+    	text.append('\n');
+    	text.append(getEntryBodyText());
+    	return text.toString();
     }
 }
