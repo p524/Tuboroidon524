@@ -62,8 +62,14 @@ public class ThreadEntryEditActivity extends TuboroidActivity {
         String default_mail = pref.getString(PREF_KEY_ENTRY_EDIT_MAIL, "sage");
         EditText name_view = (EditText) findViewById(R.id.entry_edit_name);
         name_view.setText(default_name);
+        name_view.getInputExtras(true).putBoolean("allowEmoji", true);
+        
         EditText mail_view = (EditText) findViewById(R.id.entry_edit_mail);
         mail_view.setText(default_mail);
+        mail_view.getInputExtras(true).putBoolean("allowEmoji", true);
+        
+        EditText body_view = (EditText) findViewById(R.id.entry_edit_body);
+        body_view.getInputExtras(true).putBoolean("allowEmoji", true);
         
         // スレッド情報の取得(URLから作れる範囲の暫定のもの)
         thread_uri_ = getIntent().getData();
@@ -77,8 +83,7 @@ public class ThreadEntryEditActivity extends TuboroidActivity {
         	default_text = getIntent().getStringExtra(Intent.EXTRA_TEXT);
         }
         if (default_text != null) {
-            EditText view = (EditText) findViewById(R.id.entry_edit_body);
-            view.setText(default_text);
+        	body_view.setText(default_text);
         }
         
         // スレッド情報の読み込み

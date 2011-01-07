@@ -1,6 +1,7 @@
 package info.narazaki.android.tuboroid.agent.task;
 
 import info.narazaki.android.lib.agent.http.task.TextHttpGetTaskBase;
+import info.narazaki.android.lib.text.CharsetInfo;
 import info.narazaki.android.lib.text.HtmlUtils;
 import info.narazaki.android.tuboroid.data.BoardData;
 import info.narazaki.android.tuboroid.data.ThreadData;
@@ -22,7 +23,7 @@ public class HttpGetThreadListTask2ch extends TextHttpGetTaskBase implements Htt
     
     @Override
     protected String getTextEncode() {
-        return "MS932";
+        return CharsetInfo.getEmojiShiftJis();
     }
     
     public HttpGetThreadListTask2ch(BoardData board_data, Callback callback) {

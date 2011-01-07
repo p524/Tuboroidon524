@@ -1,5 +1,6 @@
 package info.narazaki.android.tuboroid.agent.task;
 
+import info.narazaki.android.lib.text.CharsetInfo;
 import info.narazaki.android.tuboroid.data.BoardData;
 
 public class HttpGetBoardDataTaskMachi extends HttpGetBoardDataTask {
@@ -11,7 +12,7 @@ public class HttpGetBoardDataTaskMachi extends HttpGetBoardDataTask {
     
     @Override
     protected String getTextEncode() {
-        return "MS932";
+        return CharsetInfo.getEmojiShiftJis();
     }
     
 }

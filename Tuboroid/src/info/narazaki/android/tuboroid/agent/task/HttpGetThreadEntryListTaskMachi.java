@@ -3,6 +3,7 @@ package info.narazaki.android.tuboroid.agent.task;
 import info.narazaki.android.lib.agent.http.HttpTaskAgentInterface;
 import info.narazaki.android.lib.agent.http.task.HttpTaskBase;
 import info.narazaki.android.lib.list.ListUtils;
+import info.narazaki.android.lib.text.CharsetInfo;
 import info.narazaki.android.lib.text.HtmlUtils;
 import info.narazaki.android.tuboroid.data.ThreadData;
 import info.narazaki.android.tuboroid.data.ThreadEntryData;
@@ -62,7 +63,7 @@ public class HttpGetThreadEntryListTaskMachi extends HttpTaskBase implements Htt
     
     @Override
     protected String getTextEncode() {
-        return "MS932";
+        return CharsetInfo.getEmojiShiftJis();
     }
     
     @Override

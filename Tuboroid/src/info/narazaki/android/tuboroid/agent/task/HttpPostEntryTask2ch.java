@@ -1,6 +1,7 @@
 package info.narazaki.android.tuboroid.agent.task;
 
 import info.narazaki.android.lib.agent.http.task.TextHttpPostTaskBase;
+import info.narazaki.android.lib.text.CharsetInfo;
 import info.narazaki.android.lib.text.HtmlUtils;
 import info.narazaki.android.tuboroid.data.PostEntryData;
 import info.narazaki.android.tuboroid.data.ThreadData;
@@ -8,6 +9,7 @@ import info.narazaki.android.tuboroid.data.ThreadData;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
@@ -61,9 +63,10 @@ public class HttpPostEntryTask2ch extends TextHttpPostTaskBase {
                 | Pattern.DOTALL);
     }
     
+    
     @Override
     protected String getTextEncode() {
-        return "MS932";
+        return CharsetInfo.getEmojiShiftJis();
     }
     
     public HttpPostEntryTask2ch(ThreadData thread_data, String post_entry_uri, String referer_uri,

@@ -1,6 +1,7 @@
 package info.narazaki.android.tuboroid.agent.task;
 
 import info.narazaki.android.lib.agent.http.task.TextHttpPostTaskBase;
+import info.narazaki.android.lib.text.CharsetInfo;
 import info.narazaki.android.lib.text.HtmlUtils;
 import info.narazaki.android.tuboroid.data.PostEntryData;
 import info.narazaki.android.tuboroid.data.ThreadData;
@@ -42,7 +43,7 @@ public class HttpPostEntryTaskMachi extends TextHttpPostTaskBase {
     
     @Override
     protected String getTextEncode() {
-        return "MS932";
+        return CharsetInfo.getEmojiShiftJis();
     }
     
     public HttpPostEntryTaskMachi(ThreadData thread_data, PostEntryData post_entry_data, Callback callback) {

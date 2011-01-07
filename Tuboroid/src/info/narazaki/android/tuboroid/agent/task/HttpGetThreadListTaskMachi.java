@@ -9,11 +9,14 @@ import info.narazaki.android.tuboroid.data.ThreadDataMachi;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
+
+import info.narazaki.android.lib.text.CharsetInfo;
 
 public class HttpGetThreadListTaskMachi extends TextHttpGetTaskBase implements HttpGetThreadListTask {
     private static final String TAG = "HttpGetThreadListTaskMachi";
@@ -24,7 +27,7 @@ public class HttpGetThreadListTaskMachi extends TextHttpGetTaskBase implements H
     
     @Override
     protected String getTextEncode() {
-        return "MS932";
+        return CharsetInfo.getEmojiShiftJis();
     }
     
     public HttpGetThreadListTaskMachi(BoardData board_data, Callback callback) {
