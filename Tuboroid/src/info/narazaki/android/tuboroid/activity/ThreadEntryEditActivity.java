@@ -62,15 +62,16 @@ public class ThreadEntryEditActivity extends TuboroidActivity {
         String default_mail = pref.getString(PREF_KEY_ENTRY_EDIT_MAIL, "sage");
         EditText name_view = (EditText) findViewById(R.id.entry_edit_name);
         name_view.setText(default_name);
-        name_view.getInputExtras(true).putBoolean("allowEmoji", true);
         
         EditText mail_view = (EditText) findViewById(R.id.entry_edit_mail);
         mail_view.setText(default_mail);
-        mail_view.getInputExtras(true).putBoolean("allowEmoji", true);
         
         EditText body_view = (EditText) findViewById(R.id.entry_edit_body);
-        body_view.getInputExtras(true).putBoolean("allowEmoji", true);
-        
+
+        for(EditText edit_text : new EditText[] {name_view, mail_view, body_view}){
+        	edit_text.getInputExtras(true).putBoolean("allowEmoji", true);
+        }
+        	
         // スレッド情報の取得(URLから作れる範囲の暫定のもの)
         thread_uri_ = getIntent().getData();
         thread_data_ = ThreadData.factory(thread_uri_);
@@ -207,6 +208,7 @@ public class ThreadEntryEditActivity extends TuboroidActivity {
     }
     
     private void checkSubmitEntryPosting(final String name, final String value) {
+    	if(getTuboroidApplication().getAccountPref().use_p2_){
         SimpleDialog.showYesEtcNo(this, R.string.dialog_post_notice_title, R.string.dialog_do_you_post_it_title
         		, R.string.dialog_label_normal, R.string.dialog_label_with_p2, 
                 new DialogInterface.OnClickListener() {
@@ -223,6 +225,18 @@ public class ThreadEntryEditActivity extends TuboroidActivity {
                     @Override
                     public void onCancel(DialogInterface dialog) {}
                 });
+    	}else{
+            SimpleDialog.showYesNo(this, R.string.dialog_post_notice_title, R.string.dialog_do_you_post_it_title,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            submitEntryPosting(null, null, false, true);
+                        }
+                    }, new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {}
+                    });
+    	}
     }
     /*
     public void retrySubmitEntryPosting(final String name, final String value, String message) {
