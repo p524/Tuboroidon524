@@ -11,6 +11,7 @@ import info.narazaki.android.tuboroid.agent.ImageFetchAgent;
 import info.narazaki.android.tuboroid.agent.thread.DataFileAgent;
 import info.narazaki.android.tuboroid.agent.thread.SQLiteAgent;
 import info.narazaki.android.tuboroid.data.ThreadData;
+import info.narazaki.android.tuboroid.view.ScrollImageView;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -29,13 +30,22 @@ import android.os.Handler;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.view.MenuItem.OnMenuItemClickListener;
+import android.view.View.OnClickListener;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
+import android.widget.AbsoluteLayout;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
+import android.widget.ZoomButton;
+import android.widget.ZoomControls;
+import android.widget.ImageView.ScaleType;
+import android.widget.RelativeLayout.LayoutParams;
 
 public class ImageViewerActivity extends TuboroidActivity {
     public static final String TAG = "ImageViewerActivity";
@@ -96,7 +106,7 @@ public class ImageViewerActivity extends TuboroidActivity {
         image_local_file_ = image_local_file;
         image_uri_ = image_uri;
         
-        ImageView image_view = (ImageView) findViewById(R.id.image_viewer_image);
+        final ScrollImageView image_view = (ScrollImageView) findViewById(R.id.image_viewer_image);
         image_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,6 +114,41 @@ public class ImageViewerActivity extends TuboroidActivity {
             }
         });
         setFillParentMode(is_fill_parent_mode_);
+        image_view.setScaleType(ScaleType.MATRIX);
+        
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.image_viewer_out_box);
+        ZoomControls zoom = (ZoomControls) layout.getChildAt(1);
+        ZoomButton c1 = (ZoomButton)zoom.getChildAt(0);
+        ZoomButton c2 = (ZoomButton)zoom.getChildAt(1);
+
+        //ズームボタンを右のほうに設置
+        RelativeLayout.LayoutParams layout_params = new RelativeLayout.LayoutParams(170, 100);
+        layout_params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        layout_params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+
+        zoom.setLayoutParams(layout_params);
+        
+        zoom.setEnabled(false);
+        
+        c1.getLayoutParams().width = 85;
+        c2.getLayoutParams().width = 85;
+        
+        
+        zoom.setOnZoomInClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				image_view.onZoomIn();
+			}
+		});
+        zoom.setOnZoomOutClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				image_view.onZoomOut();
+			}
+		});
+        //zoom.
         
         // スレッド情報の読み込み
         getAgent().getThreadData(thread_data_temp, new SQLiteAgent.GetThreadDataResult() {
