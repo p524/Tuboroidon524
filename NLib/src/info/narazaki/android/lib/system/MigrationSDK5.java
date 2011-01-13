@@ -2,6 +2,7 @@ package info.narazaki.android.lib.system;
 
 import android.content.Intent;
 import android.os.Build;
+import android.view.MotionEvent;
 
 public class MigrationSDK5 {
     public static boolean supported() {
@@ -30,4 +31,5 @@ public class MigrationSDK5 {
         }
         */
     }
+    
 }

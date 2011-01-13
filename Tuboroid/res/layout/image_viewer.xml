@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/image_viewer_out_box" android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:orientation="vertical"
-	android:gravity="center_vertical|center_horizontal">
-	<info.narazaki.android.lib.view.XYScrollView
+	android:layout_height="fill_parent" 
+	>
+	<!-- <info.narazaki.android.lib.view.XYScrollView
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
-		android:scrollbars="vertical|horizontal" android:fadingEdge="vertical|horizontal">
-		<ImageView android:id="@+id/image_viewer_image"
-			android:layout_width="wrap_content" android:layout_height="wrap_content" />
-	</info.narazaki.android.lib.view.XYScrollView>
-</LinearLayout>
+		android:scrollbars="vertical|horizontal" android:fadingEdge="vertical|horizontal"> -->
+		<info.narazaki.android.tuboroid.view.ScrollImageView android:id="@+id/image_viewer_image"
+			android:layout_width="fill_parent" android:layout_height="fill_parent" 
+			android:scaleType="matrix"/>
+		<ZoomControls android:id="@+id/image_viewer_zoomer"
+		android:layout_width="fill_parent" android:layout_height="fill_parent" 
+		/>
+	<!-- </info.narazaki.android.lib.view.XYScrollView>-->
+</RelativeLayout>
