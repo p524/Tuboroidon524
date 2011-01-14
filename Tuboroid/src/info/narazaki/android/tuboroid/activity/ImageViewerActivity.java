@@ -11,6 +11,7 @@ import info.narazaki.android.tuboroid.agent.ImageFetchAgent;
 import info.narazaki.android.tuboroid.agent.thread.DataFileAgent;
 import info.narazaki.android.tuboroid.agent.thread.SQLiteAgent;
 import info.narazaki.android.tuboroid.data.ThreadData;
+import info.narazaki.android.tuboroid.view.ImageViewerFooter;
 import info.narazaki.android.tuboroid.view.ScrollImageView;
 
 import java.io.File;
@@ -20,9 +21,14 @@ import java.util.regex.Pattern;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.NinePatchDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -41,6 +47,7 @@ import android.widget.AbsoluteLayout;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ZoomButton;
 import android.widget.ZoomControls;
@@ -115,40 +122,14 @@ public class ImageViewerActivity extends TuboroidActivity {
         });
         setFillParentMode(is_fill_parent_mode_);
         image_view.setScaleType(ScaleType.MATRIX);
-        
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.image_viewer_out_box);
-        ZoomControls zoom = (ZoomControls) layout.getChildAt(1);
-        ZoomButton c1 = (ZoomButton)zoom.getChildAt(0);
-        ZoomButton c2 = (ZoomButton)zoom.getChildAt(1);
 
-        //ズームボタンを右のほうに設置
-        RelativeLayout.LayoutParams layout_params = new RelativeLayout.LayoutParams(170, 100);
-        layout_params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        layout_params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
-        zoom.setLayoutParams(layout_params);
+        ImageViewerFooter footer = (ImageViewerFooter) findViewById(R.id.image_viewer_footer);
+        DisplayMetrics metrics = new DisplayMetrics();   
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
         
-        zoom.setEnabled(false);
+        footer.init(image_local_file_.toString(), image_uri_, image_view, metrics.widthPixels);
         
-        c1.getLayoutParams().width = 85;
-        c2.getLayoutParams().width = 85;
-        
-        
-        zoom.setOnZoomInClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				image_view.onZoomIn();
-			}
-		});
-        zoom.setOnZoomOutClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				image_view.onZoomOut();
-			}
-		});
-        //zoom.
         
         // スレッド情報の読み込み
         getAgent().getThreadData(thread_data_temp, new SQLiteAgent.GetThreadDataResult() {
@@ -338,7 +319,7 @@ public class ImageViewerActivity extends TuboroidActivity {
             
             @Override
             public void onFetched(final Bitmap bitmap) {
-                final ImageView image_view_tmp = image_view_ref.get();
+                final ScrollImageView image_view_tmp = (ScrollImageView)image_view_ref.get();
                 if (image_view_tmp == null) return;
                 //このスレッドからImageView.postを呼ぶとtrueが返ってくるのにRunnableが実行されないという
                 //事態がまれに発生する。View自体がもつhandlerの代わりに自分で作ったhandlerを使うと大丈夫？
@@ -370,15 +351,13 @@ public class ImageViewerActivity extends TuboroidActivity {
         
         final float scale = getResources().getDisplayMetrics().density;
         Display display = getWindowManager().getDefaultDisplay();
-        final int width = (int) (display.getWidth() / scale);
-        final int height = (int) (display.getHeight() / scale);
-        
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(image_local_file.getAbsolutePath(), options);
         
         getAgent().fetchImage(callback, image_local_file, uri, options.outWidth, options.outHeight, false);
+        //getAgent().fetchImage(callback, image_local_file, uri, 100, 100, false);
     }
     
 }

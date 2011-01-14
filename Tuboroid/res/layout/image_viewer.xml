@@ -3,14 +3,10 @@
 	android:id="@+id/image_viewer_out_box" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" 
 	>
-	<!-- <info.narazaki.android.lib.view.XYScrollView
-		android:layout_width="fill_parent" android:layout_height="fill_parent"
-		android:scrollbars="vertical|horizontal" android:fadingEdge="vertical|horizontal"> -->
 		<info.narazaki.android.tuboroid.view.ScrollImageView android:id="@+id/image_viewer_image"
 			android:layout_width="fill_parent" android:layout_height="fill_parent" 
-			android:scaleType="matrix"/>
-		<ZoomControls android:id="@+id/image_viewer_zoomer"
+			android:scaleType="matrix" android:scrollbars="vertical"/>
+		<info.narazaki.android.tuboroid.view.ImageViewerFooter android:id="@+id/image_viewer_footer"
 		android:layout_width="fill_parent" android:layout_height="fill_parent" 
 		/>
-	<!-- </info.narazaki.android.lib.view.XYScrollView>-->
 </RelativeLayout>

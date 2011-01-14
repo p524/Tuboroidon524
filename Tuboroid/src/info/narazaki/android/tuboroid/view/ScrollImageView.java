@@ -5,45 +5,142 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.PointF;
+import android.graphics.drawable.Animatable;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.GestureDetector.OnDoubleTapListener;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.View.OnTouchListener;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.ImageView;
+import android.widget.Scroller;
 import android.widget.ZoomControls;
 import android.widget.ImageView.ScaleType;
-import info.narazaki.android.lib.system.MotionEventWapper;
+import info.narazaki.android.lib.system.MotionEventWrapper;
 import info.narazaki.android.tuboroid.R;
 
 
 public class ScrollImageView extends ImageView implements OnTouchListener {
-	private Context context_;
-	
 
 	public ScrollImageView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		context_ = context;
 		
 		setOnTouchListener(this);
 
 		try{
-			MotionEventWapper.checkAvailable();
-			event_wapper = new MotionEventWapper();
+			MotionEventWrapper.checkAvailable();
+			event_wrapper = new MotionEventWrapper();
 		}catch(Throwable e){
 			
 		}
 		
-		if(event_wapper == null){
-			//マルチタップが使えない場合はズームコントロールを表示
-			ZoomControls zoom = new ZoomControls(context_);
+		setHorizontalFadingEdgeEnabled(true);
+		setVerticalFadingEdgeEnabled(true);
+		setHorizontalScrollBarEnabled(true);
+		setVerticalScrollBarEnabled(true);
+
+		
+		scroller = new Scroller(getContext());
+
+		gesture_detecter = new GestureDetector(new OnGestureListener() {
 			
-		}
-	
+			@Override
+			public boolean onSingleTapUp(MotionEvent e){
+				return false;
+			}
+			
+			@Override
+			public void onShowPress(MotionEvent e){
+			}
+			
+			@Override
+			public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+					float distanceY){
+				//v(String.format("onScroll %f %f", distanceX, distanceY));
+				scrollBy((int)distanceX, (int)distanceY);
+				scroller.abortAnimation();
+				return false;
+			}
+			
+			@Override
+			public void onLongPress(MotionEvent e){
+			}
+			
+			@Override
+			public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+					float velocityY){
+				scroller.fling(getScrollX(), getScrollY()
+						, -(int)velocityX * 2, -(int)velocityY * 2
+						, getScrollMinX(), getScrollMaxX(), getScrollMinY(), getScrollMaxY());
+
+		        handler.postDelayed(runnable, REPEAT_INTERVAL);
+		        return false;
+			}
+			
+			@Override
+			public boolean onDown(MotionEvent e){
+				scroller.abortAnimation();
+				return false;
+			}
+		});
+		
+		gesture_detecter.setOnDoubleTapListener(new OnDoubleTapListener() {
+			
+			@Override
+			public boolean onSingleTapConfirmed(MotionEvent e) {
+				return false;
+			}
+			
+			@Override
+			public boolean onDoubleTapEvent(MotionEvent e) {
+				return false;
+			}
+			
+			@Override
+			public boolean onDoubleTap(MotionEvent e) {
+				if(getScale() == 1.0f){
+					zoomForWholeImageView();
+				}else{
+					zoom(true, 1, -getScrollX(), -getScrollY());
+				}
+				return false;
+			}
+		});
+		
+		handler = new Handler();
+		
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+
+                //computeScrollOffsetはフリングによるスクロールが終了していたらfalseを返す
+                if(scroller.computeScrollOffset()) {
+                	scrollTo(scroller.getCurrX(), scroller.getCurrY());
+                	//3.次回処理をセット
+                    handler.postDelayed(this, REPEAT_INTERVAL);
+                }
+            }
+        };
+
+
 	}
 	
+	final int REPEAT_INTERVAL = 20;
+	private Runnable runnable;
+	private Handler handler;
+	private GestureDetector gesture_detecter;
+	private Scroller scroller;
+	private ImageViewerFooter footer;
 	
-	
+	public void setFooter(ImageViewerFooter footer){
+		this.footer = footer;
+	}
 	
 	@Override
 	public void setImageBitmap(Bitmap bm) {
@@ -52,53 +149,56 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 		image_x = bm.getWidth();
 		image_y = bm.getHeight();
 		
-		//画像が画面に収まるようにする
-		float x_scale = (float)getWidth() / bm.getWidth();
-		float y_scale = (float)getHeight() / bm.getHeight();
-		float scale = Math.min(x_scale, y_scale);
-		if(scale >= 1.0f){
-			return;
-		}
-		zoom(false, scale, 0, 0);
+		zoomForWholeImageView();
 	}
+
 
 	@Override
 	public void scrollBy(int x, int y) {
 		int a_x = getScrollX() + x;
 		int a_y = getScrollY() + y;
-		a_x = Math.max(a_x, (int) Math.min(getScale() * image_x - getWidth(), 0));
-		a_y = Math.max(a_y, (int) Math.min(getScale() * image_y - getHeight(), 0));
-
-		int max_x = (int) Math.max(getScale() * image_x - getWidth(), 0);
-		a_x = Math.min(a_x, max_x);
-
-		int max_y = (int) Math.max(getScale() * image_y - getHeight(), 0);
-		a_y = Math.min(a_y, max_y);
+		
+		a_x = Math.max(a_x, getScrollMinX());
+		a_y = Math.max(a_y, getScrollMinY());
+		a_x = Math.min(a_x, getScrollMaxX());
+		a_y = Math.min(a_y, getScrollMaxY());
 		
 		super.scrollTo(a_x, a_y);
 	}
 
 
+    protected float getTopFadingEdgeStrength() {
+        return computeVerticalScrollOffset() > 0 ? 1.0f : 0.0f;
+    }
+
+    protected float getBottomFadingEdgeStrength() {
+        return (int) (getScale() * image_y - getHeight()) >
+                computeVerticalScrollOffset() ? 1.0f : 0.0f;
+    }
+
+    protected float getLeftFadingEdgeStrength() {
+        return computeHorizontalScrollOffset() > 0 ? 1.0f : 0.0f;
+    }
+
+    protected float getRightFadingEdgeStrength() {
+        return (int) (getScale() * image_x - getWidth()) >
+        	computeHorizontalScrollOffset() ? 1.0f : 0.0f;
+    }
 
 
 	final int STATE_NONE = 0;
-	final int STATE_DRAGGING = 1;
-	final int STATE_ZOOMING = 2;
+	final int STATE_ZOOMING = 1;
 	private int touch_state = 0;
 	private PointF[] pointers = new PointF[] {new PointF(), new PointF()};
 	private int[] zoom_ids = new int [] {0, 0};
-	private PointF drag_pointer = new PointF();
-	private Matrix before_mat = new Matrix();
-	private MotionEventWapper event_wapper = null;
+	private MotionEventWrapper event_wrapper = null;
 	private int image_x, image_y;
-	
-	//単なるタッチかドラッグかを見分ける用
-	private boolean is_moved = false;
+	private Runnable prev_vanish_ani = null;
 	
 	private int getPointerIndex(MotionEvent event, int id) {
-		event_wapper.set(event);
-		for(int i = 0; i < event_wapper.getPointerCount(); i++) {
-			if(event_wapper.getPointerId(i) == id) {
+		event_wrapper.set(event);
+		for(int i = 0; i < event_wrapper.getPointerCount(); i++) {
+			if(event_wrapper.getPointerId(i) == id) {
 				return i;
 			}
 		}
@@ -106,19 +206,9 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 	}
 	
 	private PointF getPointerPosById(MotionEvent event, int id) {
-		event_wapper.set(event);
+		event_wrapper.set(event);
 		int i = getPointerIndex(event, id);
-		return new PointF(event_wapper.getX(i), event_wapper.getY(i));
-	}
-
-	private String str(MotionEvent event) {
-		event_wapper.set(event);
-		if(true)return String.format("%f,%f", event_wapper.getX(0), event_wapper.getY(0));
-		String ret = "";
-		for(int i = 0; i < event_wapper.getPointerCount(); i++) {
-			ret += String.valueOf(event_wapper.getPointerId(i)) + " ";
-		}
-		return ret;
+		return new PointF(event_wrapper.getX(i), event_wrapper.getY(i));
 	}
 	
 	private float calcDiffLen(float x1, float y1, float x2, float y2) {
@@ -127,36 +217,26 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 	}
 	
 	private void v(String s) {
-		Log.v(context_.getText(R.string.app_name).toString(), s);
+		Log.v(getContext().getText(R.string.app_name).toString(), s);
 	}
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event){
+		gesture_detecter.onTouchEvent(event);
+		onUserAction();
 
 		switch (event.getAction() & MotionEvent.ACTION_MASK) {
 	    case MotionEvent.ACTION_DOWN:
-	    	startDrag(event, 0);
-			is_moved = false;
 		break;
 	    case MotionEvent.ACTION_POINTER_DOWN:
-	    	event_wapper.set(event);
-	    	if(event_wapper.getPointerCount() == 2) {
+	    	event_wrapper.set(event);
+	    	if(event_wrapper.getPointerCount() == 2) {
 	    		startZoom(event, new int [] {0, 1});
 	    	}
 		break;
 	    case MotionEvent.ACTION_MOVE:
-	    	is_moved = true;
-	    	//if(event.getActionIndex() < 2) {
-	    	if(touch_state == STATE_DRAGGING) {
-	    		scrollBy((int)(drag_pointer.x - event.getX())
-	    				, (int)(drag_pointer.y - event.getY()));
-	    		//imageView.scrollTo((int)event.getX(0), (int)event.getY(0));
-
-	    		drag_pointer.set(event.getX(), event.getY());
-	    		
-	    		v(String.format("sc:%d,%d", getScrollX(), getScrollY()));
-	    	}else if(touch_state == STATE_ZOOMING) {
-		    	event_wapper.set(event);
+	    	if(touch_state == STATE_ZOOMING) {
+		    	event_wrapper.set(event);
 
 	    		PointF []new_pt = new PointF[2];
 	    		float[] move = new float[2];
@@ -181,20 +261,16 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 	    		}
 	    	}
 
-	    	//}
 		break;
 	    case MotionEvent.ACTION_UP:
-	    	if(!is_moved){
-	    		zoom(true, 1, -getScrollX(), -getScrollY());
-	    	}
 	    	break;
 	    case MotionEvent.ACTION_POINTER_UP:
-	    	event_wapper.set(event);
-	    	if(event_wapper.getPointerCount() == 2) {
-	    		startDrag(event, 1 - event_wapper.getActionIndex());
-	    	}else if(event_wapper.getPointerCount() == 3) {
-	    		int i0 = (3 - event_wapper.getActionIndex()) % 2;
-	    		startZoom(event, new int [] {i0, 3 - event_wapper.getActionIndex() - i0});
+	    	event_wrapper.set(event);
+	    	if(event_wrapper.getPointerCount() == 2) {
+	    		touch_state = STATE_NONE;
+	    	}else if(event_wrapper.getPointerCount() == 3) {
+	    		int i0 = (3 - event_wrapper.getActionIndex()) % 2;
+	    		startZoom(event, new int [] {i0, 3 - event_wrapper.getActionIndex() - i0});
 	    	}
 		break;
 	    }
@@ -205,33 +281,27 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 
 
 	public void onZoomIn(){
+		onUserAction();
 		zoom(false, 1.2f, getWidth() / 2, getHeight() / 2);
 	}
 
 
 	public void onZoomOut() {
+		onUserAction();
 		zoom(false, 0.8f, getWidth() / 2, getHeight() / 2);
 	}
 	
-	void startDrag(MotionEvent event, int i) {
-		touch_state = STATE_DRAGGING;
-		if(i == 0){
-			drag_pointer.set(event.getX(), event.getY());
-		}else{
-			event_wapper.set(event);
-			drag_pointer.set(event_wapper.getX(i), event_wapper.getY(i));
-		}
-
+	public void onLoadFinish(){
+		onUserAction();
 	}
 
 	void startZoom(MotionEvent event, int []ii) {
-		event_wapper.set(event);
+		event_wrapper.set(event);
 		for(int i = 0; i < 2; i++) {
-			zoom_ids[i] = event_wapper.getPointerId(ii[i]);
-			pointers[i].set(event_wapper.getX(ii[i]), event_wapper.getY(ii[i]));
+			zoom_ids[i] = event_wrapper.getPointerId(ii[i]);
+			pointers[i].set(event_wrapper.getX(ii[i]), event_wrapper.getY(ii[i]));
 		}
 		touch_state = STATE_ZOOMING;
-		before_mat.set(getImageMatrix());
 	}
 	
 	private void zoom(boolean is_abs, float scale, float center_x, float center_y){
@@ -257,6 +327,8 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 		new_mat.mapPoints(pt);
 		scrollBy((int)(pt[0] - (center_x + getScrollX()))
 				, (int)(pt[1] - (center_y + getScrollY())));
+		
+		footer.setScale(getScale());
 	}
 	
 
@@ -268,4 +340,68 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 		return values[0];
 	}
 	
+	private int getScrollMinX(){
+		return (int) Math.min(getScale() * image_x - getWidth(), 0);
+	}
+	
+	private int getScrollMinY(){
+		return (int) Math.min(getScale() * image_y - getHeight(), 0);
+	}
+	
+	private int getScrollMaxX(){
+		return (int) Math.max(getScale() * image_x - getWidth(), 0);
+	}
+	
+	private int getScrollMaxY(){
+		return (int) Math.max(getScale() * image_y - getHeight(), 0);
+	}
+	
+	
+	void zoomForWholeImageView(){
+		//画像が画面に収まるようにする
+		float x_scale = (float)getWidth() / image_x;
+		float y_scale = (float)getHeight() / image_y;
+		float scale = Math.min(x_scale, y_scale);
+		if(scale >= 1.0f){
+			return;
+		}
+		zoom(false, scale, 0, 0);
+	}
+
+	private void onUserAction(){
+		if(footer == null){
+			return;
+		}
+		footer.setVisibility(View.VISIBLE);
+		if(prev_vanish_ani != null){
+			handler.removeCallbacks(prev_vanish_ani);
+			footer.clearAnimation();
+		}
+		handler.postDelayed(prev_vanish_ani = new Runnable() {
+			@Override
+			public void run() {
+				AlphaAnimation alpha = new AlphaAnimation(1, 0);
+				// 変化時間
+				alpha.setDuration(1000);
+				alpha.setAnimationListener(new AnimationListener() {
+
+					@Override
+					public void onAnimationStart(Animation animation) {
+					}
+
+					@Override
+					public void onAnimationRepeat(Animation animation) {
+					}
+
+					@Override
+					public void onAnimationEnd(Animation animation) {
+						footer.setVisibility(View.GONE);
+					}
+				});
+				footer.startAnimation(alpha);
+
+			}
+		}, 1000);
+	}
+
 }
