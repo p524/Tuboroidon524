@@ -2,10 +2,12 @@ package info.narazaki.android.tuboroid.agent.task;
 
 import info.narazaki.android.lib.agent.http.task.TextHttpGetTaskBase;
 import info.narazaki.android.tuboroid.data.BoardData;
+import info.narazaki.android.tuboroid.data.BoardData2chCompat;
 import info.narazaki.android.tuboroid.data.BoardIdentifier;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -45,6 +47,7 @@ public class HttpGetBoardListTask extends TextHttpGetTaskBase {
     protected void dispatchHttpTextResponse(HttpResponse res, BufferedReader reader) throws InterruptedException,
             IOException {
         List<BoardData> data_list = new LinkedList<BoardData>();
+        List<BoardData> data_2ch_compat_list = new ArrayList<BoardData>(); 
         String current_category = "";
 
         try {
@@ -63,8 +66,12 @@ public class HttpGetBoardListTask extends TextHttpGetTaskBase {
         			if (matcher.find()) {
         				BoardData data = BoardData.factory(order_id, matcher.group(3), current_category,
         						new BoardIdentifier(matcher.group(1), matcher.group(2), 0, 0));
-                        data_list.add(data);
-                        order_id++;
+        				if(data instanceof BoardData2chCompat){
+        					data_2ch_compat_list.add(data);
+        				}else{
+        					data_list.add(data);
+        				}
+        				order_id++;
                     }
                 }
             }
@@ -74,6 +81,9 @@ public class HttpGetBoardListTask extends TextHttpGetTaskBase {
         }
         if (Thread.interrupted()) throw new InterruptedException();
         
+        for(BoardData board : data_2ch_compat_list){
+        	data_list.add(board);
+        }
         onRequestFinished(data_list);
         
     }
