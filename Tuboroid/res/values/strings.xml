@@ -240,6 +240,9 @@
 	<string name="pref_title_screen_orientation">Screen orientation</string>
 	<string name="pref_summary_screen_orientation">Auto or fixed screen orientation</string>
 
+	<string name="pref_title_enable_flick">Enable flick</string>
+	<string name="pref_summary_enable_flick">Whether to use flick for forward or back activity</string>
+
 	<string name="pref_cat_title_font_setting">Font Setting</string>
 
 	<string name="pref_title_font_size_board_list">Board List</string>

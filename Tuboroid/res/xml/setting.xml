@@ -16,6 +16,12 @@
 			android:entries="@array/screen_orientation_titles"
 			android:entryValues="@array/screen_orientation_values"
 			android:defaultValue="0" />
+		<ListPreference android:key="pref_enable_flick"
+			android:title="@string/pref_title_enable_flick"
+			android:summary="@string/pref_summary_enable_flick"
+			android:entries="@array/enable_flick_titles"
+			android:entryValues="@array/enable_flick_values"
+			android:defaultValue="0" />
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/pref_cat_title_font_setting">

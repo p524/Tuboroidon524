@@ -38,6 +38,21 @@
 		<item>2</item>
 	</string-array>
 
+	<array name="enable_flick_titles">
+		<item>Enable</item>
+		<item>Forward Only</item>
+		<item>Back Only</item>
+		<item>Disable</item>
+	</array>
+
+	<string-array name="enable_flick_values">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+	</string-array>
+
+
 	<array name="scrolling_amount">
 		<item>by One Page</item>
 		<item>by Half Page</item>

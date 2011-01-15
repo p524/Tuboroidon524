@@ -3,11 +3,17 @@ package info.narazaki.android.tuboroid.activity;
 import info.narazaki.android.tuboroid.FlickDetector;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 
 public class ForwardableActivityUtil {
     public static final String EXTRA_FORWARD_INTENT = "forwardIntent";
+    private static final int ENABLE_FLICK_ENABLE = 0;
+    private static final int ENABLE_FLICK_FORWARD_ONLY = 1;
+    private static final int ENABLE_FLICK_BACK_ONLY = 2;
+    private static final int ENABLE_FLICK_DISABLE = 3;
     
     // 次のアクティビティを呼び出す
     public static boolean startForwardActivity(Activity activity) {
@@ -43,14 +49,26 @@ public class ForwardableActivityUtil {
     		@Override
     		public boolean onFlickLeft() {
     			// 次のインテントを呼び出す
-    			return startForwardActivity(activity);
+    			SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
+    	        int enable_flick = Integer.parseInt(pref.getString("pref_enable_flick", String.valueOf(ENABLE_FLICK_ENABLE)));
+    	        if(enable_flick == ENABLE_FLICK_ENABLE || enable_flick == ENABLE_FLICK_FORWARD_ONLY){
+    	        	return startForwardActivity(activity);
+    	        }else{
+    	        	return false;
+    	        }
     		}
     		
     		@Override
     		public boolean onFlickRight() {
-    			activity.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK));
-    			activity.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BACK));
-    			return true;
+    			SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
+    			int enable_flick = Integer.parseInt(pref.getString("pref_enable_flick", String.valueOf(ENABLE_FLICK_ENABLE)));
+    	        if(enable_flick == ENABLE_FLICK_ENABLE || enable_flick == ENABLE_FLICK_BACK_ONLY){
+    	        	activity.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK));
+    	        	activity.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BACK));
+    	        	return true;
+    	        }else{
+    	        	return false;
+    	        }
     		}
     	});    	
     }

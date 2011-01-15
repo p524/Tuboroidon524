@@ -232,6 +232,9 @@
 
 	<string name="pref_title_screen_orientation">画面の向き</string>
 	<string name="pref_summary_screen_orientation">画面の向きを自動または縦横固定に設定します</string>
+	
+	<string name="pref_title_enable_flick">フリック設定</string>
+	<string name="pref_summary_enable_flick">フリックを利用して進む、もしくは戻る機能を利用するかどうか設定します</string>
 
 	<string name="pref_cat_title_font_setting">フォント設定</string>
 
