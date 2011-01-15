@@ -502,11 +502,17 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         ThreadEntryListAdapter list_adapter = new ThreadEntryListAdapter(this, getAgent(), getListFontPref(), 
         		new ThreadEntryData.ImageViewerLauncher() {
     		        @Override
-    		        public void onRequired(ThreadData threadData, String imageLocalFilename, String imageUri) {
+    		        public void onRequired(ThreadData threadData, String imageLocalFilename, String imageUri
+    		        		, long entry_id, int image_index, int image_count) {
     		            Intent intent = new Intent(ThreadEntryListActivity.this, ImageViewerActivity.class);
     		            intent.setData(Uri.parse(threadData.getThreadURI()));
     		            intent.putExtra(ImageViewerActivity.INTENT_KEY_IMAGE_FILENAME, imageLocalFilename);
     		            intent.putExtra(ImageViewerActivity.INTENT_KEY_IMAGE_URI, imageUri);
+    		            intent.putExtra(ImageViewerActivity.INTENT_KEY_ENTRY_ID, entry_id);
+    		            intent.putExtra(ImageViewerActivity.INTENT_KEY_IMAGE_INDEX, image_index);
+    		            intent.putExtra(ImageViewerActivity.INTENT_KEY_IMAGE_COUNT, image_count);
+    		            
+    		            
     		            MigrationSDK5.Intent_addFlagNoAnimation(intent);
     		            startActivity(intent);
     		        }

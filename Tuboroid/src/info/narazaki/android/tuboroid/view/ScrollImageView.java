@@ -27,6 +27,11 @@ import info.narazaki.android.tuboroid.R;
 
 
 public class ScrollImageView extends ImageView implements OnTouchListener {
+	
+	public interface OnMoveImageListner{
+		abstract void onMoveImage(boolean is_next);
+		
+	}
 
 	public ScrollImageView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -104,10 +109,21 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 			
 			@Override
 			public boolean onDoubleTap(MotionEvent e) {
-				if(getScale() == 1.0f){
-					zoomForWholeImageView();
+				//左1/3で前の画像、右1/3で次の画像、真ん中で原寸大or全体表示
+				if(e.getX() < getWidth() / 3){
+					if(on_move_image != null){
+						on_move_image.onMoveImage(false);
+					}
+				}else if(e.getX() > getWidth() / 3 * 2){
+					if(on_move_image != null){
+						on_move_image.onMoveImage(true);
+					}
 				}else{
-					zoom(true, 1, -getScrollX(), -getScrollY());
+					if(getScale() == 1.0f){
+						zoomForWholeImageView();
+					}else{
+						zoom(true, 1, -getScrollX(), -getScrollY());
+					}
 				}
 				return false;
 			}
@@ -137,10 +153,17 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 	private GestureDetector gesture_detecter;
 	private Scroller scroller;
 	private ImageViewerFooter footer;
+	private OnMoveImageListner on_move_image = null;
 	
 	public void setFooter(ImageViewerFooter footer){
 		this.footer = footer;
+		this.footer.setScale(getScale());
 	}
+	
+	public void setOnMoveImageListner(OnMoveImageListner on_move_image){
+		this.on_move_image = on_move_image;
+	}
+	
 	
 	@Override
 	public void setImageBitmap(Bitmap bm) {

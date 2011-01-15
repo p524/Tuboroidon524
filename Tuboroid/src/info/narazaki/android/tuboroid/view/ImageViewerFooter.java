@@ -25,16 +25,23 @@ public class ImageViewerFooter extends RelativeLayout {
 	private ZoomControls zoom;
 	private String image_local_file_;
 	private String image_uri_;
+	private long entry_id_;
+	private int image_index_;
+	private int image_count_;
+	
 	private float scale;
 	private int LINE_COUNT = 3;
 	private float ZOOM_CONTROL_WIDTH_RATIO = 0.33f;
 	private ScrollImageView image_view_;
 
 	public void init(String image_local_file, String image_uri,
-			ScrollImageView image_view, int width) {
+			ScrollImageView image_view, long entry_id, int image_index, int image_count, int width) {
 		image_local_file_ = image_local_file;
 		image_uri_ = image_uri;
 		image_view_ = image_view;
+		entry_id_ = entry_id;
+		image_index_ = image_index;
+		image_count_ = image_count;
 		
 		text_view = new TextView(getContext());
 		zoom = new ZoomControls(getContext());
@@ -60,13 +67,17 @@ public class ImageViewerFooter extends RelativeLayout {
 		}
 		
 		RelativeLayout.LayoutParams text_layout_params = new RelativeLayout.LayoutParams(
-				width, text_view.getLineHeight() * LINE_COUNT);
+				width / 3 * 2, text_view.getLineHeight() * LINE_COUNT);
 		text_layout_params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 		text_layout_params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		text_view.setLayoutParams(text_layout_params);
 		
 		text_view.setBackgroundColor(Color.argb(0x70, 0x00, 0x00, 0x00));
 		text_view.setTextColor(Color.argb(0xff, 0xff, 0xff, 0xff));
+		
+		//text_view.setHorizontallyScrolling(true);
+		
+		//setBackgroundColor(Color.argb(0x70, 0xff, 0x00, 0x00));
 		
 		zoom.setOnZoomInClickListener(new OnClickListener() {
 			
@@ -97,9 +108,18 @@ public class ImageViewerFooter extends RelativeLayout {
 
 	private void setTextViewText() {
 		StringBuilder string_builder = new StringBuilder();
-		string_builder.append(image_uri_);
+		if(image_uri_.length() > 23){
+			string_builder.append("...");
+			string_builder.append(image_uri_.substring(image_uri_.length() - 20, image_uri_.length()));
+		}else{
+			string_builder.append(image_uri_);
+		}
 		string_builder.append("\n");
-		string_builder.append(image_local_file_);
+		string_builder.append(entry_id_);
+		string_builder.append(" ");
+		string_builder.append(image_index_);
+		string_builder.append("/");
+		string_builder.append(image_count_);
 		string_builder.append("\n");
 		if(scale <= 0.1){
 			string_builder.append(String.format("%1.2f", scale * 100));
