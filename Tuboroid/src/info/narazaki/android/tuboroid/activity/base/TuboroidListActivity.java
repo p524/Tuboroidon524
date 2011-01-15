@@ -5,26 +5,34 @@ import info.narazaki.android.lib.system.MigrationSDK5;
 import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.TuboroidApplication;
 import info.narazaki.android.tuboroid.TuboroidApplication.SettingInvalidateChecker;
+import info.narazaki.android.tuboroid.TuboroidApplication.ViewConfig;
 import info.narazaki.android.tuboroid.activity.ForwardableActivityUtil;
 import info.narazaki.android.tuboroid.agent.TuboroidAgent;
 
 import java.lang.reflect.Method;
 
+import jp.syoboi.android.ListViewScrollButton;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.FrameLayout.LayoutParams;
 
 abstract public class TuboroidListActivity extends NSimpleListActivity {
     private static final String TAG = "TuboroidListActivity";
@@ -33,6 +41,7 @@ abstract public class TuboroidListActivity extends NSimpleListActivity {
     
     private boolean indeterminate_progress_bar_visible_ = false;
     private boolean progress_bar_visible_ = false;
+    protected ListViewScrollButton btnListScroll; 
     
     protected TuboroidApplication getTuboroidApplication() {
         return ((TuboroidApplication) getApplication());
@@ -71,6 +80,46 @@ abstract public class TuboroidListActivity extends NSimpleListActivity {
             }
         }
         ForwardableActivityUtil.onCreate(this);
+    }
+    
+    @Override
+    public void onContentChanged() {
+    	super.onContentChanged();
+    	
+    	btnListScroll = createScrollButton(getListView());
+        if (btnListScroll != null) {
+        	btnListScroll.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					setListPageDown();
+				}
+			});
+            TuboroidListActivity.setScrollButtonPosition(btnListScroll, 
+            		getTuboroidApplication().view_config_.scroll_button_position);
+        }
+    }
+    
+    public static ListViewScrollButton createScrollButton(ListView lv) {
+    	Context context = lv.getContext();
+    	ListViewScrollButton btn = new ListViewScrollButton(lv.getContext(), null);
+    	btn.setFocusable(false);
+    	btn.setBackgroundResource(R.drawable.ic_btn_scroll);
+    	
+    	ViewGroup parent = (ViewGroup)lv.getParent();
+    	
+    	FrameLayout fl = new FrameLayout(context);
+
+    	LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(lv.getLayoutParams());
+    	lp.weight = 1f;
+    	parent.addView(fl, parent.indexOfChild(lv), lp);
+    	parent.removeView(lv);
+    	fl.addView(lv, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+    	fl.addView(btn, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+    	
+        if (btn != null) {
+        	btn.setListView(lv);
+        }
+        return btn;
     }
     
     @Override
@@ -338,4 +387,39 @@ abstract public class TuboroidListActivity extends NSimpleListActivity {
     }
     
     protected void reloadList(boolean force_reload) {}
+
+    public static void setScrollButtonPosition(ListViewScrollButton sb, int button_position) {
+    	Resources res = sb.getResources();
+    	
+    	if (sb != null) {
+    		FrameLayout.LayoutParams lp = (LayoutParams) sb.getLayoutParams();
+    		lp.bottomMargin = res.getDimensionPixelSize(R.dimen.scrollButtonMargin);
+    		lp.leftMargin = lp.rightMargin = lp.bottomMargin;
+    		boolean visibility = true;
+    		boolean reverse = true;
+    		switch (button_position) {
+    		case ViewConfig.SCROLL_BUTTON_CENTER:
+        		lp.bottomMargin = res.getDimensionPixelSize(R.dimen.scrollButtonBottomMargin);
+        		lp.gravity = Gravity.CENTER | Gravity.BOTTOM;
+        		reverse = false;
+        		break;
+    		case ViewConfig.SCROLL_BUTTON_BOTTOM:
+        		lp.gravity = Gravity.CENTER | Gravity.BOTTOM;
+    			break;
+    		case ViewConfig.SCROLL_BUTTON_LB:
+    			lp.gravity = Gravity.LEFT | Gravity.BOTTOM;
+    			break;
+    		case ViewConfig.SCROLL_BUTTON_RB:
+    			lp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
+    			break;
+    		case ViewConfig.SCROLL_BUTTON_NONE:
+    			visibility = false;
+    			break;
+    		}
+    		sb.setReverse(reverse);
+    		sb.setLayoutParams(lp);
+    		sb.setVisibility(visibility ? View.VISIBLE : View.GONE);
+    	}
+    }
+
 }

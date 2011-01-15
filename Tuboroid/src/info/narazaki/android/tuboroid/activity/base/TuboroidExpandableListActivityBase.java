@@ -6,18 +6,21 @@ import info.narazaki.android.tuboroid.TuboroidApplication;
 import info.narazaki.android.tuboroid.TuboroidApplication.SettingInvalidateChecker;
 import info.narazaki.android.tuboroid.activity.ForwardableActivityUtil;
 import info.narazaki.android.tuboroid.agent.TuboroidAgent;
+import jp.syoboi.android.ListViewScrollButton;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 
 abstract public class TuboroidExpandableListActivityBase extends NSimpleExpandableListActivity {
     private static final String TAG = "TuboroidExpandableListActivityBase";
     
     private SettingInvalidateChecker setting_invalidate_checker_;
+    protected ListViewScrollButton btnListScroll; 
     
     protected TuboroidApplication getTuboroidApplication() {
         return ((TuboroidApplication) getApplication());
@@ -82,4 +85,21 @@ abstract public class TuboroidExpandableListActivityBase extends NSimpleExpandab
         }
     }
     
+    @Override
+    public void onContentChanged() {
+    	super.onContentChanged();
+    	
+    	btnListScroll = TuboroidListActivity.createScrollButton(getExpandableListView());
+    	if (btnListScroll != null) {
+    		btnListScroll.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					setListPageDown();
+				}
+			});
+            TuboroidListActivity.setScrollButtonPosition(btnListScroll, 
+            		getTuboroidApplication().view_config_.scroll_button_position);
+    	}
+    }
+   
 }
