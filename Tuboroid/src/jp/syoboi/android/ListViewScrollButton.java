@@ -1,11 +1,11 @@
 package jp.syoboi.android;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -82,6 +82,54 @@ public class ListViewScrollButton extends ImageButton {
 		return super.onTouchEvent(event);
 	}
 	
+	// ListViewをピクセル数を指定してスクロールする
+	public static void scrollBy(ListView lv, int distance) {
+		if (distance == 0 || lv.getChildCount() == 0) return;
+		
+		int top = 0;
+		int bottom = lv.getMeasuredHeight();
+		int childCount = lv.getChildCount();
+		if (distance > bottom) {
+			distance = bottom - 1;
+		} else if (distance < -bottom) {
+			distance = -(bottom - 1);
+		}
+		
+		// スクラップが発生するかどうか確認
+		boolean scrap = false;
+		
+		View vTop = lv.getChildAt(0);
+		View vBottom = lv.getChildAt(childCount-1);
+		if ((vTop.getTop() - distance) > top || (vTop.getBottom() - distance) < top) {
+			scrap = true;
+		}
+		if ((vBottom.getTop() - distance) > bottom || (vBottom.getBottom() - distance) < bottom) {
+			scrap = true;
+		}
+
+		if (scrap) {
+			// スクラップが発生する場合は、諦めてsetSelectionFromTop
+			View v;
+			int pos;
+			if (distance > 0) {
+				v = lv.getChildAt(childCount - 1);
+				pos = lv.getLastVisiblePosition();
+			} else {
+				v = lv.getChildAt(0);
+				pos = lv.getFirstVisiblePosition();
+			}
+			lv.setSelectionFromTop(pos, v.getTop() - distance);
+		} else {
+			// スクラップが発生しない場合は、アイテムの位置を移動
+			for (int j=0; j<childCount; j++) {
+				View v = lv.getChildAt(j);
+				v.offsetTopAndBottom(-distance);
+			}
+			lv.invalidate();
+		}
+	}
+	
+	
 	public static class Scroller extends CountDownTimer {
 		private final ListView listView;
 		public volatile int scrollSpeedY;
@@ -94,14 +142,11 @@ public class ListViewScrollButton extends ImageButton {
 			this.listView = listView;
 			
 			runnable = new Runnable() {
-				
 				@Override
 				public void run() {
 					final ListView lv = listView;
 					if (scrollSpeedY != 0) {
-						lv.setSelectionFromTop(
-								lv.getFirstVisiblePosition(), 
-								lv.getChildAt(0).getTop() - scrollSpeedY);
+						scrollBy(lv, scrollSpeedY);
 					}
 				}
 			}; 
@@ -115,6 +160,5 @@ public class ListViewScrollButton extends ImageButton {
 		@Override
 		public void onFinish() {
 		}
-		
 	}
 }
