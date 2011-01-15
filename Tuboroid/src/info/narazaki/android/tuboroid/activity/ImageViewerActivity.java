@@ -21,44 +21,36 @@ import java.util.regex.Pattern;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.NinePatchDrawable;
-import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.view.MenuItem.OnMenuItemClickListener;
-import android.view.View.OnClickListener;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
-import android.widget.AbsoluteLayout;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ZoomButton;
-import android.widget.ZoomControls;
 import android.widget.ImageView.ScaleType;
-import android.widget.RelativeLayout.LayoutParams;
 
 public class ImageViewerActivity extends TuboroidActivity {
     public static final String TAG = "ImageViewerActivity";
     
     public static final String INTENT_KEY_IMAGE_URI = "INTENT_KEY_IMAGE_URI";
     public static final String INTENT_KEY_IMAGE_FILENAME = "INTENT_KEY_IMAGE_FILENAME";
+    
+    public static final String INTENT_KEY_ENTRY_ID = "INTENT_KEY_ENTRY_ID";
+    public static final String INTENT_KEY_IMAGE_INDEX = "INTENT_KEY_IMAGE_INDEX";
+    public static final String INTENT_KEY_IMAGE_COUNT = "INTENT_KEY_IMAGE_COUNT";
+    
     
     public static final String INTENT_TAG_RECENT_DIR = "INTENT_TAG_RECENT_DIR";
     
@@ -67,6 +59,9 @@ public class ImageViewerActivity extends TuboroidActivity {
     
     private File image_local_file_;
     private String image_uri_;
+    private long entry_id_ = -1;
+    private int image_index_ = -1;
+    private int image_count_ = -1;
     
     private boolean is_fill_parent_mode_;
     private SimpleProgressDialog progress_dialog_;
@@ -92,6 +87,7 @@ public class ImageViewerActivity extends TuboroidActivity {
         final Uri thread_uri = getIntent().getData();
         String image_uri = null;
         String image_filename = null;
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             if (extras.containsKey(INTENT_KEY_IMAGE_FILENAME)) {
@@ -99,6 +95,15 @@ public class ImageViewerActivity extends TuboroidActivity {
             }
             if (extras.containsKey(INTENT_KEY_IMAGE_URI)) {
                 image_uri = extras.getString(INTENT_KEY_IMAGE_URI);
+            }
+            if (extras.containsKey(INTENT_KEY_ENTRY_ID)) {
+            	entry_id_ = extras.getLong(INTENT_KEY_ENTRY_ID);
+            }
+            if (extras.containsKey(INTENT_KEY_IMAGE_INDEX)) {
+            	image_index_ = extras.getInt(INTENT_KEY_IMAGE_INDEX);
+            }
+            if (extras.containsKey(INTENT_KEY_IMAGE_COUNT)) {
+            	image_count_ = extras.getInt(INTENT_KEY_IMAGE_COUNT);
             }
         }
         final ThreadData thread_data_temp = ThreadData.factory(thread_uri);
@@ -128,8 +133,14 @@ public class ImageViewerActivity extends TuboroidActivity {
         DisplayMetrics metrics = new DisplayMetrics();   
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         
-        footer.init(image_local_file_.toString(), image_uri_, image_view, metrics.widthPixels);
+        footer.init(image_local_file_.toString(), image_uri_, image_view, entry_id_, image_index_, image_count_, metrics.widthPixels);
         
+        image_view.setOnMoveImageListner(new ScrollImageView.OnMoveImageListner() {
+			@Override
+			public void onMoveImage(boolean is_next){
+
+			}
+		});
         
         // スレッド情報の読み込み
         getAgent().getThreadData(thread_data_temp, new SQLiteAgent.GetThreadDataResult() {

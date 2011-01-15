@@ -270,6 +270,10 @@ public class ThreadEntryData implements NListAdapterDataInterface {
         return thread_data.getLocalAttachFile(context, filename);
     }
     
+    public int getImageCount(){
+    	return img_uri_list_.size();
+    }
+    
     public boolean isNG() {
         return IgnoreData.isNG(ng_flag_);
     }
@@ -502,7 +506,8 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     }
     
     public interface ImageViewerLauncher {
-        void onRequired(final ThreadData thread_data, final String image_local_filename, final String image_uri);
+        void onRequired(final ThreadData thread_data, final String image_local_filename, final String image_uri
+        		, final long entry_id, final int image_index, final int image_count);
     }
     
     public View setView(final TuboroidAgent agent, final ThreadData thread_data, final View view,
@@ -687,7 +692,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
                 if (image_button_tmp == null) return;
                 image_button_tmp.setImageBitmap(bitmap);
                 image_button_tmp.setOnClickListener(createThumbnailOnClickListener(thread_data, style, image_uri,
-                        local_image_file));
+                        local_image_file, image_index));
             }
             
             @Override
@@ -699,7 +704,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
                     public void run() {
                         image_button_tmp.setImageBitmap(bitmap);
                         image_button_tmp.setOnClickListener(createThumbnailOnClickListener(thread_data, style,
-                                image_uri, local_image_file));
+                                image_uri, local_image_file, image_index));
                     }
                 });
             }
@@ -740,7 +745,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     }
     
     private View.OnClickListener createThumbnailOnClickListener(final ThreadData thread_data, final ViewStyle style,
-            final String image_uri, final File local_image_file) {
+            final String image_uri, final File local_image_file, final int image_index) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -749,7 +754,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
                     public void run() {
                         if (style.image_viewer_launcher_ != null) {
                             style.image_viewer_launcher_.onRequired(thread_data, local_image_file.getAbsolutePath(),
-                                    image_uri);
+                                    image_uri, entry_id_, image_index, getImageCount());
                         }
                     }
                 });
