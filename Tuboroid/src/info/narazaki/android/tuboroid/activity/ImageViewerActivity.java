@@ -25,6 +25,7 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -281,6 +282,7 @@ public class ImageViewerActivity extends TuboroidActivity {
         
         ImageView image_view = (ImageView) findViewById(R.id.image_viewer_image);
         final WeakReference<ImageView> image_view_ref = new WeakReference<ImageView>(image_view);
+        final Handler handler = new Handler();
         
         final ImageFetchAgent.BitmapFetchedCallback callback = new ImageFetchAgent.BitmapFetchedCallback() {
             
@@ -294,22 +296,17 @@ public class ImageViewerActivity extends TuboroidActivity {
                 final ImageView image_view_tmp = image_view_ref.get();
                 if (image_view_tmp == null) return;
                 //このスレッドからImageView.postを呼ぶとtrueが返ってくるのにRunnableが実行されないという
-                //事態がまれに発生する。もう1つスレッドを作ってそこからImageView.postを呼ぶとうまくいっているように見える
-                new Thread()
-                {
-                	public void run()
-                	{
-                		image_view_tmp.post(new Runnable() {
-                			@Override
-                			public void run() {
-                				image_view_tmp.setImageBitmap(bitmap);
-                				progress_dialog_.hide();
-                			}
-                		});
+                //事態がまれに発生する。View自体がもつhandlerの代わりに自分で作ったhandlerを使うと大丈夫？
+
+                handler.post(new Runnable() {
+                	@Override
+                	public void run() {
+                		image_view_tmp.setImageBitmap(bitmap);
+                		progress_dialog_.hide();
                 	}
-                }.start();
+                });
             }
-            
+
             @Override
             public void onFailed() {
                 runOnUiThread(new Runnable() {
