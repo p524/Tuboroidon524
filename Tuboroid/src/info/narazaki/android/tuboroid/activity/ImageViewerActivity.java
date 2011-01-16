@@ -293,13 +293,21 @@ public class ImageViewerActivity extends TuboroidActivity {
             public void onFetched(final Bitmap bitmap) {
                 final ImageView image_view_tmp = image_view_ref.get();
                 if (image_view_tmp == null) return;
-                image_view_tmp.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        image_view_tmp.setImageBitmap(bitmap);
-                        progress_dialog_.hide();
-                    }
-                });
+                //このスレッドからImageView.postを呼ぶとtrueが返ってくるのにRunnableが実行されないという
+                //事態がまれに発生する。もう1つスレッドを作ってそこからImageView.postを呼ぶとうまくいっているように見える
+                new Thread()
+                {
+                	public void run()
+                	{
+                		image_view_tmp.post(new Runnable() {
+                			@Override
+                			public void run() {
+                				image_view_tmp.setImageBitmap(bitmap);
+                				progress_dialog_.hide();
+                			}
+                		});
+                	}
+                }.start();
             }
             
             @Override
