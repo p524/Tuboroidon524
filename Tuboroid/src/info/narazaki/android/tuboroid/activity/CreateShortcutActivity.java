@@ -24,7 +24,7 @@ public class CreateShortcutActivity extends ListActivity {
 
 		ArrayList<String> values = new ArrayList<String>();
 		for (int j=0; j<menus.length; j++) {
-			values.add(getString(menus[j]));
+			values.add(getString(menus[j], getString(R.string.app_name)));
 		}
 		
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
@@ -54,7 +54,7 @@ public class CreateShortcutActivity extends ListActivity {
         
         Intent intent = new Intent();
         intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(id));
+        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(id, getString(R.string.app_name)));
         Parcelable iconResource = Intent.ShortcutIconResource.fromContext(
                 this,  R.drawable.icon);
         intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, iconResource);

@@ -54,7 +54,7 @@ public class FavoriteListActivity extends FavoriteListBaseActivity {
         setContentView(R.layout.favorite_list);
         registerForContextMenu(getListView());
         
-        setTitle(R.string.title_favorite);
+        setTitle(getString(R.string.title_favorite, getString(R.string.app_name)));
         
         getTuboroidApplication().setHomeTabActivity(TuboroidApplication.KEY_HOME_ACTIVITY_FAVORITES);
         

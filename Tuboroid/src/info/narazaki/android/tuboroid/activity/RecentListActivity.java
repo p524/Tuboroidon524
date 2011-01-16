@@ -55,7 +55,7 @@ public class RecentListActivity extends FavoriteListBaseActivity {
         setContentView(R.layout.recent_list);
         registerForContextMenu(getListView());
         
-        setTitle(R.string.title_recents);
+        setTitle(getString(R.string.title_recents, getString(R.string.app_name)));
         
         getTuboroidApplication().setHomeTabActivity(TuboroidApplication.KEY_HOME_ACTIVITY_RECENTS);
         

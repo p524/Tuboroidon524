@@ -40,7 +40,7 @@ public class FavoriteListManageActivity extends TuboroidListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.favorite_manage_list);
         
-        setTitle(R.string.title_favorite_manage);
+        setTitle(getString(R.string.title_favorite_manage, getString(R.string.app_name)));
         
         picked_data_ = null;
         

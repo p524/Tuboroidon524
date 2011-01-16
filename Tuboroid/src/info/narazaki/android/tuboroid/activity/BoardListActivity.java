@@ -61,7 +61,7 @@ public class BoardListActivity extends TuboroidExpandableListActivityBase {
         
         registerForContextMenu(getExpandableListView());
         
-        setTitle(R.string.title_boards);
+        setTitle(getString(R.string.title_boards, getText(R.string.app_name)));
         
         progress_dialog_ = new SimpleProgressDialog();
         

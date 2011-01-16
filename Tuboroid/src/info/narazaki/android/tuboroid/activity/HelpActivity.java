@@ -11,7 +11,8 @@ public class HelpActivity extends TuboroidActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.help_view);
-        setTitle(R.string.title_help);
+        setTitle(getString(R.string.title_help, getString(R.string.app_name)));
+        
     }
     
     @Override
