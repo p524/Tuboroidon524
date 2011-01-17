@@ -58,7 +58,7 @@ public class ThreadData2chCompat extends ThreadData2ch {
     }
     
     @Override
-    public boolean canSpecialRetry(AccountPref account_pref) {
+    public boolean canRetryWithMaru(AccountPref account_pref) {
         return false;
     }
     

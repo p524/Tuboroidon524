@@ -423,7 +423,9 @@ abstract public class ThreadData implements NListAdapterDataInterface {
     
     abstract public boolean isFilled();
     
-    abstract public boolean canSpecialRetry(AccountPref account_pref);
+    abstract public boolean canRetryWithoutMaru();
+        
+    abstract public boolean canRetryWithMaru(AccountPref account_pref);
     
     abstract public boolean canSpecialPost(AccountPref account_pref);
     

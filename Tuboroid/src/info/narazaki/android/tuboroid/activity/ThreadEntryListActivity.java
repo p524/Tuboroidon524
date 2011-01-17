@@ -1763,16 +1763,19 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     }
     
     private void onDatDropped(final boolean is_permanently) {
-        if (!is_active_) return;
-        
-        if (is_permanently || !thread_data_.canSpecialRetry(getTuboroidApplication().getAccountPref())) {
-            onDatDroppedWithoutMaru();
-        }
-        else {
-            onDatDroppedWithMaru();
-        }
+    	if (!is_active_) return;
+
+    	if (!is_permanently && thread_data_.canRetryWithMaru(getTuboroidApplication().getAccountPref())) {
+    		onDatDroppedRetryWithMaru();
+    	}
+    	else if (!is_permanently && thread_data_.canRetryWithoutMaru()) {
+    		onDatDroppedRetryWithoutMaru();
+    	}
+    	else {
+    		onDatDroppedNoRetry();
+    	}
     }
-    
+
     private void cancelDatDropped() {
         updateFilter(null);
         if (((ThreadEntryListAdapter) list_adapter_).getCount() == 0 && thread_data_.cache_count_ == 0
@@ -1782,7 +1785,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         }
     }
     
-    private void onDatDroppedWithoutMaru() {
+    private void onDatDroppedNoRetry() {
         if (!is_active_) return;
         
         if (thread_data_.thread_name_.length() > 0) {
@@ -1812,17 +1815,34 @@ public class ThreadEntryListActivity extends SearchableListActivity {
                         public void run() {
                             cancelDatDropped();
                         }
-                    });
+            });
         }
     }
-    
-    private void onDatDroppedWithMaru() {
-        if (!is_active_) return;
-        
-        if (thread_data_.thread_name_.length() > 0) {
-            SimpleDialog.showYesEtcNo(this, R.string.dialog_dat_dropped_title,
-                    R.string.dialog_dat_dropped_summary_with_maru, R.string.dialog_label_dat_dropped_find_similar,
-                    R.string.dialog_label_dat_dropped_use_maru, new DialogInterface.OnClickListener() {
+
+    private void onDatDroppedRetryWithMaru() {
+    	onDatDroppedRetryImpl(R.string.dialog_dat_dropped_summary_retry_with_maru,
+    			R.string.dialog_dat_dropped_summary_retry_with_maru_no_name,
+    			R.string.dialog_label_dat_dropped_retry_with_maru);
+    }
+
+    private void onDatDroppedRetryWithoutMaru() {
+    	onDatDroppedRetryImpl(R.string.dialog_dat_dropped_summary_retry_without_maru,
+    			R.string.dialog_dat_dropped_summary_retry_without_maru_no_name,
+    			R.string.dialog_label_dat_dropped_retry_without_maru);
+    }
+
+    private void onDatDroppedRetryImpl(int summary_with_find_next, int summary_no_name, int label_retry) {
+    	if (!is_active_) return;
+    	if (thread_data_.cache_count_ == 0) {
+    		ManagedToast.raiseToast(getApplicationContext(), R.string.toast_fetch_dat_by_storage);
+    		getAgent().reloadSpecialThreadEntryList(thread_data_.clone(), getTuboroidApplication().getAccountPref(),
+    				getFetchTask(true));
+    		return;
+    	}
+
+    	if (thread_data_.thread_name_.length() > 0) {
+    		SimpleDialog.showYesEtcNo(this, R.string.dialog_dat_dropped_title, summary_with_find_next,
+    				R.string.dialog_label_dat_dropped_find_similar, label_retry, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(ThreadEntryListActivity.this, SimilarThreadListActivity.class);
@@ -1847,8 +1867,8 @@ public class ThreadEntryListActivity extends SearchableListActivity {
                     });
         }
         else {
-            SimpleDialog.showYesNo(this, R.string.dialog_dat_dropped_title,
-                    R.string.dialog_dat_dropped_summary_with_maru_no_name, new DialogInterface.OnClickListener() {
+        	SimpleDialog.showYesNo(this, R.string.dialog_dat_dropped_title, summary_no_name,
+        			new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             getAgent().reloadSpecialThreadEntryList(thread_data_.clone(),

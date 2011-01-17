@@ -11,9 +11,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -24,10 +25,8 @@ import org.apache.http.client.methods.HttpGet;
 
 import android.util.Log;
 
-public class HttpGetThreadEntryListTaskShitaraba extends HttpTaskBase implements HttpGetThreadEntryListTask {
-    static private final String TAG = "HttpGetThreadEntryListTaskShitaraba";
-    public static final int RECV_PROGRESS_INTERVAL = 1000;
-    public static final int MAX_ABONE_DIFF = 1000;
+public class HttpGetThreadEntryListTaskShitarabaStorage extends HttpTaskBase implements HttpGetThreadEntryListTask {
+    static private final String TAG = "HttpGetThreadEntryListTaskShitarabaStorage";
     
     public class AboneFoundException extends Exception {
         private static final long serialVersionUID = 1L;
@@ -54,8 +53,8 @@ public class HttpGetThreadEntryListTaskShitaraba extends HttpTaskBase implements
         httpAgent.send(this);
     }
     
-    public HttpGetThreadEntryListTaskShitaraba(ThreadData thread_data, String session_key, Callback callback) {
-        super(thread_data.getDatFileURI());
+    public HttpGetThreadEntryListTaskShitarabaStorage(ThreadData thread_data, Callback callback) {
+        super(thread_data.getSpecialDatFileURI(""));
         thread_data_ = thread_data;
         callback_ = callback;
     }
@@ -79,13 +78,7 @@ public class HttpGetThreadEntryListTaskShitaraba extends HttpTaskBase implements
         try {
             
             boolean full_content = true;
-            if (thread_data_.working_cache_count_ > 0) {
-                request_uri += (thread_data_.working_cache_count_ + 1) + "-";
-                full_content = false;
-            }
-            else {
-                thread_data_.working_cache_count_ = 0;
-            }
+            thread_data_.working_cache_count_ = 0;
             
             HttpGet req = factoryGetRequest(request_uri);
             
@@ -161,77 +154,109 @@ public class HttpGetThreadEntryListTaskShitaraba extends HttpTaskBase implements
         callback_.onInterrupted();
     }
     
+    static final int P_STATE_TITLE = 0;
+    static final int P_STATE_ENTRY = 1;
+    
+    static Pattern pattern_title_;
+    static Pattern pattern_body_;
+    static {
+        pattern_title_ = Pattern.compile("<title.*?\\>(.+?)</title\\>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE
+                | Pattern.DOTALL);
+        pattern_body_ = Pattern
+                .compile(
+                        "<dt\\>.*?<a name.*?\\>(\\d+)</a\\>.*?(<a href=\"mailto:(.*?)\"\\>)?<b\\>(.*?)</b\\>.*?：(.*?)<dd\\>(.*)<br\\><br\\>",
+                        Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+    }
+    
     protected void dispatchHttpResponse(final InputStream is, final boolean full_content) throws InterruptedException,
             IOException, BrokenDataException, AboneFoundException {
         List<ThreadEntryData> data_list = new LinkedList<ThreadEntryData>();
         BufferedReader reader = new BufferedReader(new InputStreamReader(is, getTextEncode()), buf_size_);
         
+        // したらばの過去ログは単純HTMLです(dat形式の取得方法がわからなかった)
+        // 形式決め打ちなので仕様変更による破綻の可能性大
+        
         long thread_cur_count = thread_data_.working_cache_count_;
         long progress = System.currentTimeMillis();
+        
+        String thread_name = null;
+        
+        int state = P_STATE_TITLE;
         try {
             while (true) {
                 String line = reader.readLine();
                 if (line == null) break;
                 
-                ArrayList<String> tokens = ListUtils.split("<>", line);
-                
-                ThreadEntryData data;
-                thread_cur_count++;
-                if (tokens.size() < 2) {
-                    // <>が2個未満になるほど破損しているものは論外。多分datファイルですらない
-                    Log.i(TAG, "BROKEN DATA :" + line);
-                    throw new BrokenDataException();
-                }
-                
-                int entry_id = 0;
-                try {
-                    entry_id = Integer.parseInt(tokens.get(0));
-                }
-                catch (NumberFormatException e) {
-                    continue;
-                }
-                if (entry_id != thread_cur_count) {
-                    // あぼーんによるずれ発見。補完する
-                    if (entry_id < thread_cur_count || entry_id - thread_cur_count > MAX_ABONE_DIFF) {
-                        // あまりに極端にあぼーんされている時は破損とみなす
-                        throw new AboneFoundException();
+                if (state == P_STATE_TITLE) {
+                    Matcher matcher_title = pattern_title_.matcher(line);
+                    matcher_title.reset();
+                    if (matcher_title.find()) {
+                        thread_name = matcher_title.group(1);
+                        state = P_STATE_ENTRY;
                     }
-                    while (entry_id > thread_cur_count) {
-                        data_list.add(new ThreadEntryData(false, thread_cur_count, "", "", "", "", "", "", "", ""));
+                }
+                if (state == P_STATE_ENTRY) {
+                    Matcher matcher_body = pattern_body_.matcher(line);
+                    matcher_body.reset();
+                    if (matcher_body.find()) {
                         thread_cur_count++;
+                        int entry_id = 0;
+                        try {
+                            String entry_id_str = matcher_body.group(1);
+                            if (entry_id_str == null) entry_id_str = "";
+                            entry_id = Integer.parseInt(entry_id_str);
+                        }
+                        catch (NumberFormatException e) {
+                            continue;
+                        }
+                        if (entry_id != thread_cur_count) {
+                            // あぼーんによるずれ発見。補完する
+                            if (entry_id < thread_cur_count
+                                    || entry_id - thread_cur_count > HttpGetThreadEntryListTaskShitaraba.MAX_ABONE_DIFF) {
+                                // あまりに極端にあぼーんされている時は破損とみなす
+                                throw new AboneFoundException();
+                            }
+                            while (entry_id > thread_cur_count) {
+                                data_list.add(new ThreadEntryData(false, thread_cur_count, "", "", "", "", "", "", "",
+                                        ""));
+                                thread_cur_count++;
+                            }
+                        }
+                        String author_mail = matcher_body.group(3);
+                        if (author_mail == null) author_mail = "";
+                        String author_name = matcher_body.group(4);
+                        if (author_name == null) author_name = "";
+                        
+                        String time_and_id = matcher_body.group(5);
+                        if (time_and_id == null) time_and_id = "";
+                        String author_id = "";
+                        String entry_time = "";
+                        int index_author_id = time_and_id.indexOf(" ID:");
+                        if (index_author_id <= 1) {
+                            entry_time = time_and_id;
+                        }
+                        else {
+                            entry_time = time_and_id.substring(0, index_author_id);
+                            author_id = time_and_id.substring(index_author_id + 4);
+                        }
+                        
+                        String entry_body = matcher_body.group(6);
+                        if (entry_body == null) entry_body = "";
+                        
+                        if (entry_id == 1 && thread_name.length() > 0) {
+                            thread_data_.thread_name_ = HtmlUtils.stripAllHtmls(thread_name, false);
+                        }
+                        
+                        ThreadEntryData data = new ThreadEntryData(false, thread_cur_count, author_name, author_mail,
+                                entry_body, author_id, "", entry_time, "", "");
+                        
+                        data_list.add(data);
+                        if (System.currentTimeMillis() - progress > HttpGetThreadEntryListTaskShitaraba.RECV_PROGRESS_INTERVAL) {
+                            progress = System.currentTimeMillis();
+                            callback_.onReceived(data_list);
+                            data_list = new LinkedList<ThreadEntryData>();
+                        }
                     }
-                }
-                
-                if (tokens.size() < 7) {
-                    // >>1が破損しているのは論外。多分datファイルですらない
-                    if (thread_cur_count == 1) {
-                        Log.i(TAG, "BROKEN >>1");
-                        throw new BrokenDataException();
-                    }
-                    Log.w(TAG, "Invalid Token : " + line);
-                    data = new ThreadEntryData(false, entry_id, "", "", "", "", "", "", "", "");
-                }
-                else {
-                    String author_name = tokens.get(1);
-                    String author_mail = tokens.get(2);
-                    String entry_time = tokens.get(3);
-                    String entry_body = tokens.get(4);
-                    String thread_name = tokens.get(5);
-                    String author_id = tokens.get(6);
-                    
-                    if (entry_id == 1 && thread_name.length() > 0) {
-                        thread_data_.thread_name_ = HtmlUtils.stripAllHtmls(thread_name, false);
-                    }
-                    
-                    data = new ThreadEntryData(false, thread_cur_count, author_name, author_mail, entry_body,
-                            author_id, "", entry_time, "", "");
-                    
-                }
-                data_list.add(data);
-                if (System.currentTimeMillis() - progress > RECV_PROGRESS_INTERVAL) {
-                    progress = System.currentTimeMillis();
-                    callback_.onReceived(data_list);
-                    data_list = new LinkedList<ThreadEntryData>();
                 }
             }
             if (data_list.size() > 0) {
@@ -242,14 +267,9 @@ public class HttpGetThreadEntryListTaskShitaraba extends HttpTaskBase implements
             reader.close();
         }
         if (Thread.interrupted()) throw new InterruptedException();
-
-        if (thread_cur_count == 0) {
-        	callback_.onDatDropped();
-        	return;
-        }
-
+        
         thread_data_.working_cache_count_ = (int) thread_cur_count;
-
+        
         callback_.onCompleted();
     }
 }

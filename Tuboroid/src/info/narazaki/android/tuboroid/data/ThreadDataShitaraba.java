@@ -23,10 +23,15 @@ public class ThreadDataShitaraba extends ThreadData {
         String board_server = uri.getHost();
         if (!BoardDataShitaraba.isShitaraba(board_server)) return false;
         try {
-            List<String> segments = uri.getPathSegments();
-            if (segments.size() >= 4 && segments.get(0).equals("bbs") && segments.get(1).equals("read.cgi")) {
-                return true;
-            }
+        	List<String> segments = uri.getPathSegments();
+        	if (segments.size() >= 4 && segments.get(0).equals("bbs") && segments.get(1).equals("read.cgi")) {
+        		return true;
+        	}
+
+        	// 過去ログ書庫
+        	if (segments.size() >= 4 && segments.get(2).equals("storage") && segments.get(3).endsWith(".html")) {
+        		return true;
+        	}
         }
         catch (IndexOutOfBoundsException e) {
         }
@@ -94,9 +99,10 @@ public class ThreadDataShitaraba extends ThreadData {
     
     @Override
     public String getSpecialDatFileURI(String session_key) {
-        return null;
+    	return "http://" + server_def_.board_server_ + "/" + server_def_.board_tag_ + "/storage/" + thread_id_
+    	+ ".html";
     }
-    
+
     @Override
     public String getBoardSubjectsURI() {
         return "http://" + server_def_.board_server_ + "/" + server_def_.board_tag_ + "/subject.txt";
@@ -119,17 +125,22 @@ public class ThreadDataShitaraba extends ThreadData {
     
     @Override
     public boolean isFilled() {
-        return is_dropped_;
+    	return is_dropped_;
     }
-    
+
     @Override
-    public boolean canSpecialRetry(AccountPref account_pref) {
-        return false;
+    public boolean canRetryWithoutMaru() {
+    	return true;
     }
-    
+
+    @Override
+    public boolean canRetryWithMaru(AccountPref account_pref) {
+    	return false;
+    }
+
     @Override
     public boolean canSpecialPost(AccountPref account_pref) {
-        return false;
+    	return false;
     }
     
     static public ThreadData factory(Uri uri) {

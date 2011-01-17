@@ -116,6 +116,8 @@
 					android:scheme="http"
 					android:host="jbbs.livedoor.jp"
 					android:pathPrefix="/bbs/read.cgi/" />
+				<data android:scheme="http" android:host="jbbs.livedoor.jp"
+                    android:pathPattern="/.*/.*/storage/.*\\.html" />
 				<data
 					android:scheme="http"
 					android:host="*.machi.to"

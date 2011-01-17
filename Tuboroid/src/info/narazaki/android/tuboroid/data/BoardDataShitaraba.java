@@ -52,7 +52,7 @@ public class BoardDataShitaraba extends BoardData {
         try {
             board_server = uri.getHost();
             List<String> segments = uri.getPathSegments();
-            if (segments.get(0).equals("bbs")
+            if (segments.size() >= 4 && segments.get(0).equals("bbs")
                     && (segments.get(1).equals("read.cgi") || (segments.get(1).equals("rawmode.cgi")))) {
                 // スレは /bbs/read.cgi/[板タグ(スラッシュが入る!!)]/[スレID]/[レス番指定] になる
                 board_tag = segments.get(2) + "/" + segments.get(3);
@@ -73,8 +73,17 @@ public class BoardDataShitaraba extends BoardData {
                     }
                 }
             }
+            else if (segments.size() >= 4 && segments.get(2).equals("storage") && segments.get(3).endsWith(".html")) {
+            	// 過去ログ書庫は /[板タグ(スラッシュが入る!!)]/storage/[スレID].html
+            	board_tag = segments.get(0) + "/" + segments.get(1);
+            	String thread_id_seg = segments.get(3);
+            	if (thread_id_seg.length() > 5) {
+            		String thread_id_str = thread_id_seg.substring(0, thread_id_seg.indexOf(".html"));
+            		thread_id = Long.parseLong(thread_id_str);
+            	}
+            }
             else {
-                board_tag = segments.get(0) + "/" + segments.get(1);
+            	board_tag = segments.get(0) + "/" + segments.get(1);
             }
             return new BoardIdentifier(board_server, board_tag, thread_id, entry_id);
         }

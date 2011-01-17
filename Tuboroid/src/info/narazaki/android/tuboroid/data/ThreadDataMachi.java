@@ -116,20 +116,25 @@ public class ThreadDataMachi extends ThreadData {
     public String getPostEntryRefererURI() {
         return getThreadURI();
     }
-    
+
     @Override
     public boolean isFilled() {
-        return is_dropped_;
+    	return is_dropped_;
     }
-    
+
     @Override
-    public boolean canSpecialRetry(AccountPref account_pref) {
-        return false;
+    public boolean canRetryWithoutMaru() {
+    	return false;
     }
-    
+
+    @Override
+    public boolean canRetryWithMaru(AccountPref account_pref) {
+    	return false;
+    }
+
     @Override
     public boolean canSpecialPost(AccountPref account_pref) {
-        return false;
+    	return false;
     }
     
     static public ThreadData factory(Uri uri) {

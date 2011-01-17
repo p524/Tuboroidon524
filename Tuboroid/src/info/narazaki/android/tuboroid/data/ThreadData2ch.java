@@ -127,16 +127,21 @@ public class ThreadData2ch extends ThreadData {
     public boolean isFilled() {
         return read_count_ >= ASSUME_DROP_COUNT || online_count_ >= ASSUME_DROP_COUNT || is_dropped_;
     }
-    
+
     @Override
-    public boolean canSpecialRetry(AccountPref account_pref) {
-        if (server_def_.board_server_.indexOf("2ch.net") != -1
-                || server_def_.board_server_.indexOf("bbspink.com") != -1) {
-            return account_pref.use_maru_;
-        }
-        return false;
+    public boolean canRetryWithoutMaru() {
+    	return false;
     }
-    
+
+    @Override
+    public boolean canRetryWithMaru(AccountPref account_pref) {
+    	if (server_def_.board_server_.indexOf("2ch.net") != -1
+    			|| server_def_.board_server_.indexOf("bbspink.com") != -1) {
+    		return account_pref.use_maru_;
+    	}
+    	return false;
+    }
+
     @Override
     public boolean canSpecialPost(AccountPref account_pref) {
         if (server_def_.board_server_.indexOf("2ch.net") != -1

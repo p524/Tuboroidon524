@@ -219,7 +219,7 @@ abstract public class ThreadEntryListTask {
         }
     }
     
-    private void appendThreadEntryListCache(final ThreadData thread_data, final List<ThreadEntryData> data_list) {
+    protected void appendThreadEntryListCache(final ThreadData thread_data, final List<ThreadEntryData> data_list) {
         agent_manager_.getFileAgent().writeFile(
                 thread_data.getLocalDatFile(agent_manager_.getContext()).getAbsolutePath(),
                 new DataFileAgent.FileWriteUTF8StreamCallback() {
@@ -268,125 +268,131 @@ abstract public class ThreadEntryListTask {
         }
         
         final boolean can_abone = thread_data.working_cache_count_ > 0;
-        final ArrayList<ThreadEntryData> received_list = new ArrayList<ThreadEntryData>();
         
         HttpGetThreadEntryListTask task = thread_data.factoryGetThreadHttpGetThreadEntryListTask(session_key,
-                new HttpGetThreadEntryListTask.Callback() {
+                factoryGetThreadEntryListCallback(thread_data, session_key, can_abone, callback));
+        task.sendTo(agent_manager_.getMultiHttpAgent());
+    }
+    
+    protected HttpGetThreadEntryListTask.Callback factoryGetThreadEntryListCallback(final ThreadData thread_data,
+            final String session_key, final boolean can_abone, final ThreadEntryListFetchedCallback callback) {
+        return new HttpGetThreadEntryListTask.Callback() {
+            final ArrayList<ThreadEntryData> received_list = new ArrayList<ThreadEntryData>();
+            
+            @Override
+            public void onFetchStarted() {
+                callback.onThreadEntryListFetchStarted(thread_data);
+            }
+            
+            @Override
+            public void onReceivedNew() {
+                thread_data.working_cache_size_ = 0;
+                thread_data.working_cache_count_ = 0;
+            }
+            
+            @Override
+            public void onReceived(List<ThreadEntryData> data_list) {
+                if (thread_data.working_cache_count_ == 0) {
+                    agent_manager_.getFileAgent().deleteFile(
+                            thread_data.getLocalDatFile(agent_manager_.getContext()).getAbsolutePath(), null);
+                    callback.onThreadEntryListClear();
+                }
+                thread_data.working_cache_count_ += data_list.size();
+                applyIgnoreList(data_list);
+                received_list.addAll(data_list);
+                callback.onThreadEntryListFetched(data_list);
+            }
+            
+            @Override
+            public void onNoUpdated() {
+                agent_manager_.getDBAgent().updateThreadData(thread_data, new SQLiteAgentBase.DbTransaction() {
+                    
                     @Override
-                    public void onFetchStarted() {
-                        callback.onThreadEntryListFetchStarted(thread_data);
+                    public void run() {
+                        callback.onThreadEntryListFetchedCompleted(thread_data);
+                        popFetchTask();
                     }
                     
                     @Override
-                    public void onReceivedNew() {
-                        thread_data.working_cache_size_ = 0;
-                        thread_data.working_cache_count_ = 0;
-                    }
-                    
-                    @Override
-                    public void onReceived(List<ThreadEntryData> data_list) {
-                        if (thread_data.working_cache_count_ == 0) {
-                            agent_manager_.getFileAgent().deleteFile(
-                                    thread_data.getLocalDatFile(agent_manager_.getContext()).getAbsolutePath(), null);
-                            callback.onThreadEntryListClear();
-                        }
-                        thread_data.working_cache_count_ += data_list.size();
-                        applyIgnoreList(data_list);
-                        received_list.addAll(data_list);
-                        callback.onThreadEntryListFetched(data_list);
-                    }
-                    
-                    @Override
-                    public void onNoUpdated() {
-                        agent_manager_.getDBAgent().updateThreadData(thread_data, new SQLiteAgentBase.DbTransaction() {
-                            
-                            @Override
-                            public void run() {
-                                callback.onThreadEntryListFetchedCompleted(thread_data);
-                                popFetchTask();
-                            }
-                            
-                            @Override
-                            public void onError() {
-                                callback.onInterrupted();
-                                popFetchTask();
-                            }
-                        });
-                    }
-                    
-                    @Override
-                    public void onInterrupted() {
+                    public void onError() {
                         callback.onInterrupted();
-                    }
-                    
-                    @Override
-                    public void onDatDropped() {
-                        thread_data.is_dropped_ = true;
-                        agent_manager_.getDBAgent().updateThreadData(thread_data, new SQLiteAgentBase.DbTransaction() {
-                            @Override
-                            public void run() {
-                                callback.onDatDropped(session_key != null);
-                                popFetchTask();
-                            }
-                            
-                            @Override
-                            public void onError() {
-                                callback.onInterrupted();
-                                popFetchTask();
-                            }
-                        });
-                    }
-                    
-                    @Override
-                    public void onConnectionFailed(boolean connectionFailed) {
-                        if (connectionFailed) {
-                            callback.onConnectionFailed(connectionFailed);
-                            popFetchTask();
-                        }
-                        else {
-                            onDatDropped();
-                        }
-                    }
-                    
-                    @Override
-                    public void onDatBroken() {
-                        onDatDropped();
-                    }
-                    
-                    @Override
-                    public void onCompleted() {
-                        appendThreadEntryListCache(thread_data, received_list);
-                        thread_data.flushWorkingCacheData();
-                        agent_manager_.getDBAgent().updateThreadData(thread_data, new SQLiteAgentBase.DbTransaction() {
-                            @Override
-                            public void run() {
-                                callback.onThreadEntryListFetchedCompleted(thread_data);
-                                popFetchTask();
-                            }
-                            
-                            @Override
-                            public void onError() {
-                                callback.onInterrupted();
-                                popFetchTask();
-                            }
-                        });
-                    }
-                    
-                    @Override
-                    public void onAboneFound() {
-                        if (can_abone) {
-                            thread_data.working_cache_count_ = 0;
-                            thread_data.working_cache_size_ = 0;
-                            reloadOnlineThreadEntryList(thread_data, null, callback);
-                            
-                        }
-                        else {
-                            callback.onConnectionFailed(false);
-                            popFetchTask();
-                        }
+                        popFetchTask();
                     }
                 });
-        task.sendTo(agent_manager_.getMultiHttpAgent());
+            }
+            
+            @Override
+            public void onInterrupted() {
+                callback.onInterrupted();
+            }
+            
+            @Override
+            public void onDatDropped() {
+                thread_data.is_dropped_ = true;
+                agent_manager_.getDBAgent().updateThreadData(thread_data, new SQLiteAgentBase.DbTransaction() {
+                    @Override
+                    public void run() {
+                        callback.onDatDropped(session_key != null);
+                        popFetchTask();
+                    }
+                    
+                    @Override
+                    public void onError() {
+                        callback.onInterrupted();
+                        popFetchTask();
+                    }
+                });
+            }
+            
+            @Override
+            public void onConnectionFailed(boolean connectionFailed) {
+                if (connectionFailed) {
+                    callback.onConnectionFailed(connectionFailed);
+                    popFetchTask();
+                }
+                else {
+                    onDatDropped();
+                }
+            }
+            
+            @Override
+            public void onDatBroken() {
+                onDatDropped();
+            }
+            
+            @Override
+            public void onCompleted() {
+                appendThreadEntryListCache(thread_data, received_list);
+                thread_data.flushWorkingCacheData();
+                agent_manager_.getDBAgent().updateThreadData(thread_data, new SQLiteAgentBase.DbTransaction() {
+                    @Override
+                    public void run() {
+                        callback.onThreadEntryListFetchedCompleted(thread_data);
+                        popFetchTask();
+                    }
+                    
+                    @Override
+                    public void onError() {
+                        callback.onInterrupted();
+                        popFetchTask();
+                    }
+                });
+            }
+            
+            @Override
+            public void onAboneFound() {
+                if (can_abone) {
+                    thread_data.working_cache_count_ = 0;
+                    thread_data.working_cache_size_ = 0;
+                    reloadOnlineThreadEntryList(thread_data, null, callback);
+                    
+                }
+                else {
+                    callback.onConnectionFailed(false);
+                    popFetchTask();
+                }
+            }
+        };
     }
     
     public final void reloadSpecialThreadEntryList(final ThreadData thread_data, final AccountPref account_pref,

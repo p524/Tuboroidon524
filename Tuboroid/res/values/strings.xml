@@ -173,6 +173,8 @@
 	<string name="toast_image_saved">Image saved</string>
 	<string name="toast_image_failed_to_save">Failed to save</string>
 	
+	<string name="toast_fetch_dat_by_storage">Fetch stored dat...</string>
+	
 	
 	<!-- 通知 -->
 	<string name="notif_check_upadted">new entry found at favorite threads</string>
@@ -211,11 +213,15 @@
 	<string name="dialog_dat_dropped_title">Dropped thread</string>
 	<string name="dialog_dat_dropped_summary">find similar thread?</string>
 	<string name="dialog_dat_dropped_summary_no_name">failed to get this thread</string>
-	<string name="dialog_dat_dropped_summary_with_maru">find similar thread? or use ●?</string>
-	<string name="dialog_dat_dropped_summary_with_maru_no_name">use ●?</string>
+	<string name="dialog_dat_dropped_summary_retry_with_maru">find similar thread? or use ●?</string>
+	<string name="dialog_dat_dropped_summary_retry_with_maru_no_name">use ●?</string>
+	
+	<string name="dialog_dat_dropped_summary_retry_without_maru">find similar or fetch stored thread?</string>
+    <string name="dialog_dat_dropped_summary_retry_without_maru_no_name">fetch stored thread?</string>
 
 	<string name="dialog_label_dat_dropped_find_similar">find</string>
-	<string name="dialog_label_dat_dropped_use_maru">use ●</string>
+	<string name="dialog_label_dat_dropped_retry_with_maru">use ●</string>
+	<string name="dialog_label_dat_dropped_retry_without_maru">stored</string>
 
 	<string name="dialog_do_you_post_it_title">Do you post it?</string>
 	<string name="dialog_label_normal">Post</string>

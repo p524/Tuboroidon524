@@ -162,6 +162,8 @@
 
 	<string name="toast_image_saved">画像を保存しました</string>
 	<string name="toast_image_failed_to_save">保存に失敗しました</string>
+	
+	<string name="toast_fetch_dat_by_storage">過去ログからの取得を試みます</string>
 
 	<!-- 通知 -->
 	<string name="notif_check_upadted">個のスレに新着レスがあります</string>
@@ -191,11 +193,15 @@
 	<string name="dialog_dat_dropped_title">dat落ちしたようです</string>
 	<string name="dialog_dat_dropped_summary">次スレ候補を検索しますか?</string>
 	<string name="dialog_dat_dropped_summary_no_name">スレを取得出来ません</string>
-	<string name="dialog_dat_dropped_summary_with_maru">次スレ候補を検索しますか?それとも●でdatを取得しますか?</string>
-	<string name="dialog_dat_dropped_summary_with_maru_no_name">●でdatを取得しますか?</string>
+	<string name="dialog_dat_dropped_summary_retry_with_maru">次スレ候補を検索しますか?それとも●でdatを取得しますか?</string>
+	<string name="dialog_dat_dropped_summary_retry_with_maru_no_name">●でdatを取得しますか?</string>
+	
+	<string name="dialog_dat_dropped_summary_retry_without_maru">次スレ候補を検索しますか?それとも過去ログからの更新を試みますか?</string>
+    <string name="dialog_dat_dropped_summary_retry_without_maru_no_name">過去ログからの更新を試みますか?</string>
 
 	<string name="dialog_label_dat_dropped_find_similar">検索</string>
-	<string name="dialog_label_dat_dropped_use_maru">●使用</string>
+	<string name="dialog_label_dat_dropped_retry_with_maru">●使用</string>
+	<string name="dialog_label_dat_dropped_retry_without_maru">過去ログ</string>
 
 	<string name="dialog_do_you_post_it_title">書き込んでよろしいですか?</string>
 	<string name="dialog_label_normal">書き込む</string>
