@@ -25,13 +25,19 @@ public class BoardIdentifier {
     public boolean equals(Object o) {
         if (o instanceof BoardIdentifier) {
             BoardIdentifier target = (BoardIdentifier) o;
-            if (board_server_.equals(target.board_server_) && board_tag_.equals(target.board_tag_)
-                    && thread_id_ == target.thread_id_ && entry_id_ == target.entry_id_) {
+            if (isSameBoard(target) && thread_id_ == target.thread_id_ && entry_id_ == target.entry_id_) {
                 return true;
             }
             return false;
         }
         return super.equals(o);
+    }
+    
+    public boolean isSameBoard(BoardIdentifier target) {
+        if (board_server_.equals(target.board_server_) && board_tag_.equals(target.board_tag_)) {
+            return true;
+        }
+        return false;
     }
     
     @Override

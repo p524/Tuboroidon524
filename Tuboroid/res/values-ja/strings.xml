@@ -89,6 +89,7 @@
 	<string name="label_menu_search_via_find2ch">全板検索</string>
 
 	<string name="label_menu_sort_threads">並び替え</string>
+    <string name="label_menu_create_new_thread">新スレを立てる</string>
 	<string name="label_menu_check_update">更新を確認</string>
 	<string name="label_menu_manual_order">手動整理</string>
 	<string name="label_menu_auto_order">自動整理</string>
@@ -125,6 +126,7 @@
 	<string name="btn_label_entry_edit_mail">メールアドレス</string>
 	<string name="btn_label_entry_edit_submit">書き込む</string>
 	<string name="btn_label_entry_edit_aa">AA表示</string>
+	<string name="btn_label_new_thread_title">スレッドタイトル</string>
 	<string name="dialog_aa_font_install">インストール</string>
 	<string name="btn_label_copy_all">全てコピー</string>
 
@@ -170,6 +172,7 @@
 	
 	<string name="dialog_loading_progress">読み込んでいます……</string>
 	<string name="dialog_posting_progress">書き込んでいます……</string>
+    <string name="dialog_creating_thread_progress">スレを立てています……</string>
 
 	<string name="dialog_add_favorite_thread_title">お気に入りに追加</string>
 
@@ -193,7 +196,11 @@
 	<string name="dialog_post_notice_title">書き込み確認</string>
 	<string name="dialog_post_failed_title">書き込み失敗</string>
 	<string name="dialog_post_error_summary">書き込み時に通信エラーが発生しました</string>
-
+    <string name="dialog_do_you_create_thread_title">このスレを立ててもよろしいですか?</string>
+    <string name="dialog_create_new_thread_notice_title">スレ立て確認</string>
+    <string name="dialog_create_new_thread_failed_title">スレ立て失敗</string>
+    <string name="dialog_create_new_thread_error_summary">スレ立て時に通信エラーが発生しました</string>
+    
 	<string name="dialog_add_board_title">外部板の追加</string>
 	<string name="dialog_add_board_tips_title">(Tips)</string>
 	<string name="dialog_add_board_tips">ブラウザから検索して登録したい板を開き「MENU→その他→ページを共有」でも追加できます

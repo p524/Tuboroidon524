@@ -90,6 +90,8 @@
 			android:name="info.narazaki.android.tuboroid.activity.SettingAAFontActivity"></activity>
 		<activity
 			android:name="info.narazaki.android.tuboroid.activity.ImageViewerActivity"></activity>
+		<activity
+			android:name="info.narazaki.android.tuboroid.activity.NewThreadEditActivity" />
 
 		<activity
 			android:name="info.narazaki.android.tuboroid.activity.IntentReceiverActivity">

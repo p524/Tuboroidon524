@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical" android:background="@color/more_dark">
+	<ScrollView android:layout_width="fill_parent"
+		android:layout_height="0dip" android:layout_weight="1"
+		android:scrollbarStyle="outsideInset" android:fillViewport="true">
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="fill_parent" android:orientation="vertical">
+			<LinearLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:orientation="horizontal">
+				<EditText android:id="@+id/new_thread_name"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:maxLines="1" android:layout_weight="2"
+					android:hint="@string/btn_label_entry_edit_name"
+					android:singleLine="true" />
+				<EditText android:id="@+id/new_thread_mail"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:maxLines="1" android:layout_weight="1"
+					android:hint="@string/btn_label_entry_edit_mail"
+					android:singleLine="true" />
+			</LinearLayout>
+			<LinearLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:orientation="horizontal">
+				<EditText android:id="@+id/new_thread_title"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:maxLines="1" android:layout_weight="1"
+					android:hint="@string/btn_label_new_thread_title"
+					android:singleLine="true" />
+				<ImageButton android:id="@+id/new_thread_submit"
+					android:src="@drawable/ic_btn_post" android:layout_height="wrap_content"
+					android:layout_width="wrap_content" style="@style/ToolBarButtonWidget" />
+			</LinearLayout>
+			<EditText android:id="@+id/new_thread_body"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:layout_weight="1" android:gravity="left|top"
+				android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
+				android:imeOptions="actionDone|flagNoEnterAction" />
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>

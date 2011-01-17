@@ -42,7 +42,7 @@ public class ForwardableActivityUtil {
         Intent forward = new Intent(i);
         forward.putExtra(EXTRA_FORWARD_INTENT, i.getParcelableExtra(EXTRA_FORWARD_INTENT));
         activity.setResult(Activity.RESULT_CANCELED, forward);
-    }
+    } 
     
     public static GestureDetector createFlickGestureDetector(final Activity activity) {
     	return new GestureDetector(new FlickDetector.OnFlickListener(activity) {

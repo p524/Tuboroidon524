@@ -1,5 +1,9 @@
 package info.narazaki.android.tuboroid.data;
 
+import info.narazaki.android.tuboroid.TuboroidApplication.AccountPref;
+import info.narazaki.android.tuboroid.agent.CreateNewThreadTask;
+import info.narazaki.android.tuboroid.agent.CreateNewThreadTask2ch;
+import info.narazaki.android.tuboroid.agent.TuboroidAgentManager;
 import info.narazaki.android.tuboroid.agent.task.HttpGetBoardDataTask;
 import info.narazaki.android.tuboroid.agent.task.HttpGetBoardDataTask2ch;
 import info.narazaki.android.tuboroid.agent.task.HttpGetThreadListTask;
@@ -113,6 +117,30 @@ public class BoardData2ch extends BoardData {
     @Override
     public BoardData clone() {
         return new BoardData2ch(this);
+    }
+    
+    @Override
+    public String getCreateNewThreadURI() {
+        return "http://" + server_def_.board_server_ + "/test/bbs.cgi";
+    }
+    
+    @Override
+    public boolean canCreateNewThread() {
+        return true;
+    }
+    
+    @Override
+    public boolean canSpecialCreateNewThread(AccountPref account_pref) {
+        if (server_def_.board_server_.indexOf("2ch.net") != -1
+                || server_def_.board_server_.indexOf("bbspink.com") != -1) {
+            return account_pref.use_maru_;
+        }
+        return false;
+    }
+    
+    @Override
+    public CreateNewThreadTask factoryCreateNewThreadTask(TuboroidAgentManager agent_manager) {
+        return new CreateNewThreadTask2ch(agent_manager);
     }
     
 }

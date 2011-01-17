@@ -2,6 +2,9 @@ package info.narazaki.android.tuboroid.data;
 
 import info.narazaki.android.lib.adapter.NExpandableListAdapterDataInterface;
 import info.narazaki.android.tuboroid.TuboroidApplication;
+import info.narazaki.android.tuboroid.TuboroidApplication.AccountPref;
+import info.narazaki.android.tuboroid.agent.CreateNewThreadTask;
+import info.narazaki.android.tuboroid.agent.TuboroidAgentManager;
 import info.narazaki.android.tuboroid.agent.task.HttpGetBoardDataTask;
 import info.narazaki.android.tuboroid.agent.task.HttpGetThreadListTask;
 
@@ -193,6 +196,14 @@ abstract public class BoardData implements NExpandableListAdapterDataInterface {
     
     abstract public String getBoardTopURI();
     
+    abstract public boolean canSpecialCreateNewThread(AccountPref account_pref);
+    
+    abstract public String getCreateNewThreadURI();
+    
+    abstract public boolean canCreateNewThread();
+    
+    abstract public CreateNewThreadTask factoryCreateNewThreadTask(TuboroidAgentManager agent_manager);
+    
     public final LinkedList<String> getLocalDatDir(Context context) {
         String filename = "/" + server_def_.board_server_ + "/" + server_def_.board_tag_ + "/";
         LinkedList<String> list = new LinkedList<String>();
@@ -244,11 +255,11 @@ abstract public class BoardData implements NExpandableListAdapterDataInterface {
     }
     
     public boolean isSameBoard(BoardData target) {
-        return server_def_.equals(target.server_def_);
+        return server_def_.isSameBoard(target.server_def_);
     }
     
     public boolean isSameBoard(ThreadData target) {
-        return server_def_.equals(target.server_def_);
+        return server_def_.isSameBoard(target.server_def_);
     }
     
     @Override

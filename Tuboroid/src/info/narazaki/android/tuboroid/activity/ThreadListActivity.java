@@ -43,6 +43,8 @@ public class ThreadListActivity extends SearchableListActivity {
     
     public static final String PREF_KEY_THREAD_SORT_ORDER = "PREF_KEY_THREAD_SORT_ORDER";
     
+    public static final int INTENT_ID_CREATE_NEW_THREAD = 1;
+    
     // コンテキストメニュー
     private final static int CTX_MENU_DELETE_THREAD = 1;
     private final static int CTX_MENU_COPY_TO_CLIPBOARD = 2;
@@ -59,13 +61,16 @@ public class ThreadListActivity extends SearchableListActivity {
     // ソート方式の変更
     public static final int MENU_KEY_SORT = 30;
     
-    // 共有
-    public static final int MENU_KEY_SHARE = 31;
+    // スレ立て
+    public static final int MENU_KEY_CREATE_NEW_THREAD = 50;
     
     // プログレスバー
     private final static int DEFAULT_MAX_PROGRESS = 300;
     private final static int DEFAULT_FAKE_PROGRESS = 60;
     private final static int DEFAULT_DB_PROGRESS = 50;
+    
+    // onResumeで再読み込みする(スレ立てから戻った時等)
+    private boolean reload_on_resume_ = false;
     
     private int reload_progress_max_ = DEFAULT_MAX_PROGRESS;
     private int reload_progress_cur_ = 0;
@@ -83,6 +88,8 @@ public class ThreadListActivity extends SearchableListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.thread_list);
         registerForContextMenu(getListView());
+        
+        reload_on_resume_ = false;
         
         Uri uri = getIntent().getData();
         if (uri == null) return;
@@ -151,7 +158,12 @@ public class ThreadListActivity extends SearchableListActivity {
     @Override
     protected void onResumeDataRequired() {
         if (board_data_ == null) return;
+        if (reload_on_resume_) {
+            reloadList(true);
+        }
+        else {
         reloadList(false);
+    }
     }
     
     // ////////////////////////////////////////////////////////////
@@ -275,18 +287,24 @@ public class ThreadListActivity extends SearchableListActivity {
             }
         });
         
-        // URLの共有
-        MenuItem share = menu.add(0, MENU_KEY_SHARE, MENU_KEY_SHARE, getString(R.string.label_menu_share_board));
-        share.setIcon(android.R.drawable.ic_menu_share);
-        share.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+        // スレ立て
+        if (board_data_ != null && board_data_.canCreateNewThread()) {
+            MenuItem new_thread_item = menu.add(0, MENU_KEY_CREATE_NEW_THREAD, MENU_KEY_CREATE_NEW_THREAD,
+                    getString(R.string.label_menu_create_new_thread));
+            new_thread_item.setIcon(R.drawable.ic_menu_compose);
+            new_thread_item.setOnMenuItemClickListener(new OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(board_data_.getBoardTopURI()));
-                intent.putExtra("TEXT", board_data_.getBoardTopURI());
-                startActivity(intent);
+                    if (board_data_ != null) {
+                        Intent intent = new Intent(ThreadListActivity.this, NewThreadEditActivity.class);
+                        intent.setData(Uri.parse(board_data_.getBoardTopURI()));
+                        MigrationSDK5.Intent_addFlagNoAnimation(intent);
+                        startActivityForResult(intent, INTENT_ID_CREATE_NEW_THREAD);
+                    }
                 return false;
             }
         });
+        }
         
         return true;
     }
@@ -308,6 +326,22 @@ public class ThreadListActivity extends SearchableListActivity {
         builder.create().show();
     }
 
+    // ////////////////////////////////////////////////////////////
+    // スレ立て帰還
+    // ////////////////////////////////////////////////////////////
+    @Override
+    protected void onActivityResult(int request_code, int result_code, Intent data) {
+        switch (request_code) {
+        case INTENT_ID_CREATE_NEW_THREAD:
+            if (result_code == RESULT_OK) {
+                reload_on_resume_ = true;
+            }
+            break;
+        default:
+            super.onActivityResult(request_code, result_code, data);
+            break;
+        }
+    }
     
     // ////////////////////////////////////////////////////////////
     // その他

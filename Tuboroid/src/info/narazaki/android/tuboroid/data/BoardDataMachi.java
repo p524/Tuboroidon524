@@ -1,5 +1,8 @@
 package info.narazaki.android.tuboroid.data;
 
+import info.narazaki.android.tuboroid.TuboroidApplication.AccountPref;
+import info.narazaki.android.tuboroid.agent.CreateNewThreadTask;
+import info.narazaki.android.tuboroid.agent.TuboroidAgentManager;
 import info.narazaki.android.tuboroid.agent.task.HttpGetBoardDataTask;
 import info.narazaki.android.tuboroid.agent.task.HttpGetBoardDataTaskMachi;
 import info.narazaki.android.tuboroid.agent.task.HttpGetThreadListTask;
@@ -73,4 +76,23 @@ public class BoardDataMachi extends BoardData {
         return new BoardDataMachi(this);
     }
     
+    @Override
+    public String getCreateNewThreadURI() {
+        return null;
+    }
+    
+    @Override
+    public boolean canCreateNewThread() {
+        return false;
+    }
+    
+    @Override
+    public boolean canSpecialCreateNewThread(AccountPref account_pref) {
+        return false;
+    }
+    
+    @Override
+    public CreateNewThreadTask factoryCreateNewThreadTask(TuboroidAgentManager agent_manager) {
+        return null;
+    }
 }

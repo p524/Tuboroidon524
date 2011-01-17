@@ -98,6 +98,7 @@
 	<string name="label_menu_search_via_find2ch">find.2ch</string>
 
 	<string name="label_menu_sort_threads">Sort</string>
+	<string name="label_menu_create_new_thread">Create new thread</string>
 	<string name="label_menu_check_update">check update</string>
 	<string name="label_menu_manual_order">manage order</string>
 	<string name="label_menu_auto_order">auto order</string>
@@ -134,6 +135,7 @@
 	<string name="btn_label_entry_edit_mail">Mailaddress</string>
 	<string name="btn_label_entry_edit_submit">Submit</string>
 	<string name="btn_label_entry_edit_aa">AA View</string>
+	<string name="btn_label_new_thread_title">Title</string>
 	<string name="dialog_aa_font_install">Install</string>
 	<string name="btn_label_copy_all">Copy All</string>
 
@@ -188,6 +190,7 @@
 
 	<string name="dialog_loading_progress">Please wait while loading...</string>
 	<string name="dialog_posting_progress">Posting...</string>
+	<string name="dialog_creating_thread_progress">Creating new thread...</string>
 
 	<string name="dialog_add_favorite_thread_title">add favorite</string>
 
@@ -211,6 +214,11 @@
 	<string name="dialog_post_notice_title">Notice</string>
 	<string name="dialog_post_failed_title">Post failed</string>
 	<string name="dialog_post_error_summary">Some connection error occured</string>
+
+	<string name="dialog_do_you_create_thread_title">Do you post it?</string>
+	<string name="dialog_create_new_thread_notice_title">Notice</string>
+	<string name="dialog_create_new_thread_failed_title">Post failed</string>
+	<string name="dialog_create_new_thread_error_summary">Some connection error occured</string>
 
 	<string name="dialog_add_board_title">Add External Board</string>
 	<string name="dialog_add_board_tips_title">(Tips)</string>

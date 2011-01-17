@@ -16,6 +16,7 @@ import info.narazaki.android.tuboroid.agent.thread.SQLiteAgent;
 import info.narazaki.android.tuboroid.data.BoardData;
 import info.narazaki.android.tuboroid.data.FavoriteItemData;
 import info.narazaki.android.tuboroid.data.Find2chKeyData;
+import info.narazaki.android.tuboroid.data.NewThreadData;
 import info.narazaki.android.tuboroid.data.PostEntryData;
 import info.narazaki.android.tuboroid.data.ThreadData;
 import info.narazaki.android.tuboroid.data.ThreadEntryData;
@@ -209,6 +210,8 @@ public class TuboroidAgent {
         return man_.getFind2chAgent().searchViaFind2ch(key, order, force_reload, callback);
     }
     
+    // ポスト
+    
     public PostEntryTask.FuturePostEntry postEntry(final ThreadData thread_data, final PostEntryData post_entry_data,
             final AccountPref account_pref, final OnPostEntryCallback callback) {
         PostEntryTask task = thread_data.factoryPostEntryTask(man_);
@@ -222,6 +225,17 @@ public class TuboroidAgent {
     public void savePostEntryRecentTime(final ThreadData thread_data) {
         man_.getDBAgent().savePostEntryRecentTime(thread_data);
     }
+    
+    // スレ立て
+    
+    public CreateNewThreadTask.FutureCreateNewThread createNewThread(final BoardData board_data,
+            final NewThreadData new_thread_data, final AccountPref account_pref,
+            final CreateNewThreadTask.OnCreateNewThreadCallback callback) {
+        CreateNewThreadTask task = board_data.factoryCreateNewThreadTask(man_);
+        return task.createNewThread(board_data, new_thread_data, account_pref, man_.getHttpUserAgentName(), callback);
+    }
+    
+    // あぼーん
     
     public void addNGID(final String author_id, final int type) {
         man_.getIgnoreListAgent().addNGID(author_id, type);

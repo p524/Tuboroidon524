@@ -1,5 +1,9 @@
 package info.narazaki.android.tuboroid.data;
 
+import info.narazaki.android.tuboroid.TuboroidApplication.AccountPref;
+import info.narazaki.android.tuboroid.agent.CreateNewThreadTask;
+import info.narazaki.android.tuboroid.agent.CreateNewThreadTaskShitaraba;
+import info.narazaki.android.tuboroid.agent.TuboroidAgentManager;
 import info.narazaki.android.tuboroid.agent.task.HttpGetBoardDataTask;
 import info.narazaki.android.tuboroid.agent.task.HttpGetBoardDataTaskShitaraba;
 import info.narazaki.android.tuboroid.agent.task.HttpGetThreadListTask;
@@ -113,6 +117,26 @@ public class BoardDataShitaraba extends BoardData {
     @Override
     public BoardData clone() {
         return new BoardDataShitaraba(this);
+    }
+    
+    @Override
+    public String getCreateNewThreadURI() {
+        return "http://" + server_def_.board_server_ + "/bbs/write.cgi/" + server_def_.board_tag_ + "/new/";
+    }
+    
+    @Override
+    public boolean canCreateNewThread() {
+        return true;
+    }
+    
+    @Override
+    public boolean canSpecialCreateNewThread(AccountPref account_pref) {
+        return false;
+    }
+    
+    @Override
+    public CreateNewThreadTask factoryCreateNewThreadTask(TuboroidAgentManager agent_manager) {
+        return new CreateNewThreadTaskShitaraba(agent_manager);
     }
     
 }

@@ -46,6 +46,8 @@
 		<activity android:name=".activity.SettingAAFontActivity"></activity>
 		<activity android:name=".activity.ImageViewerActivity"></activity>
 
+		<activity android:name=".activity.NewThreadEditActivity"></activity>
+
 		<activity android:name=".activity.IntentReceiverActivity">
 			<intent-filter android:icon="@drawable/icon"
 				android:label="@string/app_name">
