@@ -83,6 +83,7 @@ public class TuboroidService extends Service {
                 notif_manager.notify(TuboroidApplication.NOTIF_ID_BACKGROUND_UPDATED, notif);
             }
             Intent intent = new Intent(CHECK_UPDATE.ACTION_FINISHED);
+            intent.setPackage(getPackageName());
             intent.putExtra(CHECK_UPDATE.NUM_UNREAD_THREADS, check_updated_unread_threads_);
             sendBroadcast(intent);
             
@@ -250,6 +251,7 @@ public class TuboroidService extends Service {
         
         private void sendCheckedUpdateIntent(final Runnable on_checked_callback) {
             Intent intent = new Intent(CHECK_UPDATE.ACTION_NEW);
+            intent.setPackage(getPackageName());
             intent.putExtra(CHECK_UPDATE.MAX, check_update_max_);
             if (on_checked_callback == null) {
                 intent.putExtra(CHECK_UPDATE.PROGRESS1, check_update_max_ - check_update_remain_);
@@ -365,6 +367,7 @@ public class TuboroidService extends Service {
         
         private void onDownloadThreadProgress(final List<ThreadData> data_list) {
             Intent intent = new Intent(CHECK_UPDATE.ACTION_NEW);
+            intent.setPackage(getPackageName());
             intent.putExtra(CHECK_UPDATE.MAX, check_update_max_);
             intent.putExtra(CHECK_UPDATE.PROGRESS1, check_update_max_ - data_list.size());
             intent.putExtra(CHECK_UPDATE.PROGRESS2, check_update_max_);

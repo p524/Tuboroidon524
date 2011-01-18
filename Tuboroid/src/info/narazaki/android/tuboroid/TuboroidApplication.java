@@ -133,6 +133,7 @@ public class TuboroidApplication extends NSimpleApplication {
         setCameraButtonScrolling(pref.getBoolean("pref_use_camera_button_scrolling", false));
         
         Intent timer_updater = new Intent(BackgroundTimerUpdater.ACTION);
+        timer_updater.setPackage(getPackageName());
         sendBroadcast(timer_updater);
         
         if (invalidate) notifySettingUpdated();

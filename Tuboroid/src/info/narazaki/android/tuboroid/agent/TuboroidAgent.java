@@ -113,6 +113,7 @@ public class TuboroidAgent {
             public void run() {
                 if (callback != null) callback.run();
                 Intent intent = new Intent(THREAD_DATA_UPDATED_ACTION);
+                intent.setPackage(context_.getPackageName());
                 context_.sendBroadcast(intent);
             }
             

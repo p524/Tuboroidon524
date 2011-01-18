@@ -22,6 +22,7 @@ public class BackgroundTimerUpdater {
         AlarmManager alarm_manager = (AlarmManager) (context.getSystemService(Context.ALARM_SERVICE));
         
         Intent intent = new Intent(BackgroundCheckUpdate.ACTION);
+        intent.setPackage(context.getPackageName());
         PendingIntent pending = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         
         alarm_manager.cancel(pending);
