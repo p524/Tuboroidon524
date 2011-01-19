@@ -89,7 +89,7 @@ abstract public class TuboroidExpandableListActivityBase extends NSimpleExpandab
     public void onContentChanged() {
     	super.onContentChanged();
     	
-    	btnListScroll = TuboroidListActivity.createScrollButton(getExpandableListView());
+    	btnListScroll = TuboroidListActivity.createScrollButton(this, getExpandableListView());
     	if (btnListScroll != null) {
     		btnListScroll.setOnClickListener(new OnClickListener() {
 				@Override

@@ -1,9 +1,13 @@
 package jp.syoboi.android;
 
+import info.narazaki.android.tuboroid.activity.ForwardableActivityUtil;
+import android.R;
+import android.app.Activity;
 import android.content.Context;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -13,6 +17,7 @@ public class ListViewScrollButton extends ImageButton {
 	public static final String TAG = ListViewScrollButton.class.getSimpleName();
 	
 	private ListView 	listView;
+	private Activity activity_;
 	private long		pressedTime;
 	private float		pressedX;
 	private float		pressedY;
@@ -20,6 +25,7 @@ public class ListViewScrollButton extends ImageButton {
 	private Scroller	scroller;
 	private float		moveY;
 	private boolean 	reverse;
+	private boolean   active;
 	
 	public ListViewScrollButton(Context context, AttributeSet attrs,
 			int defStyle) {
@@ -30,8 +36,9 @@ public class ListViewScrollButton extends ImageButton {
 		super(context, attrs);
 	}
 
-	public void setListView(ListView listView) {
-		this.listView = listView;
+	public void setListView(Activity activity, ListView lv) {
+		activity_ = activity;
+		this.listView = lv;
 	}
 	
 	public void setReverse(boolean b) {
@@ -43,6 +50,26 @@ public class ListViewScrollButton extends ImageButton {
 		Log.d(TAG, "click");
 		return super.performClick();
 	}
+	
+	//ImageButtonではそのままではR.attr.state_activeがきちんと扱えないので
+	//DrawableStateを作りなおしたときに面倒を見てやる必要がある
+    @Override
+	public int[] onCreateDrawableState(int extraSpace) {
+    	int [] new_list = super.onCreateDrawableState(extraSpace);
+    	if(active){
+    		int [] new_list_active = new int [new_list.length + 1];
+    		System.arraycopy(new_list, 0, new_list_active, 0, new_list.length);
+    		for(int i = 0; i < new_list_active.length; i++){
+    			if(new_list_active[i] == 0){
+    				new_list_active[i] = R.attr.state_active;
+    				break;
+    			}
+    		}
+    		return new_list_active;
+    	}else{
+    		return new_list;
+    	}
+    }
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -63,23 +90,58 @@ public class ListViewScrollButton extends ImageButton {
 					scroller = new Scroller(listView, 3*60*1000, 1000/30);
 					scroller.start();
 				}
-				scroller.scrollSpeedY = (reverse ? -scrollSpeedY : scrollSpeedY);
+				if(scroller != null){
+					scroller.scrollSpeedY = (reverse ? -scrollSpeedY : scrollSpeedY);
+				}
 			}
+
+			if(event.getX() - pressedX > getDragThreshold()){
+				setActive(true);
+			}else if(event.getX() - pressedX < -getDragThreshold()){
+	        	setActive(true);
+			}else{
+				setActive(false);
+			}
+			
 			return true;
-		case MotionEvent.ACTION_UP: 
+		case MotionEvent.ACTION_UP:
+			setActive(false);
+
+			boolean scrolled = false;
 			if (scroller != null) {
 				scroller.cancel();
 				scroller = null;
+				scrolled = true;
+			}
+			if(event.getX() - pressedX > getDragThreshold()){
+				ForwardableActivityUtil.startForwardActivity(activity_);
+				setPressed(false);
+				return true;
+			}else if(event.getX() - pressedX < -getDragThreshold()){
+	        	activity_.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK));
+	        	activity_.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BACK));
+	        	setPressed(false);
+				return true;
+			}else if (System.currentTimeMillis() - pressedTime > 1000) {
 				setPressed(false);
 				return true;
 			}
-			else if (System.currentTimeMillis() - pressedTime > 1000) {
+			if(scrolled){
 				setPressed(false);
 				return true;
 			}
 			break;
 		}
 		return super.onTouchEvent(event);
+	}
+	
+	public int getDragThreshold(){
+		return listView.getWidth() / 4;
+	}
+	
+	public void setActive(boolean active){
+		this.active = active;
+		refreshDrawableState();
 	}
 	
 	// ListViewをピクセル数を指定してスクロールする

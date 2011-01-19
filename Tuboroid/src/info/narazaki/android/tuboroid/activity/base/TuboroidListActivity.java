@@ -12,11 +12,15 @@ import info.narazaki.android.tuboroid.agent.TuboroidAgent;
 import java.lang.reflect.Method;
 
 import jp.syoboi.android.ListViewScrollButton;
+import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.GestureDetector;
@@ -86,7 +90,7 @@ abstract public class TuboroidListActivity extends NSimpleListActivity {
     public void onContentChanged() {
     	super.onContentChanged();
     	
-    	btnListScroll = createScrollButton(getListView());
+    	btnListScroll = createScrollButton(this, getListView());
         if (btnListScroll != null) {
         	btnListScroll.setOnClickListener(new OnClickListener() {
 				@Override
@@ -99,9 +103,9 @@ abstract public class TuboroidListActivity extends NSimpleListActivity {
         }
     }
     
-    public static ListViewScrollButton createScrollButton(ListView lv) {
-    	Context context = lv.getContext();
-    	ListViewScrollButton btn = new ListViewScrollButton(lv.getContext(), null);
+    public static ListViewScrollButton createScrollButton(Activity activity, ListView lv) {
+    	Context context = activity;
+    	ListViewScrollButton btn = new ListViewScrollButton(context, null);
     	btn.setFocusable(false);
     	btn.setBackgroundResource(R.drawable.ic_btn_scroll);
     	
@@ -117,7 +121,7 @@ abstract public class TuboroidListActivity extends NSimpleListActivity {
     	fl.addView(btn, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
     	
         if (btn != null) {
-        	btn.setListView(lv);
+        	btn.setListView(activity, lv);
         }
         return btn;
     }
