@@ -1,5 +1,14 @@
 package info.narazaki.android.lib.aplication;
 
+import java.security.GeneralSecurityException;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+
+import org.apache.http.conn.ssl.SSLSocketFactory;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -41,5 +50,21 @@ public class NSimpleApplication extends NApplication {
         NetworkInfo net_info = con_man.getActiveNetworkInfo();
         if (net_info == null) return false;
         return net_info.isConnected();
+    }
+    
+    KeyStore keystore_cache = null;
+    
+    public SSLSocketFactory createSSLSocketFactory()
+    	throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException, UnrecoverableKeyException
+    {
+    	return new SSLSocketFactory(keystore_cache);
+    }
+    
+    public void setKeyStoreCache(KeyStore keystore){
+    	keystore_cache = keystore;
+    }
+    
+    public boolean isKeyStoreCached(){
+    	return keystore_cache != null;
     }
 }

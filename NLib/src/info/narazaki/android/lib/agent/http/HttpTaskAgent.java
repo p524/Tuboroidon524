@@ -39,6 +39,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
 import info.narazaki.android.lib.agent.http.task.HttpTaskBase;
+import info.narazaki.android.lib.aplication.NSimpleApplication;
 import info.narazaki.android.lib.http.ExternalizableCookieStore;
 import info.narazaki.android.lib.system.NAndroidSystem;
 import android.content.Context;
@@ -155,48 +156,57 @@ public class HttpTaskAgent implements HttpTaskAgentInterface {
         
         return http_client;
     }
-    
+
     protected SSLSocketFactory createSSLSocketFactory() {
-        try {
-            String keystore_filename = System.getProperty("javax.net.ssl.trustStore");
-            String keystore_password = System.getProperty("javax.net.ssl.trustStorePassword");
-            char[] keystore_password_char = keystore_password != null ? keystore_password.toCharArray() : null;
-            
-            KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
-            if (keystore_filename != null) {
-                keystore.load(new FileInputStream(new File(keystore_filename)), keystore_password_char);
-            }
-            else {
-                keystore.load(null, null);
-            }
-            keystore = setupSSLKeyStore(keystore);
-            return new SSLSocketFactory(keystore);
-        }
-        catch (KeyManagementException e) {
-            e.printStackTrace();
-        }
-        catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        catch (KeyStoreException e) {
-            e.printStackTrace();
-        }
-        catch (UnrecoverableKeyException e) {
-            e.printStackTrace();
-        }
-        catch (CertificateException e) {
-            e.printStackTrace();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-        return null;
+    	NSimpleApplication app = ((NSimpleApplication) context_.getApplicationContext());
+    	synchronized (app) {
+
+
+    		try {
+    			if(app.isKeyStoreCached()){
+    				return app.createSSLSocketFactory();
+    			}
+
+    			String keystore_filename = System.getProperty("javax.net.ssl.trustStore");
+    			String keystore_password = System.getProperty("javax.net.ssl.trustStorePassword");
+    			char[] keystore_password_char = keystore_password != null ? keystore_password.toCharArray() : null;
+
+    			KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+    			if (keystore_filename != null) {
+    				keystore.load(new FileInputStream(new File(keystore_filename)), keystore_password_char);
+    			}
+    			else {
+    				keystore.load(null, null);
+    			}
+    			keystore = setupSSLKeyStore(keystore);
+    			app.setKeyStoreCache(keystore);
+    			return app.createSSLSocketFactory();
+    		}
+    		catch (KeyManagementException e) {
+    			e.printStackTrace();
+    		}
+    		catch (NoSuchAlgorithmException e) {
+    			e.printStackTrace();
+    		}
+    		catch (KeyStoreException e) {
+    			e.printStackTrace();
+    		}
+    		catch (UnrecoverableKeyException e) {
+    			e.printStackTrace();
+    		}
+    		catch (CertificateException e) {
+    			e.printStackTrace();
+    		}
+    		catch (IOException e) {
+    			e.printStackTrace();
+    		}
+    	}
+    	return null;
     }
-    
+
     protected KeyStore setupSSLKeyStore(KeyStore keystore) {
-        addGeoTrustGlobalCACertificateEntry(keystore);
-        return keystore;
+    	addGeoTrustGlobalCACertificateEntry(keystore);
+    	return keystore;
     }
     
     static protected KeyStore addCertificateEntry(KeyStore keystore, String alias, String certificate) {
