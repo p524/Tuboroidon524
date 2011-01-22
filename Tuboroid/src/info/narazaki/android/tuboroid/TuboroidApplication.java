@@ -137,6 +137,8 @@ public class TuboroidApplication extends NSimpleApplication {
         sendBroadcast(timer_updater);
         
         if (invalidate) notifySettingUpdated();
+        
+        clearExternalStorageBaseDirCache();
     }
     
     private void setupAAFont() {
@@ -216,6 +218,36 @@ public class TuboroidApplication extends NSimpleApplication {
     // //////////////////////////////////////////////////
     // ストレージ
     // //////////////////////////////////////////////////
+    
+    File exernal_storage_base = null;
+    
+    File getExternalStorageBaseDir(){
+    	if(exernal_storage_base == null){
+    		String path = getExternalStoragePathName(this);
+            if (path == null) return null;
+            
+            File dir = new File(Environment.getExternalStorageDirectory(), path);
+            if (!dir.isDirectory() && !dir.mkdirs()) return null;
+            
+            // create ".nomedia"
+            File nomedia = new File(dir, ".nomedia");
+            try {
+                if (!nomedia.isFile()) nomedia.createNewFile();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            
+            exernal_storage_base = dir;
+    	}
+    	return exernal_storage_base;
+    }
+    
+    void clearExternalStorageBaseDirCache(){
+    	exernal_storage_base = null;
+    }
+    
+    
     static public File getInternalStoragePath(Context context, String name) {
         try {
             File dir = new File(context.getDir("data2ch", Context.MODE_PRIVATE).toString());
@@ -235,20 +267,8 @@ public class TuboroidApplication extends NSimpleApplication {
     
     static public File getExternalStoragePath(Context context, String name) {
         try {
-            String path = getExternalStoragePathName(context);
-            if (path == null) return null;
-            
-            File dir = new File(Environment.getExternalStorageDirectory(), path);
-            if (!dir.isDirectory() && !dir.mkdirs()) return null;
-            
-            // create ".nomedia"
-            File nomedia = new File(dir, ".nomedia");
-            try {
-                if (!nomedia.isFile()) nomedia.createNewFile();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+        	TuboroidApplication app = (TuboroidApplication) context.getApplicationContext();
+            File dir = app.getExternalStorageBaseDir();
             
             File result = new File(dir, name);
             File parent = result.getParentFile();
