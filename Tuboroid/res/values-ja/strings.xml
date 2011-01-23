@@ -112,7 +112,8 @@
 	<string name="label_submenu_copy_thread_info_url">URL</string>
 	<string name="label_submenu_copy_thread_info_title">タイトル</string>
 	<string name="label_submenu_copy_thread_info_title_url">タイトルとURL</string>
-
+	<string name="label_submenu_copy_all_entry">表示しているレスすべて</string>
+	
 	<string name="label_menu_clear_composing_body">クリア</string>
 
 	<string name="label_menu_share_image">画像を共有</string>

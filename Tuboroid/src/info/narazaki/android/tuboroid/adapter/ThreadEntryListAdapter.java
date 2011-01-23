@@ -156,4 +156,12 @@ public class ThreadEntryListAdapter extends FilterableListAdapterBase<ThreadEntr
     	super.setFilter(filter, callback);
     }
 
+    public String getFilterdAllEntryText(){
+    	StringBuilder sb = new StringBuilder();
+    	for(ThreadEntryData data : getDataList()){
+    		sb.append(data.getEntryWholeText());
+    		sb.append("\n\n");
+    	}
+    	return sb.toString();
+    }
 }
