@@ -869,7 +869,8 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     private void showDialogCopyThreadInfoToClipboard() {
         String[] menu_strings = new String[] { getString(R.string.label_submenu_copy_thread_info_title),
                 getString(R.string.label_submenu_copy_thread_info_url),
-                getString(R.string.label_submenu_copy_thread_info_title_url) };
+                getString(R.string.label_submenu_copy_thread_info_title_url),
+                getString(R.string.label_submenu_copy_all_entry)};
         
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.label_menu_copy_thread_info);
@@ -886,6 +887,9 @@ public class ThreadEntryListActivity extends SearchableListActivity {
                     break;
                 case 2:
                     cm.setText(thread_data_.thread_name_ + "\n" + thread_data_.getThreadURI());
+                    break;
+                case 3:
+                    cm.setText(((ThreadEntryListAdapter) list_adapter_).getFilterdAllEntryText());
                     break;
                 default:
                     return;

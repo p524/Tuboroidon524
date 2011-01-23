@@ -121,7 +121,8 @@
 	<string name="label_submenu_copy_thread_info_url">URL</string>
 	<string name="label_submenu_copy_thread_info_title">Title</string>
 	<string name="label_submenu_copy_thread_info_title_url">Title and URL</string>
-
+	<string name="label_submenu_copy_all_entry">Copy all entry</string>
+	
 	<string name="label_menu_clear_composing_body">Clear</string>
 
 	<string name="label_menu_share_image">Share</string>
