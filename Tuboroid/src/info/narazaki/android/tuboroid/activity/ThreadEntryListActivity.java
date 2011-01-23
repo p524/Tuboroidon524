@@ -852,7 +852,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
                     cm.setText(entry_data.author_name_);
                     break;
                 case 2:
-                	cm.setText(entry_data.getEntryBodyText());
+                	cm.setText(entry_data.getEntryBodyTextForCopy());
                     break;
                 case 3:
                 	showDialogCopyEntryBody(entry_data);

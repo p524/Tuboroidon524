@@ -1166,6 +1166,10 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     }
     
     public String getEntryBodyText() {
+		return entry_body_.substring(entry_body_.charAt(0) == ' ' ? 1 : 0).replace("\n ", "\n");
+    }
+    
+    public String getEntryBodyTextForCopy() {
     	String tmp;
     	if(entry_body_.length() >= 2 && entry_body_.startsWith(" ") && entry_body_.endsWith(" ")) {
     		tmp = entry_body_.substring(1, entry_body_.length() - 1);
@@ -1174,6 +1178,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     	}
 		return tmp.replace(" \n", "\n").replace("\n ", "\n");
     }
+    
     
     public String getEntryWholeText() {
     	StringBuilder text = new StringBuilder();
@@ -1202,7 +1207,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     		}
     	}
     	text.append('\n');
-    	text.append(getEntryBodyText());
+    	text.append(getEntryBodyTextForCopy());
     	return text.toString();
     }
 }
