@@ -57,7 +57,7 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 			
 			@Override
 			public boolean onSingleTapUp(MotionEvent e){
-				return false;
+				return ScrollImageView.this.onDoubleTap(e);
 			}
 			
 			@Override
@@ -67,7 +67,6 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 			@Override
 			public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 					float distanceY){
-				//v(String.format("onScroll %f %f", distanceX, distanceY));
 				scrollBy((int)distanceX, (int)distanceY);
 				scroller.abortAnimation();
 				return false;
@@ -109,23 +108,7 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 			
 			@Override
 			public boolean onDoubleTap(MotionEvent e) {
-				//左1/3で前の画像、右1/3で次の画像、真ん中で原寸大or全体表示
-				if(e.getX() < getWidth() / 3){
-					if(on_move_image != null){
-						on_move_image.onMoveImage(false);
-					}
-				}else if(e.getX() > getWidth() / 3 * 2){
-					if(on_move_image != null){
-						on_move_image.onMoveImage(true);
-					}
-				}else{
-					if(getScale() == 1.0f){
-						zoomForWholeImageView();
-					}else{
-						zoom(true, 1, -getScrollX(), -getScrollY());
-					}
-				}
-				return false;
+				return ScrollImageView.this.onDoubleTap(e);
 			}
 		});
 		
@@ -286,7 +269,7 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 
 		break;
 	    case MotionEvent.ACTION_UP:
-	    	break;
+    		break;
 	    case MotionEvent.ACTION_POINTER_UP:
 	    	event_wrapper.set(event);
 	    	if(event_wrapper.getPointerCount() == 2) {
@@ -316,6 +299,26 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 	
 	public void onLoadFinish(){
 		onUserAction();
+	}
+	
+	public boolean onDoubleTap(MotionEvent e) {
+		//左1/3で前の画像、右1/3で次の画像、真ん中で原寸大or全体表示
+		if(e.getX() < getWidth() / 3){
+			if(on_move_image != null){
+				on_move_image.onMoveImage(false);
+			}
+		}else if(e.getX() > getWidth() / 3 * 2){
+			if(on_move_image != null){
+				on_move_image.onMoveImage(true);
+			}
+		}else{
+			if(getScale() == 1.0f){
+				zoomForWholeImageView();
+			}else{
+				zoom(true, 1, -getScrollX(), -getScrollY());
+			}
+		}
+		return false;
 	}
 
 	void startZoom(MotionEvent event, int []ii) {
