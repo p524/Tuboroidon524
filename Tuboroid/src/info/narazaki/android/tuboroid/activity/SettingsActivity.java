@@ -1,16 +1,16 @@
 package info.narazaki.android.tuboroid.activity;
 
-import java.io.File;
-
 import info.narazaki.android.lib.activity.PickFileActivityBase;
 import info.narazaki.android.lib.activity.base.NPreferenceActivity;
 import info.narazaki.android.lib.system.MigrationSDK4;
 import info.narazaki.android.lib.system.MigrationSDK5;
-import info.narazaki.android.lib.text.NFileNameInfo;
 import info.narazaki.android.lib.toast.ManagedToast;
 import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.TuboroidApplication;
 import info.narazaki.android.tuboroid.agent.TuboroidAgent;
+
+import java.io.File;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;

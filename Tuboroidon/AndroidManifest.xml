@@ -9,7 +9,7 @@
 		android:label="@string/app_name"
 		android:name="info.narazaki.android.tuboroid.TuboroidApplication"
 		android:theme="@style/Theme.TuboroidLight"
-		android:allowClearUserData="true" android:debuggable="true">
+		android:allowClearUserData="true">
 		<activity
 			android:name="info.narazaki.android.tuboroid.activity.BoardListActivity"
 			android:label="@string/app_name">

@@ -125,7 +125,7 @@ public class TuboroidApplication extends NSimpleApplication {
         
         account_pref_ = new AccountPref(use_maru, use_p2, maru_user_id, maru_password, p2_user_id, p2_password);
         
-        if (invalidate) getAgent().clearCookie();
+        // if (invalidate) getAgent().clearCookie();
         
         getAgent().onResetProxyPreference();
         
