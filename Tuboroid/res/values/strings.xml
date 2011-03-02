@@ -2,6 +2,7 @@
 <resources>
 	<string name="app_name">壺丼524</string>
 	<string name="app_name_send">View by 壺丼524</string>
+	<string name="app_name_user_agent">Tubodon524</string>
 
 	<!-- データファイルの定義 -->
 	<string name="const_filename_bbsmenu_dat">bbsmenu.dat</string>
@@ -154,7 +155,8 @@
 	<string name="toast_post_succeeded">post succeeded</string>
 
 	<string name="toast_clear_ignores">Ignore IDs/words cleared</string>
-
+	<string name="toast_clear_cookie">Cookie cleared</string>
+	
 	<string name="toast_check_unread_favorite_threads">Check unread favorite threads</string>
 
 	<string name="toast_new_entry_found_at_favorite_threads">new entry found at favorite threads</string>
@@ -236,6 +238,11 @@
 	<string name="dialog_thread_list_moved_title">Thread list error</string>
 	<string name="dialog_thread_list_moved_summary">Failed to load thread list(hmm...board was moved?)
 	</string>
+	
+	<string name="dialog_clear_ignores">Do you clear ignores?</string>
+	<string name="dialog_clear_ignores_title">Clear Ignores</string>
+	<string name="dialog_clear_cookie">Do you clear cookie?</string>
+	<string name="dialog_clear_cookie_title">Clear Cookie</string>
 
 	<!-- 設定画面 -->
 
@@ -356,7 +363,9 @@
 
 	<string name="pref_cat_title_other">Other Settings</string>
 	<string name="pref_title_clear_ignores">Clear Ignore IDs/words</string>
+	<string name="pref_title_clear_cookie">Clear Cookie</string>
 	<string name="pref_summary_clear_ignores">Clear ignore IDs/words</string>
+	<string name="pref_summary_clear_cookie">Clear Cookie</string>
 
 	<string name="pref_title_skip_agreement_notice">Skip agreement notice</string>
 	<string name="pref_summary_skip_agreement_notice">Skip agreement notice on post</string>

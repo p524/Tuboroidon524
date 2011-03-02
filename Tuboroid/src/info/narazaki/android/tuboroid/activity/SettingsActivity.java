@@ -2,6 +2,7 @@ package info.narazaki.android.tuboroid.activity;
 
 import info.narazaki.android.lib.activity.PickFileActivityBase;
 import info.narazaki.android.lib.activity.base.NPreferenceActivity;
+import info.narazaki.android.lib.dialog.SimpleDialog;
 import info.narazaki.android.lib.system.MigrationSDK4;
 import info.narazaki.android.lib.system.MigrationSDK5;
 import info.narazaki.android.lib.toast.ManagedToast;
@@ -12,6 +13,7 @@ import info.narazaki.android.tuboroid.agent.TuboroidAgent;
 import java.io.File;
 
 import android.content.Intent;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
@@ -70,8 +72,36 @@ public class SettingsActivity extends NPreferenceActivity {
         manage_clear_ignores.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                getAgent().clearNG();
-                ManagedToast.raiseToast(SettingsActivity.this, R.string.toast_clear_ignores);
+            	SimpleDialog.showYesNo(SettingsActivity.this, R.string.dialog_clear_ignores_title, R.string.dialog_clear_ignores,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                getAgent().clearNG();
+                                ManagedToast.raiseToast(SettingsActivity.this, R.string.toast_clear_ignores);
+                            }
+                        }, new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialog) {}
+                        });
+                return true;
+            }
+        });
+        
+        Preference manage_clear_cookie = findPreference("manage_clear_cookie");
+        manage_clear_cookie.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                SimpleDialog.showYesNo(SettingsActivity.this, R.string.dialog_clear_cookie_title, R.string.dialog_clear_cookie,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                getAgent().clearCookie();
+                                ManagedToast.raiseToast(SettingsActivity.this, R.string.toast_clear_cookie);
+                            }
+                        }, new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialog) {}
+                        });
                 return true;
             }
         });

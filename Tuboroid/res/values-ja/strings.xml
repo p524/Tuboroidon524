@@ -145,6 +145,7 @@
 	<string name="toast_post_succeeded">書き込みに成功しました</string>
 
 	<string name="toast_clear_ignores">NGID/NGワードをクリアしました</string>
+	<string name="toast_clear_cookie">クッキーをクリアしました</string>
 
 	<string name="toast_check_unread_favorite_threads">お気に入りスレの新着チェックを行います</string>
 
@@ -217,6 +218,12 @@
 	<string name="dialog_thread_list_moved_summary">2chサーバのトラブルか板移転と思われます。
 		板移転の場合は板一覧画面から「板一覧の更新」を行うと改善することがあります。
 	</string>
+	
+	<string name="dialog_clear_ignores">あぼーん設定を本当に消去しますか？</string>
+	<string name="dialog_clear_ignores_title">あぼーん設定の消去</string>
+	<string name="dialog_clear_cookie">クッキーを本当に消去しますか？
+消去すると冒険の書(忍法帖)のレベルがリセットされます。</string>
+	<string name="dialog_clear_cookie_title">クッキーの消去</string>
 
 	<!-- 設定ダイアログ -->
 	<string name="dialog_thread_entry_config_title">表示設定</string>
@@ -343,8 +350,10 @@
 
 	<string name="pref_cat_title_other">その他の設定</string>
 	<string name="pref_title_clear_ignores">あぼーん設定のクリア</string>
+	<string name="pref_title_clear_cookie">クッキーのクリア</string>
 	<string name="pref_summary_clear_ignores">NGID/NGワードをクリアします</string>
-
+	<string name="pref_summary_clear_cookie">クッキーをクリアします</string>
+	
 	<string name="pref_title_skip_agreement_notice">規約確認をスキップ</string>
 	<string name="pref_summary_skip_agreement_notice">書き込み時の規約確認をスキップします</string>
 

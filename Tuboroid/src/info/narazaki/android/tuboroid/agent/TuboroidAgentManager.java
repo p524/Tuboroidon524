@@ -48,7 +48,7 @@ public class TuboroidAgentManager {
         context_ = context;
         
         try {
-            USER_AGENT = "Monazilla/1.00 (compatible; " + context.getString(R.string.app_name) + " "
+            USER_AGENT = "Monazilla/1.00 (compatible; " + context.getString(R.string.app_name_user_agent) + " "
                     + context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName
                     + "; Android)";
         }

@@ -184,6 +184,8 @@
 	<PreferenceCategory android:title="@string/pref_cat_title_other">
 		<Preference android:key="manage_clear_ignores"
 			android:title="@string/pref_title_clear_ignores" android:summary="@string/pref_summary_clear_ignores" />
+		<Preference android:key="manage_clear_cookie"
+			android:title="@string/pref_title_clear_cookie" android:summary="@string/pref_summary_clear_cookie" />
 		<CheckBoxPreference android:key="skip_agreement_notice"
 			android:title="@string/pref_title_skip_agreement_notice"
 			android:summary="@string/pref_summary_skip_agreement_notice"

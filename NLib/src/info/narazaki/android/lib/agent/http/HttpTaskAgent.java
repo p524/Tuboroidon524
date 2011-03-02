@@ -237,6 +237,9 @@ public class HttpTaskAgent implements HttpTaskAgentInterface {
     public void setCookieStoreData(String cookie_bare_data) {
         if (cookie_bare_data == null || cookie_bare_data.length() == 0) {
             cookie_store_.clear();
+            if (save_cookie_callback_ != null) {
+                save_cookie_callback_.saveCookieStore(getCookieStoreData());
+            }
             return;
         }
         String cookie_data = URLDecoder.decode(cookie_bare_data);
