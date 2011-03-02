@@ -191,7 +191,7 @@
 
 	<uses-sdk
 		android:minSdkVersion="4"
-		android:targetSdkVersion="4" />
+		android:targetSdkVersion="5" />
 	<supports-screens
 		android:smallScreens="true"
 		android:normalScreens="true"

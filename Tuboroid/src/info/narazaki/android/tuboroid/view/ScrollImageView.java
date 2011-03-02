@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.PointF;
-import android.graphics.drawable.Animatable;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -121,13 +120,13 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
                 //computeScrollOffsetはフリングによるスクロールが終了していたらfalseを返す
                 if(scroller.computeScrollOffset()) {
                 	scrollTo(scroller.getCurrX(), scroller.getCurrY());
-                	//3.次回処理をセット
+
                     handler.postDelayed(this, REPEAT_INTERVAL);
                 }
             }
         };
 
-
+        onUserAction();
 	}
 	
 	final int REPEAT_INTERVAL = 20;
@@ -221,10 +220,6 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 		return (float) Math.sqrt((Math.pow(x1 - x2, 2.0)
     			+ Math.pow(y1 - y2, 2.0)));
 	}
-	
-	private void v(String s) {
-		Log.v(getContext().getText(R.string.app_name).toString(), s);
-	}
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event){
@@ -244,7 +239,7 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 	    	if(touch_state == STATE_ZOOMING) {
 		    	event_wrapper.set(event);
 
-	    		PointF []new_pt = new PointF[2];
+	    		PointF[] new_pt = new PointF[2];
 	    		float[] move = new float[2];
 	    		for(int i = 0; i < 2; i++) {
 	    			new_pt[i] = getPointerPosById(event, zoom_ids[i]);
@@ -252,15 +247,16 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 	    		}
 
 	    		
-	    		//あまり動かしていない方を偏倍の中心とする
-	    		int center_index = move[0] > move[1] ? 1 : 0;
-	    		
+	    			    		
 	    		float before_pinch = calcDiffLen(pointers[0].x, pointers[0].y, pointers[1].x, pointers[1].y);
 	    		float after_pinch = calcDiffLen(new_pt[0].x, new_pt[0].y, new_pt[1].x, new_pt[1].y);
 	    		
 	    		float scale = after_pinch / before_pinch;
 	    		
-	    		zoom(false, scale, new_pt[center_index].x, new_pt[center_index].y);
+	    		//あまり動かしていない方を偏倍の中心とする
+	    		//int center_index = move[0] > move[1] ? 1 : 0;
+	    		//zoom(false, scale, new_pt[center_index].x, new_pt[center_index].y);
+	    		zoom(false, scale, (new_pt[0].x + new_pt[1].x) / 2, (new_pt[0].y + new_pt[1].y) / 2);
 	    		
 	    		for(int i = 0; i < 2; i++) {
 	    			pointers[i] = new_pt[i];
@@ -391,7 +387,7 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 		if(scale >= 1.0f){
 			return;
 		}
-		zoom(false, scale, 0, 0);
+		zoom(true, scale, 0, 0);
 	}
 
 	private void onUserAction(){

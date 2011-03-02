@@ -96,6 +96,7 @@ public class ImageViewerFooter extends RelativeLayout {
 
 		setTextViewText();
 
+		removeAllViews();
 		addView(text_view);
 		addView(zoom);
 
