@@ -1467,6 +1467,8 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         if (!is_active_) return;
         if (!onBeginReload()) return;
         
+        global_resume_data_ = null;
+        
         reload_progress_max_ = maybe_online_count_;
         reload_progress_cur_ = 0;
         setProgress(0);
