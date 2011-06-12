@@ -10,11 +10,19 @@ import info.narazaki.android.tuboroid.agent.PostEntryTask;
 import info.narazaki.android.tuboroid.agent.thread.SQLiteAgent;
 import info.narazaki.android.tuboroid.data.PostEntryData;
 import info.narazaki.android.tuboroid.data.ThreadData;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources.Theme;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -173,13 +181,10 @@ public class ThreadEntryEditActivity extends TuboroidActivity {
         
         Button button_edit_submit = (Button) findViewById(R.id.entry_edit_submit);
         button_edit_submit.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText entry_edit_body = (EditText) findViewById(R.id.entry_edit_body);
-                if (entry_edit_body.getText().length() != 0) {
-                    checkSubmitEntryPosting(null, null);
-                }
-            }
+        	@Override
+        	public void onClick(View v) {
+        		checkSubmitEntryPosting(null, null);
+        	}
         });
     }
     
@@ -198,44 +203,92 @@ public class ThreadEntryEditActivity extends TuboroidActivity {
         compose_item.setOnMenuItemClickListener(new OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                EditText entry_edit_body = (EditText) findViewById(R.id.entry_edit_body);
-                entry_edit_body.setText("");
+                Builder builder = new AlertDialog.Builder(ThreadEntryEditActivity.this);
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                	@Override
+                	public void onClick(DialogInterface dialog, int which) {
+                		EditText entry_edit_body = (EditText) findViewById(R.id.entry_edit_body);
+                		entry_edit_body.setText("");
+                	}
+                });
+                builder.setNegativeButton(android.R.string.no, null);
+
+                builder.setTitle(R.string.dialog_clear_body_title);
+                builder.setMessage(R.string.dialog_clear_body);
+            
+                builder.setCancelable(true);
+                builder.show();
                 return false;
             }
         });
         
+
+        // sage
+        MenuItem sage_item = menu.add(0, MENU_KEY_CLEAR_BODY, MENU_KEY_CLEAR_BODY,
+                getString(R.string.label_menu_sage));
+        sage_item.setIcon(R.drawable.ic_menu_sage);
+        sage_item.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+            	EditText entry_edit_mail = (EditText) findViewById(R.id.entry_edit_mail);
+            	if(entry_edit_mail.getText().toString().equals("sage")) {
+            		entry_edit_mail.setText("");
+            	}else {
+            		entry_edit_mail.append("sage");
+            	}
+            	return false;
+            }
+        });
+        
+        // 書き込み
+        MenuItem submit_item = menu.add(0, MENU_KEY_CLEAR_BODY, MENU_KEY_CLEAR_BODY,
+                getString(R.string.label_menu_submit));
+        submit_item.setIcon(R.drawable.ic_menu_compose);
+        submit_item.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+        	@Override
+        	public boolean onMenuItemClick(MenuItem item) {
+        		checkSubmitEntryPosting(null, null);
+        		return false;
+        	}
+        });
         return true;
     }
-    
+
     private void checkSubmitEntryPosting(final String name, final String value) {
+    	EditText entry_edit_body = (EditText) findViewById(R.id.entry_edit_body);
+        if (entry_edit_body.getText().length() == 0) {
+        	ManagedToast.raiseToast(this, R.string.toast_empty_body);
+            return;
+        }
+        
     	if(getTuboroidApplication().getAccountPref().use_p2_){
-        SimpleDialog.showYesEtcNo(this, R.string.dialog_post_notice_title, R.string.dialog_do_you_post_it_title
-        		, R.string.dialog_label_normal, R.string.dialog_label_with_p2, 
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        submitEntryPosting(null, null, false, false);
-                    }
-                },new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        submitEntryPosting(null, null, false, true);
-                    }
-                }, new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {}
-                });
+    		SimpleDialog.showYesEtcNo(this, R.string.dialog_post_notice_title, R.string.dialog_do_you_post_it_title
+    				, R.string.dialog_label_normal, R.string.dialog_label_with_p2, 
+    				new DialogInterface.OnClickListener() {
+    			@Override
+    			public void onClick(DialogInterface dialog, int which) {
+    				submitEntryPosting(null, null, false, false);
+    			}
+    		},new DialogInterface.OnClickListener() {
+    			@Override
+    			public void onClick(DialogInterface dialog, int which) {
+    				submitEntryPosting(null, null, false, true);
+    			}
+    		}, new DialogInterface.OnCancelListener() {
+    			@Override
+    			public void onCancel(DialogInterface dialog) {}
+    		});
     	}else{
-            SimpleDialog.showYesNo(this, R.string.dialog_post_notice_title, R.string.dialog_do_you_post_it_title,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            submitEntryPosting(null, null, false, true);
-                        }
-                    }, new DialogInterface.OnCancelListener() {
-                        @Override
-                        public void onCancel(DialogInterface dialog) {}
-                    });
+    		SimpleDialog.showYesNo(this, R.string.dialog_post_notice_title, R.string.dialog_do_you_post_it_title,
+    				new DialogInterface.OnClickListener() {
+    			@Override
+    			public void onClick(DialogInterface dialog, int which) {
+    				submitEntryPosting(null, null, false, true);
+    			}
+    		}, new DialogInterface.OnCancelListener() {
+    			@Override
+    			public void onCancel(DialogInterface dialog) {}
+    		});
     	}
     }
     /*

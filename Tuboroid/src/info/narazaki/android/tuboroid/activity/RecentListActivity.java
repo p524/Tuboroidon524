@@ -9,6 +9,7 @@ import info.narazaki.android.tuboroid.activity.base.FavoriteListBaseActivity;
 import info.narazaki.android.tuboroid.adapter.RecentListAdapter;
 import info.narazaki.android.tuboroid.agent.ThreadListAgent;
 import info.narazaki.android.tuboroid.data.ThreadData;
+import info.narazaki.android.tuboroid.dialog.ThreadInfoDialog;
 import info.narazaki.android.tuboroid.service.ITuboroidService;
 import info.narazaki.android.tuboroid.service.TuboroidServiceTask.ServiceSender;
 
@@ -36,6 +37,7 @@ public class RecentListActivity extends FavoriteListBaseActivity {
     
     // コンテキストメニュー
     private final static int CTX_MENU_DELETE_RECENT = 1;
+    private final static int CTX_MENU_THREAD_INFO = 2;
     
     // メニュー
     // 並び順
@@ -111,6 +113,7 @@ public class RecentListActivity extends FavoriteListBaseActivity {
         menu.clear();
         menu.setHeaderTitle(R.string.ctx_menu_title_thread);
         menu.add(0, CTX_MENU_DELETE_RECENT, CTX_MENU_DELETE_RECENT, R.string.ctx_menu_delete_thread);
+        menu.add(0, CTX_MENU_THREAD_INFO, CTX_MENU_THREAD_INFO, R.string.ctx_menu_thread_info);
     }
     
     @Override
@@ -133,6 +136,10 @@ public class RecentListActivity extends FavoriteListBaseActivity {
                 }
             });
             break;
+        case CTX_MENU_THREAD_INFO:
+        	ThreadInfoDialog dialog = new ThreadInfoDialog(this, thread_data);
+        	dialog.show();
+        	break;
         default:
             break;
         }

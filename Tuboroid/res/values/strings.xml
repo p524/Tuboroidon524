@@ -78,6 +78,7 @@
 	<string name="ctx_menu_title_favorite">operation for this favorite</string>
 	<string name="ctx_menu_delete_favorite">delete favorite</string>
 	<string name="ctx_menu_delete_favorite_cache">delete cache</string>
+	<string name="ctx_menu_thread_info">show thread info</string>
 
 	<string name="ctx_menu_title_thread">operation for this thread</string>
 	<string name="ctx_menu_delete_thread">delete</string>
@@ -118,6 +119,7 @@
 	<string name="label_menu_compose">Compose</string>
 	<string name="label_menu_find_similar_thread">Find similar</string>
 	<string name="label_menu_copy_thread_info">copy info</string>
+	<string name="label_menu_thread_info">show info</string>
 
 	<string name="label_submenu_copy_thread_info_url">URL</string>
 	<string name="label_submenu_copy_thread_info_title">Title</string>
@@ -125,6 +127,8 @@
 	<string name="label_submenu_copy_all_entry">Copy all entry</string>
 	
 	<string name="label_menu_clear_composing_body">Clear</string>
+	<string name="label_menu_sage">"sage"</string>
+	<string name="label_menu_submit">Submit</string>
 
 	<string name="label_menu_share_image">Share</string>
 	<string name="label_menu_save_image">Save</string>
@@ -153,6 +157,7 @@
 	<string name="toast_copied">copied</string>
 
 	<string name="toast_post_succeeded">post succeeded</string>
+	<string name="toast_empty_body">body is empty</string>
 
 	<string name="toast_clear_ignores">Ignore IDs/words cleared</string>
 	<string name="toast_clear_cookie">Cookie cleared</string>
@@ -167,7 +172,8 @@
 
 	<string name="toast_image_saved">Image saved</string>
 	<string name="toast_image_failed_to_save">Failed to save</string>
-
+	
+	
 	<!-- 通知 -->
 	<string name="notif_check_upadted">new entry found at favorite threads</string>
 
@@ -243,7 +249,16 @@
 	<string name="dialog_clear_ignores_title">Clear Ignores</string>
 	<string name="dialog_clear_cookie">Do you clear cookie?</string>
 	<string name="dialog_clear_cookie_title">Clear Cookie</string>
-
+	
+	<string name="dialog_copy_thread_info_copy_title">Copy</string>
+	<string name="dialog_copy_thread_info_copy_url">Copy</string>
+	<string name="dialog_copy_thread_info_share">Share</string>
+	<string name="dialog_copy_thread_info_open_with_other_app">Open</string>
+	
+	<string name="dialog_clear_body_title">Clear</string>
+	<string name="dialog_clear_body">Are you sure want to clear?</string>
+	
+	
 	<!-- 設定画面 -->
 
 	<string name="pref_cat_title_screen_setting">Screen</string>

@@ -9,6 +9,8 @@ import info.narazaki.android.tuboroid.agent.CreateNewThreadTask;
 import info.narazaki.android.tuboroid.agent.CreateNewThreadTask.FutureCreateNewThread;
 import info.narazaki.android.tuboroid.data.BoardData;
 import info.narazaki.android.tuboroid.data.NewThreadData;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
@@ -109,14 +111,26 @@ public class NewThreadEditActivity extends TuboroidActivity {
         compose_item.setOnMenuItemClickListener(new OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                EditText thread_body = (EditText) findViewById(R.id.new_thread_body);
-                EditText thread_title = (EditText) findViewById(R.id.new_thread_title);
-                EditText thread_name = (EditText) findViewById(R.id.new_thread_name);
-                EditText thread_mail = (EditText) findViewById(R.id.new_thread_mail);
-                thread_body.setText("");
-                thread_title.setText("");
-                thread_name.setText("");
-                thread_mail.setText("");
+            	Builder builder = new AlertDialog.Builder(NewThreadEditActivity.this);
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                	@Override
+                	public void onClick(DialogInterface dialog, int which) {
+                        EditText thread_body = (EditText) findViewById(R.id.new_thread_body);
+                        EditText thread_title = (EditText) findViewById(R.id.new_thread_title);
+                        EditText thread_name = (EditText) findViewById(R.id.new_thread_name);
+                        EditText thread_mail = (EditText) findViewById(R.id.new_thread_mail);
+                        thread_body.setText("");
+                        thread_title.setText("");
+                        thread_name.setText("");
+                        thread_mail.setText("");
+                	}
+                });
+
+                builder.setTitle(R.string.dialog_clear_body_title);
+                builder.setMessage(R.string.dialog_clear_body);
+            
+                builder.setCancelable(true);
+                builder.show();
                 return false;
             }
         });

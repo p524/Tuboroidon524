@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+
+	<LinearLayout android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:orientation="vertical">
+
+		<TextView android:text="" android:id="@+id/thread_title_text"
+			android:textColor="#eee" android:layout_weight="1"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:textSize="20sp" />
+		<ImageView android:src="@android:drawable/divider_horizontal_dim_dark"
+			android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		<TextView android:text="" android:id="@+id/thread_url"
+			android:textColor="#eee" android:layout_weight="1"
+			android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+		<ImageView android:src="@android:drawable/divider_horizontal_dim_dark"
+			android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:orientation="horizontal">
+			<Button android:id="@+id/copy_thread_title"
+				android:text="@string/dialog_copy_thread_info_copy_title"
+				android:layout_weight="1" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
+
+			<Button android:id="@+id/copy_thread_url" android:text="@string/dialog_copy_thread_info_copy_url"
+				android:layout_weight="1" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
+		</LinearLayout>
+
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:orientation="horizontal">
+			<Button android:id="@+id/share_link" android:text="@string/dialog_copy_thread_info_share"
+				android:layout_weight="1" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
+			<Button android:id="@+id/open_with_other_app"
+				android:text="@string/dialog_copy_thread_info_open_with_other_app"
+				android:layout_weight="1" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
+		</LinearLayout>
+	</LinearLayout>
+
+</ScrollView>

@@ -12,6 +12,7 @@ import info.narazaki.android.tuboroid.data.BoardData;
 import info.narazaki.android.tuboroid.data.FavoriteItemData;
 import info.narazaki.android.tuboroid.data.Find2chKeyData;
 import info.narazaki.android.tuboroid.data.ThreadData;
+import info.narazaki.android.tuboroid.dialog.ThreadInfoDialog;
 import info.narazaki.android.tuboroid.service.ITuboroidService;
 import info.narazaki.android.tuboroid.service.TuboroidServiceTask.ServiceSender;
 
@@ -38,6 +39,7 @@ public class FavoriteListActivity extends FavoriteListBaseActivity {
     // コンテキストメニュー
     private final static int CTX_MENU_DELETE_FAVORITE = 1;
     private final static int CTX_MENU_DELETE_FAVORITE_CACHE = 2;
+    private final static int CTX_MENU_THREAD_INFO = 3;
     
     // メニュー
     // 自動整理
@@ -131,6 +133,8 @@ public class FavoriteListActivity extends FavoriteListBaseActivity {
         if (data != null && data.isThread()) {
             menu.add(0, CTX_MENU_DELETE_FAVORITE_CACHE, CTX_MENU_DELETE_FAVORITE_CACHE,
                     R.string.ctx_menu_delete_favorite_cache);
+            menu.add(0, CTX_MENU_THREAD_INFO, CTX_MENU_THREAD_INFO,
+            		R.string.ctx_menu_thread_info);
         }
     }
     
@@ -203,6 +207,10 @@ public class FavoriteListActivity extends FavoriteListBaseActivity {
                     });
                 }
             });
+            break;
+        case CTX_MENU_THREAD_INFO:
+            ThreadInfoDialog dialog = new ThreadInfoDialog(this, thread_data);
+            dialog.show();
             break;
         default:
             break;

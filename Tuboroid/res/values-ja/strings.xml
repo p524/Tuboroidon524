@@ -68,6 +68,7 @@
 	<string name="ctx_menu_title_favorite">このお気に入りに対して</string>
 	<string name="ctx_menu_delete_favorite">お気に入りから削除する</string>
 	<string name="ctx_menu_delete_favorite_cache">キャッシュごと削除する</string>
+	<string name="ctx_menu_thread_info">スレッド情報を表示</string>
 
 	<string name="ctx_menu_title_thread">このスレに対して</string>
 	<string name="ctx_menu_delete_thread">削除する</string>
@@ -108,6 +109,7 @@
 	<string name="label_menu_compose">新規レス作成</string>
 	<string name="label_menu_find_similar_thread">類似スレ検索</string>
 	<string name="label_menu_copy_thread_info">スレ情報コピー</string>
+	<string name="label_menu_thread_info">スレ情報表示</string>
 
 	<string name="label_submenu_copy_thread_info_url">URL</string>
 	<string name="label_submenu_copy_thread_info_title">タイトル</string>
@@ -115,6 +117,8 @@
 	<string name="label_submenu_copy_all_entry">表示しているレスすべて</string>
 	
 	<string name="label_menu_clear_composing_body">クリア</string>
+	<string name="label_menu_sage">"sage"</string>
+	<string name="label_menu_submit">書き込む</string>
 
 	<string name="label_menu_share_image">画像を共有</string>
 	<string name="label_menu_save_image">画像を保存</string>
@@ -143,6 +147,7 @@
 	<string name="toast_copied">コピーしました</string>
 
 	<string name="toast_post_succeeded">書き込みに成功しました</string>
+	<string name="toast_empty_body">本文が空です</string>
 
 	<string name="toast_clear_ignores">NGID/NGワードをクリアしました</string>
 	<string name="toast_clear_cookie">クッキーをクリアしました</string>
@@ -234,7 +239,16 @@
 	<string name="dialog_thread_entry_config_show_scroll_button">スクロールボタン</string>
 	<string name="dialog_thread_entry_config_aa_mode">AAモード</string>
 	<string name="dialog_thread_entry_config_divider">レス間の区切り</string>
+	
+	
+	<string name="dialog_copy_thread_info_copy_title">タイトルコピー</string>
+	<string name="dialog_copy_thread_info_copy_url">URLコピー</string>
+	<string name="dialog_copy_thread_info_share">共有</string>
+	<string name="dialog_copy_thread_info_open_with_other_app">他のアプリで開く</string>
 
+	<string name="dialog_clear_body_title">確認</string>
+	<string name="dialog_clear_body">本当に本文を削除しますか？</string>
+	
 	<!-- 設定画面 -->
 
 	<string name="pref_cat_title_screen_setting">画面設定</string>

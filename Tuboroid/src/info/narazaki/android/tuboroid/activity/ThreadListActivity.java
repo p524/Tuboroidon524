@@ -14,6 +14,7 @@ import info.narazaki.android.tuboroid.agent.ThreadListAgent;
 import info.narazaki.android.tuboroid.agent.TuboroidAgent;
 import info.narazaki.android.tuboroid.data.BoardData;
 import info.narazaki.android.tuboroid.data.ThreadData;
+import info.narazaki.android.tuboroid.dialog.ThreadInfoDialog;
 
 import java.util.List;
 
@@ -48,6 +49,7 @@ public class ThreadListActivity extends SearchableListActivity {
     // コンテキストメニュー
     private final static int CTX_MENU_DELETE_THREAD = 1;
     private final static int CTX_MENU_COPY_TO_CLIPBOARD = 2;
+    private final static int CTX_MENU_THREAD_INFO = 3;
     
     // メニュー
     // ツールバーの出し入れ
@@ -203,6 +205,7 @@ public class ThreadListActivity extends SearchableListActivity {
         menu.setHeaderTitle(R.string.ctx_menu_title_thread);
         menu.add(0, CTX_MENU_DELETE_THREAD, CTX_MENU_DELETE_THREAD, R.string.ctx_menu_delete_thread);
         menu.add(0, CTX_MENU_COPY_TO_CLIPBOARD, CTX_MENU_COPY_TO_CLIPBOARD, R.string.ctx_menu_copy_to_clipboard);
+        menu.add(0, CTX_MENU_THREAD_INFO, CTX_MENU_THREAD_INFO, R.string.ctx_menu_thread_info);
     }
     
     @Override
@@ -228,6 +231,9 @@ public class ThreadListActivity extends SearchableListActivity {
             break;
         case CTX_MENU_COPY_TO_CLIPBOARD:
             copyToClipboard(thread_data);
+            break;
+        case CTX_MENU_THREAD_INFO:
+        	showDialogThreadInfo(thread_data);
             break;
         default:
             break;
@@ -263,6 +269,12 @@ public class ThreadListActivity extends SearchableListActivity {
             }
         });
         builder.create().show();
+    }
+    
+    private void showDialogThreadInfo(ThreadData thread_data) {
+    	ThreadInfoDialog dialog = new ThreadInfoDialog(this, thread_data);
+    	
+    	dialog.show();
     }
     
     // ////////////////////////////////////////////////////////////
