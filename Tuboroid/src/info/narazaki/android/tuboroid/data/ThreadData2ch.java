@@ -14,6 +14,7 @@ import java.util.List;
 
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 
 public class ThreadData2ch extends ThreadData {
     private static final String TAG = "ThreadData2ch";
@@ -56,8 +57,11 @@ public class ThreadData2ch extends ThreadData {
     
     public ThreadData2ch(String boardName, BoardIdentifier server_def, int sortOrder, long threadId, String threadName,
             int onlineCount, int online_speed_x10) {
+
         super(boardName, server_def, sortOrder, threadId, threadName, onlineCount, online_speed_x10);
-    }
+    	if(threadId >= 1309031694) {
+    		Log.v("testtest", "thread data creaed");
+    	}   }
     
     public ThreadData2ch(Cursor cursor) {
         super(cursor);

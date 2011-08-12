@@ -16,6 +16,7 @@ import info.narazaki.android.tuboroid.agent.thread.SQLiteAgent;
 import info.narazaki.android.tuboroid.data.IgnoreData;
 import info.narazaki.android.tuboroid.data.ThreadData;
 import info.narazaki.android.tuboroid.data.ThreadEntryData;
+import info.narazaki.android.tuboroid.dialog.ImageViewerDialog;
 import info.narazaki.android.tuboroid.dialog.ThreadEntryListConfigDialog;
 import info.narazaki.android.tuboroid.service.ITuboroidService;
 import info.narazaki.android.tuboroid.service.TuboroidService;
@@ -167,6 +168,10 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     private boolean favorite_check_update_progress_;
     private int unread_thread_count_;
     
+
+    // 画像表示用ダイアログ
+    private ImageViewerDialog image_viewer_dialog_;
+    
     // ////////////////////////////////////////////////////////////
     // ステート管理系
     // ////////////////////////////////////////////////////////////
@@ -287,6 +292,8 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         // スクロールキー
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         use_scroll_key_ = pref.getBoolean("pref_use_page_up_down_key", true);
+        
+        image_viewer_dialog_ = new ImageViewerDialog(this, thread_data_);
         
         applyViewConfig(getListFontPref());
     }
@@ -504,17 +511,8 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     		        @Override
     		        public void onRequired(ThreadData threadData, String imageLocalFilename, String imageUri
     		        		, long entry_id, int image_index, int image_count) {
-    		            Intent intent = new Intent(ThreadEntryListActivity.this, ImageViewerActivity.class);
-    		            intent.setData(Uri.parse(threadData.getThreadURI()));
-    		            intent.putExtra(ImageViewerActivity.INTENT_KEY_IMAGE_FILENAME, imageLocalFilename);
-    		            intent.putExtra(ImageViewerActivity.INTENT_KEY_IMAGE_URI, imageUri);
-    		            intent.putExtra(ImageViewerActivity.INTENT_KEY_ENTRY_ID, entry_id);
-    		            intent.putExtra(ImageViewerActivity.INTENT_KEY_IMAGE_INDEX, image_index);
-    		            intent.putExtra(ImageViewerActivity.INTENT_KEY_IMAGE_COUNT, image_count);
-    		            
-    		            
-    		            MigrationSDK5.Intent_addFlagNoAnimation(intent);
-    		            startActivity(intent);
+    		        	image_viewer_dialog_.setImage(imageLocalFilename, imageUri, entry_id, image_index, image_count);
+    		        	image_viewer_dialog_.show();
     		        }
         	    }, new ThreadEntryData.OnAnchorClickedCallback() {
         	        
@@ -2134,5 +2132,16 @@ public class ThreadEntryListActivity extends SearchableListActivity {
                 return super.filter(data);
             }
         }, callback);
+    }
+    
+    public ThreadEntryData getEntryData(long entry_id) {
+    	if(list_adapter_ == null) {
+    		return null;
+    	}
+    	try {
+    		return (ThreadEntryData) ((ThreadEntryListAdapter) list_adapter_).getInnerData((int)entry_id - 1);
+    	}catch(IndexOutOfBoundsException e) {
+    		return null;
+    	}
     }
 }

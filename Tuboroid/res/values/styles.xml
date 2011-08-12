@@ -491,5 +491,9 @@
 	<dimen name="entryDividerHeight">1dip</dimen>
 	<dimen name="scrollButtonBottomMargin">90dip</dimen>
 	<dimen name="scrollButtonMargin">6dip</dimen>
-	
+
+	<style name="ImageViewerDialog">
+		<item name="android:windowFullscreen">true</item>
+		<item name="android:windowNoTitle">true</item>
+	</style>
 </resources>

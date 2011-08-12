@@ -133,7 +133,7 @@ public class ImageViewerActivity extends TuboroidActivity {
         DisplayMetrics metrics = new DisplayMetrics();   
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         
-        footer.init(image_local_file_.toString(), image_uri_, image_view, entry_id_, image_index_, image_count_, metrics.widthPixels);
+        footer.setImageInfo(image_local_file_.toString(), image_uri_, image_view, entry_id_, image_index_, image_count_, metrics.widthPixels);
         
         image_view.setOnMoveImageListner(new ScrollImageView.OnMoveImageListner() {
 			@Override

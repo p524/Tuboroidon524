@@ -1215,4 +1215,8 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     	text.append(getEntryBodyTextForCopy());
     	return text.toString();
     }
+
+	public String getImageUri(int imageIndex){
+		return img_uri_list_.get(imageIndex);
+	}
 }

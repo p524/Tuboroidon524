@@ -190,4 +190,12 @@ public abstract class FilterableListAdapterBase<T_DATA extends NListAdapterDataI
         setDataList(data_list, null);
     }
     
+    public T_DATA getInnerData(int position) {
+    	try {
+    		return inner_data_list_.get(position);
+    	}catch(ArrayIndexOutOfBoundsException e) {
+    		return null;
+    	}
+    }
+    
 }
