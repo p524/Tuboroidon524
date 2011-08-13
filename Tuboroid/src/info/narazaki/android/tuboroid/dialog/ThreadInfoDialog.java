@@ -69,8 +69,9 @@ public class ThreadInfoDialog extends Dialog {
     	open_with_other_app.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v){
-				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(thread_data_.getThreadURI()));  
-				getContext().startActivity(intent); 
+				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(thread_data_.getThreadURI()));
+				Intent chooser = Intent.createChooser(intent, getContext().getText(R.string.dialog_choose_browser));
+				getContext().startActivity(chooser); 
 			}
 		});
 	}

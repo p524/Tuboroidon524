@@ -249,6 +249,8 @@
 	<string name="dialog_clear_body_title">確認</string>
 	<string name="dialog_clear_body">本当に本文を削除しますか？</string>
 	
+	<string name="dialog_choose_browser">ブラウザの選択</string>
+	
 	<!-- 設定画面 -->
 
 	<string name="pref_cat_title_screen_setting">画面設定</string>
