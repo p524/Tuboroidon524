@@ -98,6 +98,8 @@ public class ImageViewerFooter extends RelativeLayout {
 			error_text_view.setLayoutParams(error_text_layout_params);
 			error_text_view.setVisibility(View.INVISIBLE);
 			
+			error_text_view.setTextSize(13);
+			
 			//text_view.setHorizontallyScrolling(true);
 			
 			//setBackgroundColor(Color.argb(0x70, 0xff, 0x00, 0x00));
@@ -207,6 +209,7 @@ public class ImageViewerFooter extends RelativeLayout {
 	}
 	
 	public boolean hasErrorMessage() {
-		return error_text_view.getVisibility() == View.VISIBLE;
+		Log.v("test", "error_text_view.getVisibility() = " + error_text_view.getVisibility() + "  visi=" + View.VISIBLE + " inv=" + View.INVISIBLE);
+		return error_text_view.getVisibility() == View.VISIBLE; 
 	}
 }

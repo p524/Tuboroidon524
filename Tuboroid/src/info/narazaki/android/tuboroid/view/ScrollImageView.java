@@ -150,6 +150,8 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 	@Override
 	public void setImageBitmap(Bitmap bm) {
 		super.setImageBitmap(bm);
+		
+		onUserAction();
 		if(bm == null) {
 			return;
 		}
@@ -398,13 +400,15 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 			return;
 		}
 		footer.setVisibility(View.VISIBLE);
-		if(footer.hasErrorMessage()) {
-			return;
-		}
+		
 		if(prev_vanish_ani != null){
 			handler.removeCallbacks(prev_vanish_ani);
 			footer.clearAnimation();
 		}
+		if(footer.hasErrorMessage()) {
+			return;
+		}
+		
 		handler.postDelayed(prev_vanish_ani = new Runnable() {
 			@Override
 			public void run() {

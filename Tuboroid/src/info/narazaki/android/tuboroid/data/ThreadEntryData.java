@@ -1219,4 +1219,8 @@ public class ThreadEntryData implements NListAdapterDataInterface {
 	public String getImageUri(int imageIndex){
 		return img_uri_list_.get(imageIndex);
 	}
+	
+	public void setImageCheckEnabled(int image_index) {
+		img_uri_check_enabled_list_.set(image_index, false);
+	}
 }

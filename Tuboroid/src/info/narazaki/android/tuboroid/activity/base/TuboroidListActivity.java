@@ -47,7 +47,7 @@ abstract public class TuboroidListActivity extends NSimpleListActivity {
     private boolean progress_bar_visible_ = false;
     protected ListViewScrollButton btnListScroll; 
     
-    protected TuboroidApplication getTuboroidApplication() {
+    public TuboroidApplication getTuboroidApplication() {
         return ((TuboroidApplication) getApplication());
     }
     

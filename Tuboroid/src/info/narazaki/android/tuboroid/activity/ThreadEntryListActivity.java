@@ -41,6 +41,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -294,6 +295,14 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         use_scroll_key_ = pref.getBoolean("pref_use_page_up_down_key", true);
         
         image_viewer_dialog_ = new ImageViewerDialog(this, thread_data_);
+        image_viewer_dialog_.setOnDismissListener(new OnDismissListener() {
+			
+			@Override
+			public void onDismiss(DialogInterface dialog){
+				list_adapter_.notifyDataSetChanged();
+				getListView().invalidateViews();
+			}
+		});
         
         applyViewConfig(getListFontPref());
     }
@@ -410,6 +419,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
                     public void run() {
                         if (!is_active_) return;
                         thread_data_ = thread_data;
+                        image_viewer_dialog_.setThreadData(thread_data_);
                         ((ThreadEntryListAdapter) list_adapter_).setReadCount(thread_data_.read_count_);
                         ((ThreadEntryListAdapter) list_adapter_).setThreadData(thread_data_);
                         int pos = (int) thread_data_.recent_pos_;
@@ -498,6 +508,9 @@ public class ThreadEntryListActivity extends SearchableListActivity {
                 }
             }
             break;
+        case ImageViewerDialog.MENU_KEY_SHARE:
+        	image_viewer_dialog_.onActivityResult(request_code, result_code, data);
+        	break;
         default:
             super.onActivityResult(request_code, result_code, data);
             break;

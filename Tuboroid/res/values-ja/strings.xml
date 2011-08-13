@@ -251,6 +251,8 @@
 	
 	<string name="dialog_choose_browser">ブラウザの選択</string>
 	
+	<string name="dialog_image_load_failed">画像の読み込みに失敗しました</string>
+	
 	<!-- 設定画面 -->
 
 	<string name="pref_cat_title_screen_setting">画面設定</string>
