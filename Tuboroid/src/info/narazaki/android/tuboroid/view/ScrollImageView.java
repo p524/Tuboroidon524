@@ -151,13 +151,16 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 	public void setImageBitmap(Bitmap bm) {
 		super.setImageBitmap(bm);
 		
+		scrollTo(0, 0);
 		onUserAction();
 		if(bm == null) {
+			footer.setImageSize(0, 0);
 			return;
 		}
 		
 		image_x = bm.getWidth();
 		image_y = bm.getHeight();
+		footer.setImageSize(image_x, image_y);
 		
 		zoomForWholeImageView();
 	}
@@ -390,7 +393,7 @@ public class ScrollImageView extends ImageView implements OnTouchListener {
 		float y_scale = (float)getHeight() / image_y;
 		float scale = Math.min(x_scale, y_scale);
 		if(scale >= 1.0f){
-			return;
+			scale = 1.0f;
 		}
 		zoom(true, scale, 0, 0);
 	}

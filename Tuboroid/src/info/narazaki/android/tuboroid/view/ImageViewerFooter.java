@@ -25,14 +25,7 @@ public class ImageViewerFooter extends RelativeLayout {
 	}
 
 	@Override
-	protected void onLayout(boolean changed, int l, int t, int r, int b){
-		// TODO Auto-generated method stub
-		super.onLayout(changed, l, t, r, b);
-	}
-
-	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec){
-		// TODO Auto-generated method stub
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		if(width == 0) {
 			width = getMeasuredWidth();
@@ -64,7 +57,6 @@ public class ImageViewerFooter extends RelativeLayout {
 			}
 			
 			//画像の情報を表示するTextViewを左に配置
-			
 			RelativeLayout.LayoutParams text_layout_params = new RelativeLayout.LayoutParams(
 					width / 3 * 2, text_view.getLineHeight() * LINE_COUNT);
 			text_layout_params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -92,7 +84,7 @@ public class ImageViewerFooter extends RelativeLayout {
 			
 			//エラーメッセージ表示用TextView
 			RelativeLayout.LayoutParams error_text_layout_params = new RelativeLayout.LayoutParams(
-					width, error_text_view.getLineHeight() * LINE_COUNT);
+					LayoutParams.WRAP_CONTENT, error_text_view.getLineHeight() * LINE_COUNT);
 			error_text_layout_params.addRule(RelativeLayout.CENTER_IN_PARENT);
 			
 			error_text_view.setLayoutParams(error_text_layout_params);
@@ -139,8 +131,10 @@ public class ImageViewerFooter extends RelativeLayout {
 	private long entry_id_;
 	private int image_index_;
 	private int image_count_;
+	private int image_x_;
+	private int image_y_;
 	
-	private float scale;
+	private float scale_;
 	private int LINE_COUNT = 2;
 	private float ZOOM_CONTROL_WIDTH_RATIO = 0.33f;
 	private ScrollImageView image_view_;
@@ -159,7 +153,13 @@ public class ImageViewerFooter extends RelativeLayout {
 	}
 
 	public void setScale(float scale) {
-		this.scale = scale;
+		this.scale_ = scale;
+		setTextViewText();
+	}
+	
+	public void setImageSize(int image_x, int image_y) {
+		image_x_ = image_x;
+		image_y_ = image_y;
 		setTextViewText();
 	}
 
@@ -186,10 +186,14 @@ public class ImageViewerFooter extends RelativeLayout {
 		string_builder.append("/");
 		string_builder.append(image_count_);
 		string_builder.append("\n");
-		if(scale <= 0.1){
-			string_builder.append(String.format("%1.2f", scale * 100));
+		string_builder.append(image_x_);
+		string_builder.append("x");
+		string_builder.append(image_y_);
+		string_builder.append(" ");
+		if(scale_ <= 0.1){
+			string_builder.append(String.format("%1.2f", scale_ * 100));
 		}else{
-			string_builder.append((int) (scale * 100));
+			string_builder.append((int) (scale_ * 100));
 		}
 		string_builder.append("%\n");
 		text_view.setText(string_builder.toString());
