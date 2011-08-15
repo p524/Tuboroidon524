@@ -175,6 +175,7 @@
 	
 	<string name="toast_fetch_dat_by_storage">Fetch stored dat...</string>
 	
+	<string name="toast_no_more_images">No more images</string>
 	
 	<!-- 通知 -->
 	<string name="notif_check_upadted">new entry found at favorite threads</string>

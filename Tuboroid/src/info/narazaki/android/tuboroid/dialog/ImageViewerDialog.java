@@ -165,6 +165,8 @@ public class ImageViewerDialog extends Dialog {
 				}
 				if(image_changed) {
 					showThumbnail();
+				}else {
+					ManagedToast.raiseToast(activity_, R.string.toast_no_more_images);
 				}
 			}
 		});

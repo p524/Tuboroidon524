@@ -165,6 +165,8 @@
 	
 	<string name="toast_fetch_dat_by_storage">過去ログからの取得を試みます</string>
 
+	<string name="toast_no_more_images">これ以上移動できません</string>
+
 	<!-- 通知 -->
 	<string name="notif_check_upadted">個のスレに新着レスがあります</string>
 
