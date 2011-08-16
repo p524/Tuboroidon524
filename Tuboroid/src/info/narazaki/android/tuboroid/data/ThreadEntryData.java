@@ -579,7 +579,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
         final int thumbnail_cols = (thumbnail_size > 0 && parent_width > thumbnail_size) ? parent_width
                 / thumbnail_size : 1;
         
-        if (is_quick_show || img_uri_list_.size() == 0) {
+        if (is_quick_show || img_uri_list_.size() == 0 || isNG()) {
             // サムネ無し
             if (tag.entry_body_view.isLongClickable() && !entry_is_aa_) tag.entry_body_view.setLongClickable(false);
             
