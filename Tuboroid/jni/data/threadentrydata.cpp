@@ -109,7 +109,7 @@ bool isAAChar(const jchar chr) {
     // これ以降は、タグ、字形選択子補助、私用領域
     if (0x0027 <= chr && chr <= 0x0029) return true;
     if (0x002f == chr) return true;
-    if (0x003c <= chr && chr <= 0x003d) return true;
+    if (0x003a <= chr && chr <= 0x003d) return true;
     if (0x005e <= chr && chr <= 0x0060) return true;
     if (0x007b <= chr && chr <= 0x3040) {
         if (chr == 0x3000) {
