@@ -4,6 +4,7 @@ import info.narazaki.android.lib.agent.http.HttpTaskAgentInterface;
 import info.narazaki.android.lib.agent.http.task.HttpTaskBase;
 import info.narazaki.android.lib.list.ListUtils;
 import info.narazaki.android.lib.text.HtmlUtils;
+import info.narazaki.android.lib.text.TextUtils;
 import info.narazaki.android.tuboroid.data.ThreadData;
 import info.narazaki.android.tuboroid.data.ThreadEntryData;
 
@@ -204,7 +205,7 @@ public class HttpGetThreadEntryListTaskShitarabaStorage extends HttpTaskBase imp
                         try {
                             String entry_id_str = matcher_body.group(1);
                             if (entry_id_str == null) entry_id_str = "";
-                            entry_id = Integer.parseInt(entry_id_str);
+                            entry_id = TextUtils.parseInt(entry_id_str);
                         }
                         catch (NumberFormatException e) {
                             continue;

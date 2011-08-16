@@ -1,5 +1,6 @@
 package info.narazaki.android.tuboroid.data;
 
+import info.narazaki.android.lib.text.TextUtils;
 import info.narazaki.android.tuboroid.TuboroidApplication.AccountPref;
 import info.narazaki.android.tuboroid.agent.CreateNewThreadTask;
 import info.narazaki.android.tuboroid.agent.CreateNewThreadTask2ch;
@@ -59,7 +60,7 @@ public class BoardData2ch extends BoardData {
                 // スレは /test/read.cgi/[板タグ]/[スレID]/[レス番指定] になる
                 board_tag = segments.get(2);
                 if (segments.size() > 3 && segments.get(3).length() > 0) {
-                    thread_id = Long.parseLong(segments.get(3));
+                    thread_id = TextUtils.parseLong(segments.get(3));
                 }
                 if (segments.size() > 4 && segments.get(4).length() > 0) {
                     // l : 指定件数の最新レスを表示する（レス１も表示）→ めんどくさいのでデフォルト表示
@@ -70,7 +71,7 @@ public class BoardData2ch extends BoardData {
                     if (matcher.find() && matcher.group(1) != null && matcher.group(1).indexOf('l') == -1) {
                         String target = matcher.group(2);
                         if (target != null && target.length() > 0) {
-                            entry_id = Integer.parseInt(target);
+                            entry_id = TextUtils.parseInt(target);
                         }
                     }
                 }

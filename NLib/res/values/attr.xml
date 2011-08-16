@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<declare-styleable name="android:textAppearance">
+        <attr name="android:textColor" />
+        <attr name="android:textColorLink" />
+        <attr name="android:textSize" />
+        <attr name="android:typeface" />
+        <attr name="android:textStyle" />
+	</declare-styleable>
+	<declare-styleable name="NLabelView">
+		<attr name="android:textAppearance" />
+		<attr name="android:textColor" />
+        <attr name="android:textColorLink" />
+		<attr name="android:textSize" />
+		<attr name="android:typeface" />
+		<attr name="android:textStyle" />
+
+		<attr name="android:minLines" />
+		<attr name="android:minHeight" />
+		<attr name="android:text" />
+	</declare-styleable>
+</resources>

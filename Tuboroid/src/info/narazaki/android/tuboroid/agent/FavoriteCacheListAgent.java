@@ -3,6 +3,7 @@ package info.narazaki.android.tuboroid.agent;
 import info.narazaki.android.lib.agent.db.SQLiteAgentBase;
 import info.narazaki.android.lib.list.ListUtils;
 import info.narazaki.android.lib.text.LevenshteinDistanceCalc;
+import info.narazaki.android.lib.text.TextUtils;
 import info.narazaki.android.tuboroid.TuboroidApplication;
 import info.narazaki.android.tuboroid.agent.thread.DataFileAgent;
 import info.narazaki.android.tuboroid.data.BoardData;
@@ -125,12 +126,12 @@ public class FavoriteCacheListAgent {
                 String line = reader.readLine();
                 if (line == null) break;
                 
-                ArrayList<String> tokens = ListUtils.split("<>", line);
+                String[] tokens = ListUtils.split("<>", line);
                 
-                if (tokens.size() == 2) {
-                    String uri = tokens.get(0);
-                    String sort_order = tokens.get(1);
-                    order_map_.put(uri, Integer.parseInt(sort_order));
+                if (tokens.length == 2) {
+                    String uri = tokens[0];
+                    String sort_order = tokens[1];
+                    order_map_.put(uri, TextUtils.parseInt(sort_order));
                 }
             }
         }

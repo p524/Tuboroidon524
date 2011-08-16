@@ -37,6 +37,16 @@ public class FontFetchAgent {
             public void onCompleted() {
                 callback_.onCompleted();
             }
+            
+            @Override
+            public void onStart() {
+            }
+
+            @Override
+            public void onProgress(int current_length, int content_length) {
+                // TODO 自動生成されたメソッド・スタブ
+                
+            }
         });
         
         return http_agent_.send(task);

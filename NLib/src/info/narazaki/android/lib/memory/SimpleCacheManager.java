@@ -1,9 +1,9 @@
-package info.narazaki.android.lib.list;
+package info.narazaki.android.lib.memory;
 
 import java.lang.ref.SoftReference;
 import java.util.LinkedHashMap;
 
-public class SimpleCacheDataList<T_TAG, T_DATA> {
+public class SimpleCacheManager<T_TAG, T_DATA> {
     private static final String TAG = "SimpleCacheDataList";
     
     private final int max_cache_size_;
@@ -12,7 +12,7 @@ public class SimpleCacheDataList<T_TAG, T_DATA> {
     private final LinkedHashMap<T_TAG, T_DATA> hard_cache_;
     private final LinkedHashMap<T_TAG, SoftReference<T_DATA>> soft_cache_;
     
-    public SimpleCacheDataList(int min_cache_size, int max_cache_size) {
+    public SimpleCacheManager(int min_cache_size, int max_cache_size) {
         min_cache_size_ = min_cache_size;
         max_cache_size_ = max_cache_size;
         

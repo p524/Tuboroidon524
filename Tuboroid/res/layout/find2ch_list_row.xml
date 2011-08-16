@@ -4,17 +4,17 @@
 	android:orientation="vertical" android:paddingRight="5sp">
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:orientation="horizontal">
-		<TextView android:id="@+id/find2ch_board_name"
+		<info.narazaki.android.lib.view.NLabelView android:id="@+id/find2ch_board_name"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			style="@style/ThreadListFind2chBoardName" android:layout_weight="1" />
-		<TextView android:id="@+id/find2ch_thread_timestamp"
+		<info.narazaki.android.lib.view.NLabelView android:id="@+id/find2ch_thread_timestamp"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			style="@style/ThreadListFind2chBoardName" android:layout_weight="1" />
-		<TextView android:id="@+id/find2ch_thread_onlinecount"
+		<info.narazaki.android.lib.view.NLabelView android:id="@+id/find2ch_thread_onlinecount"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			style="@style/ThreadListFind2chBoardName" />
 	</LinearLayout>
-	<TextView android:id="@+id/find2ch_thread_name"
+	<info.narazaki.android.lib.view.NLabelView android:id="@+id/find2ch_thread_name"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		style="@style/ThreadListName" />
 </LinearLayout>

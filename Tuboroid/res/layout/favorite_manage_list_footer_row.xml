@@ -5,7 +5,7 @@
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:minHeight="32sp"
 		android:orientation="vertical" style="@style/FavoriteFooterRow">
-		<TextView android:id="@+id/favorite_footer_label"
+		<info.narazaki.android.lib.view.NLabelView android:id="@+id/favorite_footer_label"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:text="@string/text_favorite_manage_footer" />
 	</LinearLayout>

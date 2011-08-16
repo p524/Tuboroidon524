@@ -63,8 +63,8 @@ public class FavoriteItemThreadData extends FavoriteItemData {
     }
     
     @Override
-    public View setView(View view, TuboroidApplication.ViewConfig view_config) {
-        thread_data_.setView(view, view_config);
+    public View setView(View view, TuboroidApplication.ViewConfig view_config, ThreadData.ViewStyle style) {
+        thread_data_.setView(view, view_config, style);
         return view;
     }
     

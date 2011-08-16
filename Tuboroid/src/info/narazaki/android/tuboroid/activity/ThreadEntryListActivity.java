@@ -4,6 +4,7 @@ import info.narazaki.android.lib.adapter.SimpleListAdapterBase;
 import info.narazaki.android.lib.dialog.SimpleDialog;
 import info.narazaki.android.lib.system.MigrationSDK5;
 import info.narazaki.android.lib.toast.ManagedToast;
+import info.narazaki.android.lib.view.NLabelView;
 import info.narazaki.android.lib.view.SimpleSpanTextViewOnTouchListener;
 import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.TuboroidApplication;
@@ -54,6 +55,7 @@ import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
 import android.view.ContextMenu;
 import android.view.GestureDetector;
@@ -266,6 +268,12 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         }
         
         // アンカーバー初期化
+        NLabelView text_view = (NLabelView) findViewById(R.id.entry_anchor_stack);
+        text_view.setTouchMargin(getTuboroidApplication().view_config_.touch_margin_ > 0);
+        int on_clicked_bgcolor = obtainStyledAttributes(R.styleable.Theme).getColor(
+                R.styleable.Theme_entryLinkClickedBgColor, 0);
+        text_view.setTouchBackgroundColorSpan(new BackgroundColorSpan(on_clicked_bgcolor));
+        text_view.setTextSize(getTuboroidApplication().view_config_.entry_header_ * 3 / 2);
         updateAnchorBar();
         
         global_resume_data_ = null;
@@ -659,6 +667,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
     
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menu_info) {
+    	if (list_adapter_ == null || menu_info == null) return;
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) menu_info;
         ThreadEntryData entry_data = ((ThreadEntryListAdapter) list_adapter_).getData(info.position);
         if (entry_data == null) return;
@@ -1141,8 +1150,8 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         
         if (footer_view_.getVisibility() == View.GONE) footer_view_.setVisibility(View.VISIBLE);
         ImageView button = (ImageView) footer_view_.findViewById(R.id.entry_footer_image_view);
-        TextView entry_footer_header = (TextView) footer_view_.findViewById(R.id.entry_footer_header);
-        TextView entry_footer_body = (TextView) footer_view_.findViewById(R.id.entry_footer_body);
+        NLabelView entry_footer_header = (NLabelView) footer_view_.findViewById(R.id.entry_footer_header);
+        NLabelView entry_footer_body = (NLabelView) footer_view_.findViewById(R.id.entry_footer_body);
         if (favorite_check_update_progress_) {
             button.setImageResource(R.drawable.toolbar_btn_reload);
             entry_footer_header.setText(R.string.text_check_update_unread_favorite_threads);
@@ -1407,13 +1416,12 @@ public class ThreadEntryListActivity extends SearchableListActivity {
             }
         }
         
-        TextView text_view = (TextView) findViewById(R.id.entry_anchor_stack);
-        text_view.setTextSize(getTuboroidApplication().view_config_.entry_header_ * 3 / 2);
+        NLabelView text_view = (NLabelView) findViewById(R.id.entry_anchor_stack);
         HorizontalScrollView box = (HorizontalScrollView) findViewById(R.id.entry_anchor_stack_box);
         
         if (anchor_jump_stack_.size() == 0) {
             disableAnchorBar();
-            text_view.setText("", BufferType.SPANNABLE);
+            text_view.setText("");
             box.setVisibility(View.GONE);
             return;
         }
@@ -1434,7 +1442,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
             text.append(" ]");
         }
         
-        text_view.setText(text, BufferType.SPANNABLE);
+        text_view.setText(text);
         
         if (animation) {
         	ScaleAnimation ta = new ScaleAnimation(1, 1,            
@@ -1446,10 +1454,10 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         	box.startAnimation(ta);
         }
 
-        int on_clicked_bgcolor = obtainStyledAttributes(R.styleable.Theme).getColor(
+        /*int on_clicked_bgcolor = obtainStyledAttributes(R.styleable.Theme).getColor(
                 R.styleable.Theme_entryLinkClickedBgColor, 0);
         text_view.setOnTouchListener(new SimpleSpanTextViewOnTouchListener(
-                getTuboroidApplication().view_config_.touch_margin_, on_clicked_bgcolor));
+                getTuboroidApplication().view_config_.touch_margin_, on_clicked_bgcolor));*/
     }
     
     private void onAnchorBarClicked(int num) {

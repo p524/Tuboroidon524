@@ -17,14 +17,14 @@
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:orientation="horizontal" android:minHeight="32sp"
 		android:gravity="center_vertical">
-		<TextView android:id="@+id/favorite_thread_name"
+		<info.narazaki.android.lib.view.NLabelView android:id="@+id/favorite_thread_name"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			style="@style/ThreadListName" android:layout_weight="1" />
 	</LinearLayout>
 	<LinearLayout android:id="@+id/favorite_board_row"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:minHeight="32sp" android:orientation="horizontal" style="@style/FavoriteBoardRow">
-		<TextView android:id="@+id/favorite_board_name"
+		<info.narazaki.android.lib.view.NLabelView android:id="@+id/favorite_board_name"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:layout_weight="1" />
 	</LinearLayout>
@@ -34,7 +34,7 @@
 		<ImageView android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:src="@drawable/icon_find2ch"
 			android:paddingRight="10sp" />
-		<TextView android:id="@+id/favorite_search_keyword"
+		<info.narazaki.android.lib.view.NLabelView android:id="@+id/favorite_search_keyword"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:layout_weight="1" />
 	</LinearLayout>

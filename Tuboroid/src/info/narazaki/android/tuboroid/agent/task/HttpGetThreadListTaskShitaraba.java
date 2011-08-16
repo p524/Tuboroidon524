@@ -2,6 +2,7 @@ package info.narazaki.android.tuboroid.agent.task;
 
 import info.narazaki.android.lib.agent.http.task.TextHttpGetTaskBase;
 import info.narazaki.android.lib.text.HtmlUtils;
+import info.narazaki.android.lib.text.TextUtils;
 import info.narazaki.android.tuboroid.data.BoardData;
 import info.narazaki.android.tuboroid.data.ThreadData;
 import info.narazaki.android.tuboroid.data.ThreadDataShitaraba;
@@ -49,9 +50,9 @@ public class HttpGetThreadListTaskShitaraba extends TextHttpGetTaskBase implemen
                 int index_count = line.lastIndexOf("(");
                 if (index_count <= 0) break;
                 
-                long thread_id = Long.parseLong(line.substring(0, index_dat));
+                long thread_id = TextUtils.parseLong(line, 0, index_dat);
                 String thread_name = HtmlUtils.stripAllHtmls(line.substring(index_dat + 5, index_count).trim(), false);
-                int online_count = Integer.parseInt(line.substring(index_count + 1, line.length() - 1));
+                int online_count = TextUtils.parseInt(line, index_count + 1, line.length() - 1);
                 
                 long thread_age = current_time - thread_id;
                 if (thread_age <= 0) thread_age = 1;

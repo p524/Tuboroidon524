@@ -6,7 +6,7 @@
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:minHeight="32sp" android:orientation="vertical" style="@style/FavoriteBoardRow"
 		android:paddingRight="5sp">
-		<TextView android:id="@+id/favorite_board_name"
+		<info.narazaki.android.lib.view.NLabelView android:id="@+id/favorite_board_name"
 			android:layout_width="fill_parent" android:layout_height="wrap_content" />
 	</LinearLayout>
 </LinearLayout>

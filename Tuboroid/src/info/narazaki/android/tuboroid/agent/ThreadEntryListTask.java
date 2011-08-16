@@ -148,16 +148,15 @@ abstract public class ThreadEntryListTask {
         
         long thread_cur_count = 0;
         try {
-        	String [] tokens = new String [9];
             while (true) {
                 String line = reader.readLine();
                 if (line == null) break;
                 
                 thread_cur_count++;
-                int token_count = ListUtils.split("<>", line, tokens);
+                String[] tokens = ListUtils.split("<>", line);
                 
                 ThreadEntryData data;
-                if (token_count >= 8) {
+                if (tokens.length >= 8) {
                     String author_name = tokens[0];
                     String author_mail = tokens[1];
                     String entry_body = tokens[2];
@@ -167,7 +166,7 @@ abstract public class ThreadEntryListTask {
                     String entry_is_aa = tokens[6];
                     String forward_anchor_list_str = tokens[7];
                     
-                    if (thread_cur_count == 1 && token_count >= 9 && tokens[8].length() > 0) {
+                    if (thread_cur_count == 1 && tokens.length >= 9 && tokens[8].length() > 0) {
                         thread_data.thread_name_ = tokens[8];
                     }
                     
@@ -230,7 +229,7 @@ abstract public class ThreadEntryListTask {
                             writer.append(data.author_name_).append("<>");
                             writer.append(data.author_mail_).append("<>");
                             
-                            String entry_body = HtmlUtils.escapeHtml(data.entry_body_).replace("\n", "<br>");
+                            String entry_body = HtmlUtils.escapeHtml(data.entry_body_, false, "<br>");
                             writer.append(entry_body).append("<>");
                             
                             writer.append(data.author_id_).append("<>");

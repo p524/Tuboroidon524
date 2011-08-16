@@ -7,6 +7,7 @@ import info.narazaki.android.lib.dialog.SimpleEditTextDialog;
 import info.narazaki.android.lib.dialog.SimpleProgressDialog;
 import info.narazaki.android.lib.system.MigrationSDK5;
 import info.narazaki.android.lib.toast.ManagedToast;
+import info.narazaki.android.lib.view.NLabelView;
 import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.TuboroidApplication;
 import info.narazaki.android.tuboroid.activity.base.TuboroidExpandableListActivityBase;
@@ -449,7 +450,7 @@ public class BoardListActivity extends TuboroidExpandableListActivityBase {
         @Override
         protected View setChildView(View view, BoardData data) {
             LinearLayout row_view = (LinearLayout) view;
-            TextView title_view = (TextView) row_view.getChildAt(0);
+            NLabelView title_view = (NLabelView) row_view.getChildAt(0);
             title_view.setTextSize(font_size_);
             title_view.setText(data.board_name_);
             return view;
@@ -461,7 +462,7 @@ public class BoardListActivity extends TuboroidExpandableListActivityBase {
                 name = view.getResources().getString(R.string.text_board_category_others);
             }
             LinearLayout row_view = (LinearLayout) view;
-            TextView title_view = (TextView) row_view.getChildAt(0);
+            NLabelView title_view = (NLabelView) row_view.getChildAt(0);
             title_view.setTextSize(font_size_);
             title_view.setText(name);
             return view;

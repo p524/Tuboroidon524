@@ -258,6 +258,18 @@ public class ImageViewerDialog extends Dialog {
 			@Override
 			public void onBegeinNoCache(){
 			}
+
+			@Override
+			public void onBeginOnlineFetch(){
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onProgress(int currentLength, int contentLength){
+				// TODO Auto-generated method stub
+				
+			}
 		};
 
 		activity_.getAgent().fetchImage(callback, image_local_file, image_.uri,

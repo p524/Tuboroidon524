@@ -5,7 +5,7 @@
 	<LinearLayout android:id="@+id/notice_row"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:orientation="vertical" style="@style/FavoriteFooterRow">
-		<TextView android:id="@+id/notice_text" android:layout_width="wrap_content"
+		<info.narazaki.android.lib.view.NLabelView android:id="@+id/notice_text" android:layout_width="wrap_content"
 			android:layout_height="wrap_content" style="@style/ThreadListName"
 			android:layout_weight="1" android:paddingTop="8sp"
 			android:paddingBottom="8sp" android:text="@string/text_notice_show_updated_only" />

@@ -21,8 +21,11 @@ import android.view.ViewGroup;
 // アダプタ
 // ////////////////////////////////////////////////////////////
 public class FavoriteListAdapter extends FavoriteListAdapterBase<FavoriteItemData> {
+	final ThreadData.ViewStyle view_style_;
+	
     public FavoriteListAdapter(Activity activity, TuboroidApplication.ViewConfig view_config) {
         super(activity, view_config);
+        view_style_ = new ThreadData.ViewStyle(activity);
     }
     
     @Override
@@ -72,7 +75,7 @@ public class FavoriteListAdapter extends FavoriteListAdapterBase<FavoriteItemDat
     
     @Override
     protected View setView(View view, FavoriteItemData data, ViewGroup parent) {
-        return data.setView(view, view_config_);
+        return data.setView(view, view_config_, view_style_);
     }
     
     public interface DeleteFilledCallback {

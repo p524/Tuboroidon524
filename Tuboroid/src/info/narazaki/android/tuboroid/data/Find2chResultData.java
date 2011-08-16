@@ -1,6 +1,7 @@
 package info.narazaki.android.tuboroid.data;
 
 import info.narazaki.android.lib.adapter.NListAdapterDataInterface;
+import info.narazaki.android.lib.view.NLabelView;
 import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.TuboroidApplication;
 
@@ -8,7 +9,6 @@ import java.sql.Date;
 
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 public class Find2chResultData implements NListAdapterDataInterface {
     private static final String TAG = "Find2chResultData";
@@ -35,16 +35,16 @@ public class Find2chResultData implements NListAdapterDataInterface {
     }
     
     public static View initView(View view, TuboroidApplication.ViewConfig view_config) {
-        TextView timestamp_view = (TextView) view.findViewById(R.id.find2ch_thread_timestamp);
+        NLabelView timestamp_view = (NLabelView) view.findViewById(R.id.find2ch_thread_timestamp);
         timestamp_view.setTextSize(view_config.entry_header_);
         
-        TextView online_count_view = (TextView) view.findViewById(R.id.find2ch_thread_onlinecount);
+        NLabelView online_count_view = (NLabelView) view.findViewById(R.id.find2ch_thread_onlinecount);
         online_count_view.setTextSize(view_config.entry_header_);
         
-        TextView board_name_view = (TextView) view.findViewById(R.id.find2ch_board_name);
+        NLabelView board_name_view = (NLabelView) view.findViewById(R.id.find2ch_board_name);
         board_name_view.setTextSize(view_config.entry_header_);
         
-        TextView thread_name_view = (TextView) view.findViewById(R.id.find2ch_thread_name);
+        NLabelView thread_name_view = (NLabelView) view.findViewById(R.id.find2ch_thread_name);
         thread_name_view.setTextSize(view_config.thread_list_base_);
         thread_name_view.setMinLines(2);
         
@@ -54,19 +54,19 @@ public class Find2chResultData implements NListAdapterDataInterface {
     public View setView(View view, TuboroidApplication.ViewConfig view_config) {
         LinearLayout row_view = (LinearLayout) view;
         
-        TextView timestamp_view = (TextView) view.findViewById(R.id.find2ch_thread_timestamp);
+        NLabelView timestamp_view = (NLabelView) view.findViewById(R.id.find2ch_thread_timestamp);
         Date date = new Date(thread_id_ * 1000);
         timestamp_view.setText(ThreadData.DATE_FORMAT.format(date));
         
-        TextView online_count_view = (TextView) view.findViewById(R.id.find2ch_thread_onlinecount);
+        NLabelView online_count_view = (NLabelView) view.findViewById(R.id.find2ch_thread_onlinecount);
         online_count_view.setText("(" + String.valueOf(online_count_) + ")");
         
         // 板名
-        TextView board_name_view = (TextView) row_view.findViewById(R.id.find2ch_board_name);
+        NLabelView board_name_view = (NLabelView) row_view.findViewById(R.id.find2ch_board_name);
         board_name_view.setText("[" + board_name_ + "]");
         
         // スレのタイトル
-        TextView thread_name_view = (TextView) row_view.findViewById(R.id.find2ch_thread_name);
+        NLabelView thread_name_view = (NLabelView) row_view.findViewById(R.id.find2ch_thread_name);
         thread_name_view.setText(thread_name_);
         
         return view;

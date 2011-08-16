@@ -1,6 +1,7 @@
 package info.narazaki.android.tuboroid.data;
 
 import info.narazaki.android.lib.adapter.NListAdapterDataInterface;
+import info.narazaki.android.lib.view.NLabelView;
 import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.TuboroidApplication;
 
@@ -105,13 +106,13 @@ public class Find2chKeyData implements NListAdapterDataInterface {
     }
     
     public static View initView(View view, TuboroidApplication.ViewConfig view_config) {
-        TextView timestamp_view = (TextView) view.findViewById(R.id.search_key_timestamp);
+    	NLabelView timestamp_view = (NLabelView) view.findViewById(R.id.search_key_timestamp);
         timestamp_view.setTextSize(view_config.thread_list_base_);
         
-        TextView key_name_view = (TextView) view.findViewById(R.id.search_key_name);
+        NLabelView key_name_view = (NLabelView) view.findViewById(R.id.search_key_name);
         key_name_view.setTextSize(view_config.thread_list_base_);
         
-        TextView hit_count_view = (TextView) view.findViewById(R.id.search_key_hit_count);
+        NLabelView hit_count_view = (NLabelView) view.findViewById(R.id.search_key_hit_count);
         hit_count_view.setTextSize(view_config.thread_list_base_);
         
         return view;
@@ -122,15 +123,15 @@ public class Find2chKeyData implements NListAdapterDataInterface {
         
         // 前回時間
         Date date = new Date(prev_time_ * 1000);
-        TextView timestamp_view = (TextView) row_view.findViewById(R.id.search_key_timestamp);
+        NLabelView timestamp_view = (NLabelView) row_view.findViewById(R.id.search_key_timestamp);
         timestamp_view.setText(ThreadData.DATE_FORMAT.format(date));
         
         // 検索キー
-        TextView key_name_view = (TextView) row_view.findViewById(R.id.search_key_name);
+        NLabelView key_name_view = (NLabelView) row_view.findViewById(R.id.search_key_name);
         key_name_view.setText(keyword_);
         
         // スレのレス総数
-        TextView hit_count_view = (TextView) row_view.findViewById(R.id.search_key_hit_count);
+        NLabelView hit_count_view = (NLabelView) row_view.findViewById(R.id.search_key_hit_count);
         hit_count_view.setText(String.valueOf(hit_count_));
         
         return view;

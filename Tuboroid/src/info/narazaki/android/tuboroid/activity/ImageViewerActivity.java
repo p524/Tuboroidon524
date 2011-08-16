@@ -358,6 +358,18 @@ public class ImageViewerActivity extends TuboroidActivity {
             
             @Override
             public void onBegeinNoCache() {}
+
+			@Override
+			public void onBeginOnlineFetch(){
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onProgress(int currentLength, int contentLength){
+				// TODO Auto-generated method stub
+				
+			}
         };
         
         final float scale = getResources().getDisplayMetrics().density;

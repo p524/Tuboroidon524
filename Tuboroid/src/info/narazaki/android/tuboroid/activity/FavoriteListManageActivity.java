@@ -2,6 +2,7 @@ package info.narazaki.android.tuboroid.activity;
 
 import info.narazaki.android.lib.adapter.SimpleListAdapterBase;
 import info.narazaki.android.lib.dialog.SimpleDialog;
+import info.narazaki.android.lib.view.NLabelView;
 import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.TuboroidApplication;
 import info.narazaki.android.tuboroid.activity.base.TuboroidListActivity;
@@ -46,7 +47,7 @@ public class FavoriteListManageActivity extends TuboroidListActivity {
         
         LayoutInflater layout_inflater = LayoutInflater.from(this);
         append_last_footer_view_ = layout_inflater.inflate(R.layout.favorite_manage_list_footer_row, null);
-        ((TextView) append_last_footer_view_.findViewById(R.id.favorite_footer_label))
+        ((NLabelView) append_last_footer_view_.findViewById(R.id.favorite_footer_label))
                 .setTextSize(getTuboroidApplication().view_config_.board_list_);
         getListView().addFooterView(append_last_footer_view_);
         append_last_footer_view_.setOnClickListener(new View.OnClickListener() {
@@ -104,7 +105,7 @@ public class FavoriteListManageActivity extends TuboroidListActivity {
         LinearLayout stack_box = (LinearLayout) findViewById(R.id.favorite_stack_box);
         stack_box.setVisibility(View.VISIBLE);
         
-        TextView stack_name = (TextView) stack_box.findViewById(R.id.favorite_stack_name);
+        NLabelView stack_name = (NLabelView) stack_box.findViewById(R.id.favorite_stack_name);
         target.setStackView(stack_name, getTuboroidApplication().view_config_);
         
         picked_data_ = target;

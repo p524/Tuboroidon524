@@ -1,6 +1,7 @@
 package info.narazaki.android.tuboroid.data;
 
 import info.narazaki.android.lib.adapter.NListAdapterDataInterface;
+import info.narazaki.android.lib.view.NLabelView;
 import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.TuboroidApplication;
 import android.view.View;
@@ -20,16 +21,16 @@ public class FavoriteManageItemData implements NListAdapterDataInterface {
     
     static public View initView(View view, TuboroidApplication.ViewConfig view_config) {
         LinearLayout board_row = (LinearLayout) view.findViewById(R.id.favorite_board_row);
-        TextView board_name_view = (TextView) board_row.findViewById(R.id.favorite_board_name);
+        NLabelView board_name_view = (NLabelView) board_row.findViewById(R.id.favorite_board_name);
         board_name_view.setTextSize(view_config.board_list_);
         
         LinearLayout thread_row = (LinearLayout) view.findViewById(R.id.favorite_thread_row);
-        TextView thread_name_view = (TextView) thread_row.findViewById(R.id.favorite_thread_name);
+        NLabelView thread_name_view = (NLabelView) thread_row.findViewById(R.id.favorite_thread_name);
         thread_name_view.setTextSize(view_config.thread_list_base_);
         thread_name_view.setMinLines(2);
         
         LinearLayout search_row = (LinearLayout) view.findViewById(R.id.favorite_search_row);
-        TextView search_key_view = (TextView) search_row.findViewById(R.id.favorite_search_keyword);
+        NLabelView search_key_view = (NLabelView) search_row.findViewById(R.id.favorite_search_keyword);
         search_key_view.setTextSize(view_config.thread_list_base_);
         
         return view;
@@ -41,14 +42,14 @@ public class FavoriteManageItemData implements NListAdapterDataInterface {
         LinearLayout search_row = (LinearLayout) view.findViewById(R.id.favorite_search_row);
         
         if (item_.isBoard()) {
-            TextView board_name_view = (TextView) view.findViewById(R.id.favorite_board_name);
+        	NLabelView board_name_view = (NLabelView) view.findViewById(R.id.favorite_board_name);
             board_name_view.setText(item_.getBoardData().board_name_);
             board_row.setVisibility(View.VISIBLE);
             thread_row.setVisibility(View.GONE);
             search_row.setVisibility(View.GONE);
         }
         else if (item_.isThread()) {
-            TextView thread_name_view = (TextView) view.findViewById(R.id.favorite_thread_name);
+        	NLabelView thread_name_view = (NLabelView) view.findViewById(R.id.favorite_thread_name);
             thread_name_view.setText(item_.getThreadData().thread_name_);
             board_row.setVisibility(View.GONE);
             thread_row.setVisibility(View.VISIBLE);
@@ -56,7 +57,7 @@ public class FavoriteManageItemData implements NListAdapterDataInterface {
         }
         
         else if (item_.isSearchKey()) {
-            TextView search_key_view = (TextView) search_row.findViewById(R.id.favorite_search_keyword);
+        	NLabelView search_key_view = (NLabelView) search_row.findViewById(R.id.favorite_search_keyword);
             search_key_view.setText(item_.getSearchKey().keyword_);
             board_row.setVisibility(View.GONE);
             thread_row.setVisibility(View.GONE);
@@ -89,7 +90,7 @@ public class FavoriteManageItemData implements NListAdapterDataInterface {
         }
     }
     
-    public View setStackView(TextView view, TuboroidApplication.ViewConfig view_config) {
+    public View setStackView(NLabelView view, TuboroidApplication.ViewConfig view_config) {
         if (item_.isBoard()) {
             view.setText(item_.getBoardData().board_name_);
             view.setTextSize(view_config.board_list_);

@@ -52,7 +52,7 @@ public class BoardData2chCompat extends BoardData2ch {
                     board_tag = segments.get(i + 2);
                     // スレは .../test/read.cgi/[板タグ]/[スレID]/[レス番指定] になる
                     if (segments.size() > i + 3 && segments.get(i + 3).length() > 0) {
-                        thread_id = Long.parseLong(segments.get(i + 3));
+                        thread_id = info.narazaki.android.lib.text.TextUtils.parseLong(segments.get(i + 3));
                     }
                     if (segments.size() > i + 4 && segments.get(i + 4).length() > 0) {
                         // l : 指定件数の最新レスを表示する（レス１も表示）→ めんどくさいのでデフォルト表示
@@ -63,7 +63,7 @@ public class BoardData2chCompat extends BoardData2ch {
                         if (matcher.find() && matcher.group(1) != null && matcher.group(1).indexOf('l') == -1) {
                             String target = matcher.group(2);
                             if (target != null && target.length() > 0) {
-                                entry_id = Integer.parseInt(target);
+                                entry_id = info.narazaki.android.lib.text.TextUtils.parseInt(target);
                             }
                         }
                     }

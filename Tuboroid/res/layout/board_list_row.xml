@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="wrap_content"
 	android:orientation="vertical">
-	<TextView android:id="@+id/board_title" android:layout_width="fill_parent"
+	<info.narazaki.android.lib.view.NLabelView android:id="@+id/board_title" android:layout_width="fill_parent"
 		android:layout_height="wrap_content" style="@style/BoardListRow"
 		android:minHeight="32sp" />
 </LinearLayout>

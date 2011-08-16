@@ -5,6 +5,7 @@ import info.narazaki.android.lib.agent.http.task.HttpTaskBase;
 import info.narazaki.android.lib.list.ListUtils;
 import info.narazaki.android.lib.text.CharsetInfo;
 import info.narazaki.android.lib.text.HtmlUtils;
+import info.narazaki.android.lib.text.TextUtils;
 import info.narazaki.android.tuboroid.data.ThreadData;
 import info.narazaki.android.tuboroid.data.ThreadEntryData;
 
@@ -174,11 +175,11 @@ public class HttpGetThreadEntryListTaskMachi extends HttpTaskBase implements Htt
                 String line = reader.readLine();
                 if (line == null) break;
                 
-                ArrayList<String> tokens = ListUtils.split("<>", line);
+                String[] tokens = ListUtils.split("<>", line);
                 
                 ThreadEntryData data;
                 thread_cur_count++;
-                if (tokens.size() < 2) {
+                if (tokens.length < 2) {
                     // <>が2個未満になるほど破損しているものは論外。多分datファイルですらない
                     Log.i(TAG, "BROKEN DATA :" + line);
                     throw new BrokenDataException();
@@ -186,7 +187,7 @@ public class HttpGetThreadEntryListTaskMachi extends HttpTaskBase implements Htt
                 
                 int entry_id = 0;
                 try {
-                    entry_id = Integer.parseInt(tokens.get(0));
+                    entry_id = TextUtils.parseInt(tokens[0]);
                 }
                 catch (NumberFormatException e) {
                     continue;
@@ -204,7 +205,7 @@ public class HttpGetThreadEntryListTaskMachi extends HttpTaskBase implements Htt
                     }
                 }
                 
-                if (tokens.size() < 6) {
+                if (tokens.length < 6) {
                     // >>1が破損しているのは論外。多分datファイルですらない
                     if (thread_cur_count == 1) {
                         Log.i(TAG, "BROKEN >>1");
@@ -214,11 +215,11 @@ public class HttpGetThreadEntryListTaskMachi extends HttpTaskBase implements Htt
                     data = new ThreadEntryData(false, entry_id, "", "", "", "", "", "", "", "");
                 }
                 else {
-                    String author_name = tokens.get(1);
-                    String author_mail = tokens.get(2);
-                    String time_and_id = tokens.get(3);
-                    String entry_body = tokens.get(4);
-                    String thread_name = tokens.get(5);
+                    String author_name = tokens[1];
+                    String author_mail = tokens[2];
+                    String time_and_id = tokens[3];
+                    String entry_body = tokens[4];
+                    String thread_name = tokens[5];
                     
                     if (entry_id == 1 && thread_name.length() > 0) {
                         thread_data_.thread_name_ = HtmlUtils.stripAllHtmls(thread_name, false);

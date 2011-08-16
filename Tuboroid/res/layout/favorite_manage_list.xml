@@ -7,8 +7,8 @@
 	<LinearLayout android:id="@+id/favorite_stack_box"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		style="@style/FavoriteStackBox" android:visibility="gone">
-		<TextView android:id="@+id/favorite_stack_name"
+		<info.narazaki.android.lib.view.NLabelView android:id="@+id/favorite_stack_name"
 			android:minHeight="32sp" android:layout_width="fill_parent"
-			android:layout_height="fill_parent"></TextView>
+			android:layout_height="fill_parent"/>
 	</LinearLayout>
 </LinearLayout>

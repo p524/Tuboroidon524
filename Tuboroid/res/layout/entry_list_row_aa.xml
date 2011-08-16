@@ -3,14 +3,14 @@
 	android:id="@+id/entry_main_box" android:layout_width="fill_parent"
 	android:layout_height="wrap_content" android:orientation="vertical"
 	android:paddingBottom="2dip">
-	<info.narazaki.android.tuboroid.view.EntryDataTextView
+	<info.narazaki.android.lib.view.NLabelView
 		android:id="@+id/entry_header" android:layout_width="fill_parent"
 		android:layout_height="wrap_content" 
 		android:paddingLeft="2dip" android:paddingRight="2dip"
 		android:paddingTop="1dip" android:paddingBottom="1dip"/>
 	<HorizontalScrollView android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:scrollbars="horizontal">
-		<info.narazaki.android.tuboroid.view.EntryDataTextView
+		<info.narazaki.android.lib.view.NLabelView
 			android:id="@+id/entry_body" android:layout_width="wrap_content"
 			android:layout_height="wrap_content" style="@style/EntryListEntryBody"
 			android:paddingBottom="6dip" />
@@ -23,7 +23,7 @@
 		android:orientation="vertical">
 		<ImageView android:layout_width="fill_parent"
 			android:layout_height="wrap_content" style="@style/DrawableListDivider" />
-		<info.narazaki.android.tuboroid.view.EntryDataTextView
+		<info.narazaki.android.lib.view.NLabelView
 			android:id="@+id/entry_rev_anchor" android:layout_width="fill_parent"
 			android:layout_height="wrap_content" style="@style/EntryListEntryBody" />
 	</LinearLayout>

@@ -3,6 +3,7 @@ package info.narazaki.android.tuboroid.agent.task;
 import info.narazaki.android.lib.agent.http.task.TextHttpGetTaskBase;
 import info.narazaki.android.lib.text.CharsetInfo;
 import info.narazaki.android.lib.text.HtmlUtils;
+import info.narazaki.android.lib.text.TextUtils;
 import info.narazaki.android.tuboroid.data.BoardData;
 import info.narazaki.android.tuboroid.data.ThreadData;
 import info.narazaki.android.tuboroid.data.ThreadData2ch;
@@ -51,9 +52,9 @@ public class HttpGetThreadListTask2ch extends TextHttpGetTaskBase implements Htt
                 if (index_count <= 0) continue;
                 
                 long thread_id = 0;
-                thread_id = Long.parseLong(line.substring(0, index_dat));
+                thread_id = TextUtils.parseLong(line.substring(0, index_dat));
                 String thread_name = HtmlUtils.stripAllHtmls(line.substring(index_dat + 6, index_count).trim(), false);
-                int online_count = Integer.parseInt(line.substring(index_count + 1, line.length() - 1));
+                int online_count = TextUtils.parseInt(line.substring(index_count + 1, line.length() - 1));
                 
                 long thread_age = current_time - thread_id;
                 if (thread_age <= 0) thread_age = 1;

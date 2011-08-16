@@ -1,6 +1,7 @@
 package info.narazaki.android.tuboroid.data;
 
 import info.narazaki.android.lib.adapter.NListAdapterDataInterface;
+import info.narazaki.android.lib.view.NLabelView;
 import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.TuboroidApplication;
 import info.narazaki.android.tuboroid.TuboroidApplication.AccountPref;
@@ -14,13 +15,16 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 abstract public class ThreadData implements NListAdapterDataInterface {
     private static final String TAG = "ThreadData";
@@ -483,63 +487,93 @@ abstract public class ThreadData implements NListAdapterDataInterface {
     public static View initView(View view, TuboroidApplication.ViewConfig view_config) {
     	
     	int smallFontSize = (int)(view_config.thread_list_base_ * 0.8);
-        TextView thread_id_view = (TextView) view.findViewById(R.id.thread_list_timestamp);
+        NLabelView thread_id_view = (NLabelView) view.findViewById(R.id.thread_list_timestamp);
         thread_id_view.setTextSize(smallFontSize);
         
-        TextView thread_name_view = (TextView) view.findViewById(R.id.thread_list_name);
+        NLabelView thread_name_view = (NLabelView) view.findViewById(R.id.thread_list_name);
         thread_name_view.setTextSize(view_config.thread_list_base_);
         
         //thread_name_view.setMinLines(2);
         
-        TextView online_count_view = (TextView) view.findViewById(R.id.thread_list_online_count);
+        NLabelView online_count_view = (NLabelView) view.findViewById(R.id.thread_list_online_count);
         online_count_view.setTextSize(smallFontSize);
-        
-        TextView cache_count_view = (TextView) view.findViewById(R.id.thread_list_online_count_diff);
-        cache_count_view.setTextSize(smallFontSize);
-        
-        TextView online_speed_view = (TextView) view.findViewById(R.id.thread_list_online_count_speed);
-        online_speed_view.setTextSize(view_config.thread_list_speed_);
         
         return view;
     }
     
-    public View setView(View view, TuboroidApplication.ViewConfig view_config) {
+    public View setView(View view, TuboroidApplication.ViewConfig view_config, ViewStyle style) {
         LinearLayout row_view = (LinearLayout) view;
         
         // thread id(スレが立った時間)
         Date date = new Date(thread_id_ * 1000);
-        TextView thread_id_view = (TextView) row_view.findViewById(R.id.thread_list_timestamp);
+        NLabelView thread_id_view = (NLabelView) row_view.findViewById(R.id.thread_list_timestamp);
         thread_id_view.setText(DATE_FORMAT.format(date));
         
         // スレのタイトル
-        TextView thread_name_view = (TextView) row_view.findViewById(R.id.thread_list_name);
+        NLabelView thread_name_view = (NLabelView) row_view.findViewById(R.id.thread_list_name);
         thread_name_view.setText(thread_name_);
         
         // スレのレス総数
-        TextView online_count_view = (TextView) row_view.findViewById(R.id.thread_list_online_count);
-        int res_count = getResCount();
-        online_count_view.setText(String.valueOf(res_count));
+        StringBuilder buf = new StringBuilder(20);
+        NLabelView online_count_view = (NLabelView) row_view.findViewById(R.id.thread_list_online_count);
+        final String res_count_string = String.valueOf(getResCount());
+        final int res_count_length = res_count_string.length() + 1;
+        buf.append(res_count_string);
+        buf.append(' ');
         
         // 新着レス数
-        TextView cache_count_view = (TextView) row_view.findViewById(R.id.thread_list_online_count_diff);
+        int read_count_length = 0;
         if (read_count_ != 0) {
+        	int res_count = getResCount();
             if (res_count > read_count_) {
-                cache_count_view.setText("(" + String.valueOf(res_count - read_count_) + ")");
+            	final String read_count_string = String.valueOf(res_count - read_count_);
+                buf.append('(');
+                buf.append(read_count_string);
+                buf.append(") ");
+                read_count_length = 3 + read_count_string.length();
             }
             else {
-                cache_count_view.setText("(0)");
+            	read_count_length = 4;
+                buf.append("(0) ");
             }
-        }
-        else {
-            cache_count_view.setText("");
         }
         
         // 勢い
+        int online_speed_length = 0;
         if (online_speed_x10_ > 0) {
-            TextView online_speed_view = (TextView) row_view.findViewById(R.id.thread_list_online_count_speed);
-            online_speed_view.setText("(" + (float) online_speed_x10_ / 10 + "/day)");
+        	final String online_speed_string = String.valueOf((float) online_speed_x10_ / 10);
+            buf.append('(');
+            buf.append(online_speed_string);
+            buf.append("/day)");
+            online_speed_length = 6 + online_speed_string.length();
         }
+
+        // SPAN適用
+        SpannableString spannable = new SpannableString(buf);
+        spannable.setSpan(style.thread_list_online_count_span_, 0, res_count_length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        if (read_count_length > 0) {
+            spannable.setSpan(style.thread_list_online_count_diff_span_, res_count_length, res_count_length
+                    + read_count_length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        }
+        if (online_speed_length > 0) {
+            spannable.setSpan(style.thread_list_online_count_speed_span_, res_count_length + read_count_length,
+                    res_count_length + read_count_length + online_speed_length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        }
+        
+        online_count_view.setText(spannable);
         return view;
+    }
+    
+    static public class ViewStyle {
+        public TextAppearanceSpan thread_list_online_count_span_;
+        public TextAppearanceSpan thread_list_online_count_diff_span_;
+        public TextAppearanceSpan thread_list_online_count_speed_span_;
+        
+        public ViewStyle(Activity activity) {
+            thread_list_online_count_span_ = new TextAppearanceSpan(activity, R.style.ThreadListResCount);
+            thread_list_online_count_diff_span_ = new TextAppearanceSpan(activity, R.style.ThreadListResCountDiff);
+            thread_list_online_count_speed_span_ = new TextAppearanceSpan(activity, R.style.ThreadListResCountSpeed);
+        }
     }
     
     public static class Order {

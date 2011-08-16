@@ -1,5 +1,7 @@
 package info.narazaki.android.tuboroid;
 
+import info.narazaki.android.lib.text.TextUtils;
+
 import java.util.Calendar;
 
 import android.app.AlarmManager;
@@ -17,7 +19,7 @@ public class BackgroundTimerUpdater {
     public static void updateTimer(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         boolean enabled = pref.getBoolean("favorites_update_service", false);
-        int interval = Integer.parseInt(pref.getString("favorites_update_interval", "30"));
+        int interval = TextUtils.parseInt(pref.getString("favorites_update_interval", "30"));
         
         AlarmManager alarm_manager = (AlarmManager) (context.getSystemService(Context.ALARM_SERVICE));
         

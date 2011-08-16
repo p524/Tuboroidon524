@@ -1,5 +1,6 @@
 package info.narazaki.android.tuboroid.data;
 
+import info.narazaki.android.lib.view.NLabelView;
 import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.TuboroidApplication;
 import android.database.Cursor;
@@ -65,8 +66,8 @@ public class FavoriteItemBoardData extends FavoriteItemData {
     }
     
     @Override
-    public View setView(View view, TuboroidApplication.ViewConfig view_config) {
-        TextView title_view = (TextView) view.findViewById(R.id.favorite_board_name);
+    public View setView(View view, TuboroidApplication.ViewConfig view_config, ThreadData.ViewStyle style) {
+        NLabelView title_view = (NLabelView) view.findViewById(R.id.favorite_board_name);
         title_view.setTextSize(view_config.board_list_);
         title_view.setText(board_data_.board_name_);
         return view;

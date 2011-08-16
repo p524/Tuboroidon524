@@ -25,6 +25,7 @@ import android.util.Log;
 public class ImageFetchAgent {
     private static final String TAG = "ImageFetchAgent";
     private static final int MAX_BITMAP_HARD_CACHE = 16;
+    private static final int MAX_FETCHING_PROGRESS = 10;
     
     private TuboroidAgentManager agent_manager_;
     
@@ -34,6 +35,10 @@ public class ImageFetchAgent {
     private final HashMap<ImageLocation, LinkedList<BitmapFetchedCallback>> callbacks_map_ = new HashMap<ImageLocation, LinkedList<BitmapFetchedCallback>>();
     
     public interface BitmapFetchedCallback {
+        
+    	public void onBeginOnlineFetch();
+         
+    	public void onProgress(final int current_length, final int content_length);
         
         public void onBegeinNoCache();
         
@@ -115,6 +120,33 @@ public class ImageFetchAgent {
                         else {
                             callback.onFailed();
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    private synchronized void sendBeginOnlineFetchCallback(final ImageLocation location) {
+        if (location != null) {
+            LinkedList<BitmapFetchedCallback> list = callbacks_map_.get(location);
+            if (list != null) {
+                for (BitmapFetchedCallback callback : list) {
+                    if (callback != null) {
+                        callback.onBeginOnlineFetch();
+                    }
+                }
+            }
+        }
+    }
+    
+    private synchronized void sendProgressCallback(final ImageLocation location, final int current_length,
+            final int content_length) {
+        if (location != null) {
+            LinkedList<BitmapFetchedCallback> list = callbacks_map_.get(location);
+            if (list != null) {
+                for (BitmapFetchedCallback callback : list) {
+                    if (callback != null) {
+                        callback.onProgress(current_length, content_length);
                     }
                 }
             }
@@ -269,6 +301,17 @@ public class ImageFetchAgent {
                     }
                 });
             }
+            
+            @Override
+            public void onStart() {
+                Log.i(TAG, "Fetch online image : " + image_uri + " : started");
+                sendBeginOnlineFetchCallback(location);
+            }
+            
+            @Override
+            public void onProgress(int current_length, int content_length) {
+                sendProgressCallback(location, current_length, content_length);
+            }
         });
         
         agent_manager_.getMultiHttpAgent().send(task);
@@ -293,7 +336,7 @@ public class ImageFetchAgent {
         if (bitmap != null) return bitmap;
         if (cache_file.exists() && cache_file.canRead()) {
             bitmap = getBulkBitmap(cache_file);
-            storeBitmapCache(cache_file, bitmap);
+            if (can_cache) storeBitmapCache(cache_file, bitmap);
             return bitmap;
         }
         
