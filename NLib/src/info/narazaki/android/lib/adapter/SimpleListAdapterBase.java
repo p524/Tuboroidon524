@@ -19,19 +19,18 @@ import android.widget.BaseAdapter;
  */
 abstract public class SimpleListAdapterBase<T_DATA extends NListAdapterDataInterface> extends BaseAdapter {
     protected ArrayList<T_DATA> data_list_;
-    private final ExecutorService executor_;
+    private static final ExecutorService executor_;
+    
+    static {
+        executor_ = Executors.newSingleThreadExecutor();
+    }
     
     public SimpleListAdapterBase() {
         super();
-        executor_ = createExecutorService();
     }
     
     public void postAdapterThread(final Runnable r) {
         executor_.submit(r);
-    }
-    
-    protected ExecutorService createExecutorService() {
-        return Executors.newSingleThreadExecutor();
     }
     
     /**

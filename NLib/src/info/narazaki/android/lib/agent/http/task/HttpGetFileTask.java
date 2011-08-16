@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
@@ -15,11 +17,16 @@ import android.util.Log;
 
 public class HttpGetFileTask extends HttpTaskBase {
     private static final String TAG = "HttpGetFileTask";
+    public static final int DEFAULT_PROGRESS_INTERVAL = 300;
     
     static public interface Callback {
         void onCompleted();
         
         void onFailed();
+        
+        void onStart();
+        
+        void onProgress(int current_length, int content_length);
     }
     
     private Callback callback_;
@@ -60,6 +67,8 @@ public class HttpGetFileTask extends HttpTaskBase {
     protected boolean sendRequest(String request_uri) throws InterruptedException, ClientProtocolException, IOException {
         if (Thread.interrupted()) throw new InterruptedException();
         
+        callback_.onStart();
+        
         FileOutputStream fos = new FileOutputStream(temp_file_);
         
         HttpRequestBase req = factoryGetRequest(request_uri);
@@ -78,15 +87,36 @@ public class HttpGetFileTask extends HttpTaskBase {
         
         if (Thread.interrupted()) throw new InterruptedException();
         
+        Header content_length_header = res.getFirstHeader("Content-Length");
+        int content_length = 0;
+        if (content_length_header != null) {
+            String content_length_str = content_length_header.getValue();
+            try {
+                content_length = Integer.parseInt(content_length_str);
+            }
+            catch (Exception e) {
+            }
+        }
+        
         int bufsize = 1024 * 16;
         InputStream is = new BufferedInputStream(res.getEntity().getContent(), bufsize);
         
         byte[] buf = new byte[bufsize];
         int size = 0;
+        int current_length = 0;
+        long next_time = 0;
+        
         while (true) {
             size = is.read(buf, 0, buf.length);
             if (size < 0) break;
             fos.write(buf, 0, size);
+            current_length += size;
+            
+            long current_time = System.currentTimeMillis();
+            if (current_time > next_time) {
+                callback_.onProgress(current_length, content_length);
+                next_time = current_time + DEFAULT_PROGRESS_INTERVAL;
+            }
         }
         
         fos.flush();
@@ -104,5 +134,4 @@ public class HttpGetFileTask extends HttpTaskBase {
         callback_ = null;
         return true;
     }
-    
 }
