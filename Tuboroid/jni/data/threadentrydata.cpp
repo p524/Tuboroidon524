@@ -14,7 +14,7 @@
 
 static const int HAN_SPACE = (0x0020);
 static const int ZEN_SPACE = (0x3000);
-static const int MIN_AA_CHR_SEQ_COUNT = 3;
+static const int MIN_AA_CHR_SEQ_COUNT = 4;
 static const int MIN_AA_LINE = 4;
 static const int MIN_CHRS_FOR_AA_LINE = 8;
 
