@@ -376,18 +376,19 @@ public class ThreadListAgent {
             if (rate > max_rate) max_rate = rate;
             // 一致度1/5以下は足切り
             if (rate > LevenshteinDistanceCalc.MAX_SIMILARITY_RATE / 5) {
-                ordered_list.add(new SimilarThreadItem(data, rate));
+            	ordered_list.add(new SimilarThreadItem(data, rate));
             }
         }
-        
-        int border_rate = java.lang.Math.min(ordered_list.first().rate_ / 2,
-                LevenshteinDistanceCalc.MAX_SIMILARITY_RATE / 3);
-        
+
         List<ThreadData> result_list = new ArrayList<ThreadData>();
-        for (SimilarThreadItem data : ordered_list) {
-            if (data.rate_ >= border_rate) result_list.add(data.thread_data_);
+        if(!ordered_list.isEmpty()) {
+        	int border_rate = java.lang.Math.min(ordered_list.first().rate_ / 2,
+        			LevenshteinDistanceCalc.MAX_SIMILARITY_RATE / 3);
+
+        	for (SimilarThreadItem data : ordered_list) {
+        		if (data.rate_ >= border_rate) result_list.add(data.thread_data_);
+        	}
         }
-        
         callback.onThreadListFetchedCache(result_list);
         callback.onThreadListFetchCompleted();
     }
