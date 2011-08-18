@@ -11,7 +11,11 @@ import info.narazaki.android.tuboroid.agent.TuboroidAgent;
 import info.narazaki.android.tuboroid.agent.task.HttpBoardLoginTask2chP2;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.HashMap;
 
 import org.apache.http.HttpHost;
@@ -52,6 +56,7 @@ public class TuboroidApplication extends NSimpleApplication {
     
     @Override
     public void onCreate() {
+    	setExceptionHandler();
         super.onCreate();
         setting_invalidate_checker_ = new SettingInvalidateChecker();
         agent_ = new TuboroidAgent(this);
@@ -665,5 +670,43 @@ public class TuboroidApplication extends NSimpleApplication {
         });
         builder.setInverseBackgroundForced(true);
         builder.show();
+
+    }
+    
+    Object obj = new Object();
+
+    //例外ハンドラ
+    private class TuboroidUncaughtExceptionHandler implements UncaughtExceptionHandler{
+    	private UncaughtExceptionHandler default_handler;   
+
+
+    	public TuboroidUncaughtExceptionHandler() {
+    		default_handler = Thread.getDefaultUncaughtExceptionHandler();
+    	}
+
+    	@Override
+    	public void uncaughtException(Thread thread, Throwable ex){
+    		// TODO Auto-generated method stub
+    		//synchronized (obj){
+    			PrintWriter pw = null;     
+    			try {  
+    				File file = new File("/sdcard/tubodon524_stacktrace.txt");
+    				FileOutputStream fileOutputStream = new FileOutputStream(file);
+    				pw = new PrintWriter(fileOutputStream);  
+    				ex.printStackTrace(pw);   
+    			} catch (FileNotFoundException e) {  
+    				e.printStackTrace();  
+    			} finally {  
+    				if (pw != null) pw.close();        
+    			}
+    		//}
+    		default_handler.uncaughtException(thread, ex); 
+    	}
+
+    }
+
+    private void setExceptionHandler() {
+    	Thread.setDefaultUncaughtExceptionHandler(new TuboroidUncaughtExceptionHandler());
     }
 }
+
