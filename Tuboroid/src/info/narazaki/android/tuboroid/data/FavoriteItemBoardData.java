@@ -65,7 +65,7 @@ public class FavoriteItemBoardData extends FavoriteItemData {
     }
     
     @Override
-    public View setView(View view, TuboroidApplication.ViewConfig view_config) {
+    public View setView(View view, TuboroidApplication.ViewConfig view_config, ThreadData.ViewStyle style) {
         TextView title_view = (TextView) view.findViewById(R.id.favorite_board_name);
         title_view.setTextSize(view_config.board_list_);
         title_view.setText(board_data_.board_name_);

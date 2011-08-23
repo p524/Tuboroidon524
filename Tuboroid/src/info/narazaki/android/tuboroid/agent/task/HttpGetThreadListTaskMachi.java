@@ -3,6 +3,7 @@ package info.narazaki.android.tuboroid.agent.task;
 import info.narazaki.android.lib.agent.http.task.TextHttpGetTaskBase;
 import info.narazaki.android.lib.list.ListUtils;
 import info.narazaki.android.lib.text.HtmlUtils;
+import info.narazaki.android.lib.text.TextUtils;
 import info.narazaki.android.tuboroid.data.BoardData;
 import info.narazaki.android.tuboroid.data.ThreadData;
 import info.narazaki.android.tuboroid.data.ThreadDataMachi;
@@ -48,17 +49,17 @@ public class HttpGetThreadListTaskMachi extends TextHttpGetTaskBase implements H
             while (true) {
                 String line = reader.readLine();
                 if (line == null) break;
-                ArrayList<String> tokens = ListUtils.split("<>", line);
-                if (tokens.size() < 3) break;
+                String[] tokens = ListUtils.split("<>", line);
+                if (tokens.length < 3) break;
                 
-                long thread_id = Long.parseLong(tokens.get(1));
+                long thread_id = TextUtils.parseLong(tokens[1]);
                 
-                String name_and_count = tokens.get(2);
+                String name_and_count = tokens[2];
                 int index_count = name_and_count.lastIndexOf("(");
                 if (index_count <= 0) break;
                 
                 String thread_name = HtmlUtils.stripAllHtmls(name_and_count.substring(0, index_count).trim(), false);
-                int online_count = Integer.parseInt(name_and_count.substring(index_count + 1,
+                int online_count = TextUtils.parseInt(name_and_count.substring(index_count + 1,
                         name_and_count.length() - 1));
                 
                 long thread_age = current_time - thread_id;

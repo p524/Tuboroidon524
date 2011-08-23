@@ -21,9 +21,9 @@ public class RecentThreadManageItemData implements NListAdapterDataInterface {
         return ThreadData.initView(view, view_config);
     }
     
-    public View setView(View view, TuboroidApplication.ViewConfig view_config) {
+    public View setView(View view, TuboroidApplication.ViewConfig view_config, ThreadData.ViewStyle style) {
         LinearLayout thread_row = (LinearLayout) view.findViewById(R.id.recent_thread_row);
-        item_.setView(thread_row, view_config);
+        item_.setView(thread_row, view_config, style);
         
         final ImageView delete_button = (ImageView) view.findViewById(R.id.recent_thread_delete_button);
         final ImageView undelete_button = (ImageView) view.findViewById(R.id.recent_thread_undelete_button);

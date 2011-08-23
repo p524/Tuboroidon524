@@ -21,7 +21,7 @@ public class ThreadEntryListAdapter extends FilterableListAdapterBase<ThreadEntr
     private static final String TAG = "ThreadEntryListAdapter";
     
     TuboroidApplication.ViewConfig view_config_;
-    ThreadEntryData.ViewStyle view_style_;
+    final ThreadEntryData.ViewStyle view_style_;
     TuboroidAgent agent_;
     ThreadData thread_data_;
     

@@ -3,6 +3,7 @@ package info.narazaki.android.tuboroid;
 import info.narazaki.android.lib.aplication.NSimpleApplication;
 import info.narazaki.android.lib.system.MigrationSDK4;
 import info.narazaki.android.lib.system.MigrationSDK5;
+import info.narazaki.android.lib.text.TextUtils;
 import info.narazaki.android.tuboroid.activity.BoardListActivity;
 import info.narazaki.android.tuboroid.activity.FavoriteListActivity;
 import info.narazaki.android.tuboroid.activity.RecentListActivity;
@@ -93,13 +94,12 @@ public class TuboroidApplication extends NSimpleApplication {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         setupAAFont();
         
-        view_config_.board_list_ = Integer.parseInt(pref.getString("pref_font_size_board_list", "24"));
-        view_config_.thread_list_base_ = Integer.parseInt(pref.getString("pref_font_size_thread_list_base", "13"));
-        view_config_.thread_list_speed_ = (int) (view_config_.thread_list_base_ * 0.8);
-        view_config_.entry_header_ = Integer.parseInt(pref.getString("pref_font_size_entry_header", "11"));
-        view_config_.entry_body_ = Integer.parseInt(pref.getString("pref_font_size_entry_body", "13"));
+        view_config_.board_list_ = TextUtils.parseInt(pref.getString("pref_font_size_board_list", "24"));
+        view_config_.thread_list_base_ = TextUtils.parseInt(pref.getString("pref_font_size_thread_list_base", "13"));
+        view_config_.entry_header_ = TextUtils.parseInt(pref.getString("pref_font_size_entry_header", "11"));
+        view_config_.entry_body_ = TextUtils.parseInt(pref.getString("pref_font_size_entry_body", "13"));
         
-        view_config_.entry_aa_body_ = Integer.parseInt(pref.getString("pref_font_size_entry_aa_body", "12"));
+        view_config_.entry_aa_body_ = TextUtils.parseInt(pref.getString("pref_font_size_entry_aa_body", "12"));
         
         view_config_.entry_divider = pref.getInt(ViewConfig.PREF_ENTRY_DIVIDER, 1);
         view_config_.scroll_button_position = pref.getInt(ViewConfig.PREF_SCROLL_BUTTON_POSITION, ViewConfig.SCROLL_BUTTON_CENTER);
@@ -110,11 +110,11 @@ public class TuboroidApplication extends NSimpleApplication {
         view_config_.use_back_anchor_ = pref.getBoolean("pref_use_back_anchor", false);
         
         final float scale = getResources().getDisplayMetrics().density;
-        view_config_.thumbnail_size_ = Integer.parseInt(pref.getString("pref_thumbnail_size", "96"));
+        view_config_.thumbnail_size_ = TextUtils.parseInt(pref.getString("pref_thumbnail_size", "96"));
         view_config_.real_thumbnail_size_ = (int) (view_config_.thumbnail_size_ / scale);
         
         view_config_.touch_margin_ = pref.getBoolean("pref_touch_margin_wide", false) ? 1 : 0;
-        view_config_.scrolling_amount_ = Integer.parseInt(pref.getString("pref_scrolling_amount", "100"));
+        view_config_.scrolling_amount_ = TextUtils.parseInt(pref.getString("pref_scrolling_amount", "100"));
         
         boolean use_maru = pref.getBoolean("pref_use_maru", false);
         String maru_user_id = pref.getString("pref_maru_user_id", "");
@@ -174,7 +174,7 @@ public class TuboroidApplication extends NSimpleApplication {
         int orientation = getResources().getConfiguration().orientation;
         
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        int full_screen_mode = Integer.parseInt(pref.getString("pref_full_screen_mode", "0"));
+        int full_screen_mode = TextUtils.parseInt(pref.getString("pref_full_screen_mode", "0"));
         
         switch (orientation) {
         case Configuration.ORIENTATION_PORTRAIT:
@@ -192,7 +192,7 @@ public class TuboroidApplication extends NSimpleApplication {
     
     public int getCurrentScreenOrientation() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        int orientation = Integer.parseInt(pref.getString("pref_screen_orientation", "0"));
+        int orientation = TextUtils.parseInt(pref.getString("pref_screen_orientation", "0"));
         
         switch (orientation) {
         case 1:
@@ -365,7 +365,7 @@ public class TuboroidApplication extends NSimpleApplication {
     
     public int getCurrentThemeID() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        int theme_index = Integer.parseInt(pref.getString("pref_theme_setting", "1"));
+        int theme_index = TextUtils.parseInt(pref.getString("pref_theme_setting", "1"));
         Integer theme_id = theme_id_map_.get(theme_index);
         if (theme_id == null) {
             theme_id = R.style.Theme_TuboroidLight;
@@ -508,7 +508,7 @@ public class TuboroidApplication extends NSimpleApplication {
     	if(!pref_use_proxy) {
     		return false;
     	}
-    	int port = Integer.parseInt(pref.getString("pref_proxy_port", "8080"));
+    	int port = TextUtils.parseInt(pref.getString("pref_proxy_port", "8080"));
     	if(pref.getString("pref_proxy_host", "") == "" || port < 0 || (1 << 16) <= port) {
     		return false;
     	}
@@ -518,7 +518,7 @@ public class TuboroidApplication extends NSimpleApplication {
     public HttpHost getProxy() {
     	if(useProxy()) {
     		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        	return new HttpHost(pref.getString("pref_proxy_host", ""), Integer.parseInt(pref.getString("pref_proxy_port", "8080")));
+        	return new HttpHost(pref.getString("pref_proxy_host", ""), TextUtils.parseInt(pref.getString("pref_proxy_port", "8080")));
     	}else {
     		return null;
     	}

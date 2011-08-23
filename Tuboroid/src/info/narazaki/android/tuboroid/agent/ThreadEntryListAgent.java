@@ -1,7 +1,7 @@
 package info.narazaki.android.tuboroid.agent;
 
 import info.narazaki.android.lib.agent.db.SQLiteAgentBase;
-import info.narazaki.android.lib.list.SimpleCacheDataList;
+import info.narazaki.android.lib.memory.SimpleCacheManager;
 import info.narazaki.android.tuboroid.TuboroidApplication;
 import info.narazaki.android.tuboroid.TuboroidApplication.AccountPref;
 import info.narazaki.android.tuboroid.agent.ThreadEntryListTask.ThreadEntryListFetchedCallback;
@@ -21,13 +21,13 @@ public class ThreadEntryListAgent {
     
     private final ExecutorService executor_;
     
-    private SimpleCacheDataList<ThreadData, List<ThreadEntryData>> cache_data_;
+    private SimpleCacheManager<ThreadData, List<ThreadEntryData>> cache_data_;
     
     public ThreadEntryListAgent(TuboroidAgentManager agent_manager) {
         super();
         agent_manager_ = agent_manager;
         executor_ = Executors.newSingleThreadExecutor();
-        cache_data_ = new SimpleCacheDataList<ThreadData, List<ThreadEntryData>>(0, 1);
+        cache_data_ = new SimpleCacheManager<ThreadData, List<ThreadEntryData>>(0, 1);
     }
     
     private synchronized void pushTask(final Runnable runnable) {

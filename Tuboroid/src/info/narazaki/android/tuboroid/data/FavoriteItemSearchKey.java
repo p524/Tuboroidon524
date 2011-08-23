@@ -68,7 +68,7 @@ public class FavoriteItemSearchKey extends FavoriteItemData {
     }
     
     @Override
-    public View setView(View view, TuboroidApplication.ViewConfig view_config) {
+    public View setView(View view, TuboroidApplication.ViewConfig view_config, ThreadData.ViewStyle style) {
         key_data_.setView(view, view_config);
         return view;
     }

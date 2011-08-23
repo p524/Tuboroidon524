@@ -57,7 +57,7 @@ public class BoardDataShitaraba extends BoardData {
                 // スレは /bbs/read.cgi/[板タグ(スラッシュが入る!!)]/[スレID]/[レス番指定] になる
                 board_tag = segments.get(2) + "/" + segments.get(3);
                 if (segments.size() > 4 && segments.get(4).length() > 0) {
-                    thread_id = Long.parseLong(segments.get(4));
+                    thread_id = info.narazaki.android.lib.text.TextUtils.parseLong(segments.get(4));
                 }
                 if (segments.size() > 5 && segments.get(5).length() > 0) {
                     // l : 指定件数の最新レスを表示する（レス１も表示）→ めんどくさいのでデフォルト表示
@@ -68,7 +68,7 @@ public class BoardDataShitaraba extends BoardData {
                     if (matcher.find() && matcher.group(1) != null && matcher.group(1).indexOf('l') == -1) {
                         String target = matcher.group(2);
                         if (target != null && target.length() > 0) {
-                            entry_id = Integer.parseInt(target);
+                            entry_id = info.narazaki.android.lib.text.TextUtils.parseInt(target);
                         }
                     }
                 }

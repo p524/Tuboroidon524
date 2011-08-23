@@ -17,11 +17,13 @@ import android.view.ViewGroup;
 // ////////////////////////////////////////////////////////////
 public class ThreadListAdapter extends FilterableListAdapterBase<ThreadData> {
     TuboroidApplication.ViewConfig view_config_;
+    final ThreadData.ViewStyle view_style_;
     
     public ThreadListAdapter(Activity activity, TuboroidApplication.ViewConfig view_config) {
         super(activity);
         setDataList(new ArrayList<ThreadData>());
         view_config_ = new TuboroidApplication.ViewConfig(view_config);
+        view_style_ = new ThreadData.ViewStyle(activity);
     }
     
     public void setFontSize(TuboroidApplication.ViewConfig view_config) {
@@ -39,6 +41,6 @@ public class ThreadListAdapter extends FilterableListAdapterBase<ThreadData> {
     
     @Override
     protected View setView(View view, ThreadData data, ViewGroup parent) {
-        return data.setView(view, view_config_);
+        return data.setView(view, view_config_, view_style_);
     }
 }

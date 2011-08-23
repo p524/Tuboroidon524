@@ -3,14 +3,17 @@ package info.narazaki.android.tuboroid.data;
 import info.narazaki.android.lib.adapter.NListAdapterDataInterface;
 import info.narazaki.android.lib.list.ListUtils;
 import info.narazaki.android.lib.text.HtmlUtils;
-import info.narazaki.android.lib.text.SpanifyAdapter;
-import info.narazaki.android.lib.text.SpanifyAdapter.PatternFilter;
+import info.narazaki.android.lib.text.span.SpanSpec;
+import info.narazaki.android.lib.text.span.SpanifyAdapter;
+import info.narazaki.android.lib.text.span.WebURLFilter;
 import info.narazaki.android.lib.view.SimpleSpanTextViewOnTouchListener;
 import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.TuboroidApplication;
 import info.narazaki.android.tuboroid.TuboroidApplication.ViewConfig;
 import info.narazaki.android.tuboroid.agent.ImageFetchAgent;
 import info.narazaki.android.tuboroid.agent.TuboroidAgent;
+import info.narazaki.android.tuboroid.text.span.EntryAnchorFilter;
+import info.narazaki.android.tuboroid.text.span.EntryAnchorSpanSpec;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -36,6 +39,7 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.format.DateFormat;
+import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.TextAppearanceSpan;
 import android.text.style.URLSpan;
@@ -69,6 +73,8 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     private static final Pattern SHRINK_WHITESPACE_PATTERN = Pattern.compile("  +");
     public static final String IS_AA = "1";
     
+    private static final EntryAnchorFilter entry_anchor_finder_ = new EntryAnchorFilter();
+    
     //BEのコピペ向け成型用正規表現
     private static final Pattern copy_be_pattern_ = Pattern.compile("^BE:\\d+-([^(]+)(.*)$");
     
@@ -90,7 +96,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     public boolean entry_is_aa_;
     
     public String forward_anchor_list_str_;
-    public ArrayList<Long> forward_anchor_list_;
+    public long[] forward_anchor_list_;
     
     public ArrayList<Long> back_anchor_list_;
     private List<String> img_uri_list_;
@@ -160,58 +166,45 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     
     private void initCachedData() {
         // アンカーリスト初期化
-        ArrayList<String> anchor_tokens = ListUtils.split(",", forward_anchor_list_str_);
-        forward_anchor_list_ = new ArrayList<Long>();
-        for (String str : anchor_tokens) {
-            try {
-                forward_anchor_list_.add(Long.parseLong(str));
-            }
-            catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
-        }
+        forward_anchor_list_ = ListUtils.split(",", forward_anchor_list_str_, 0L);
+    }
+    
+    private String shrinkBody(String entry_body) {
+        return HtmlUtils.shrinkHtml(entry_body, true);
     }
     
     private void initNewData() {
         // データのHTML削除
         author_name_ = HtmlUtils.stripAllHtmls(author_name_, false);
         author_mail_ = HtmlUtils.stripAllHtmls(author_mail_, false);
-        entry_body_ = HtmlUtils.stripAllHtmls(entry_body_, true);
-        entry_body_ = SHRINK_WHITESPACE_PATTERN.matcher(entry_body_).replaceAll(" ");
+        entry_body_ = shrinkBody(entry_body_);
         
         author_id_ = HtmlUtils.stripAllHtmls(author_id_, false);
         author_be_ = HtmlUtils.stripAllHtmls(author_be_, false);
         entry_time_ = HtmlUtils.stripAllHtmls(entry_time_, false);
         
-        entry_is_aa_ = false;
-        Matcher aa_matcher = AA_PATTERN.matcher(entry_body_).reset();
-        int aa_match_lines = 0;
-        while (aa_matcher.find()) {
-            aa_match_lines++;
-            if (aa_match_lines >= MIN_AA_MATCH_LINES) {
-                entry_is_aa_ = true;
-                break;
-            }
-        }
+        entry_is_aa_ = is2chAsciiArt(entry_body_);
         
         // アンカーリスト初期化
-        HashSet<Long> forward_anchor_set = new HashSet<Long>();
-        forward_anchor_list_ = new ArrayList<Long>();
-        Matcher matcher = BODY_ANCHOR_PATTERN.matcher(entry_body_);
-        matcher.reset();
-        while (matcher.find()) {
-            try {
-                long id = Long.parseLong(matcher.group(1));
-                if (id > 0 && id < entry_id_ && !forward_anchor_set.contains(id)) {
-                    forward_anchor_list_.add(id);
-                    forward_anchor_set.add(id);
+        EntryAnchorSpanSpec[] founds = entry_anchor_finder_.gatherNative(entry_body_);
+        StringBuilder buf = new StringBuilder();
+        
+        forward_anchor_list_ = new long[founds.length];
+        for (int i = 0; i < founds.length; i++) {
+            long id = founds[i].target_id_;
+            for (int j = 0; j < i; j++) {
+                if (forward_anchor_list_[j] == id) {
+                    id = 0;
+                    break;
                 }
             }
-            catch (NumberFormatException e) {
-                e.printStackTrace();
+            if (id > 0 && id < entry_id_) {
+                forward_anchor_list_[i] = founds[i].target_id_;
+                if (buf.length() > 0) buf.append(',');
+                buf.append(id);
             }
         }
-        forward_anchor_list_str_ = android.text.TextUtils.join(",", forward_anchor_list_);
+        forward_anchor_list_str_ = buf.toString();
     }
     
     public boolean hasShownThumbnails() {
@@ -403,8 +396,8 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     }
     
     static class ViewTag {
-        TextView header_view;
-        TextView entry_body_view;
+    	TextView header_view;
+    	TextView entry_body_view;
         LinearLayout rev_anchor_box_view;
         TextView rev_anchor_view;
         TableLayout thumbnail_box;
@@ -471,8 +464,6 @@ public class ThreadEntryData implements NListAdapterDataInterface {
         tag.entry_body_view.setOnTouchListener(on_touch_listener);
         tag.entry_body_view.setOnLongClickListener(long_click_delegate);
         tag.entry_body_view.setLongClickable(is_aa);
-        
-        tag.entry_body_view = (TextView) view.findViewById(R.id.entry_body);
 
         if (!is_aa_considering_config) {
             tag.entry_body_view.setTextSize(view_config.entry_body_);
@@ -485,6 +476,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
             if (aa_font != null) tag.entry_body_view.setTypeface(aa_font);
             tag.entry_body_view.getPaint().setSubpixelText(true);
         }
+        
         tag.rev_anchor_box_view = (LinearLayout) view.findViewById(R.id.entry_rev_anchor_box);
         
         tag.rev_anchor_view = (TextView) view.findViewById(R.id.entry_rev_anchor);
@@ -720,6 +712,15 @@ public class ThreadEntryData implements NListAdapterDataInterface {
                         setShowThumbnailButton(image_button, agent, thread_data, image_index, view_config, style);
                     }
                 });
+            }
+            
+            @Override
+            public void onBeginOnlineFetch() {
+                
+            }
+            
+            @Override
+            public void onProgress(final int current_length, final int content_length) {
             }
         };
         
@@ -968,7 +969,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
     	}
         Spannable spannable = style.spanify_.apply(
         		body, 
-        		new Long(entry_id_));
+        		this);
         entry_body_cache_ = new SpannableCache(spannable, style, view_config);
     }
     
@@ -1039,6 +1040,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
         public int link_color_;
         public int on_clicked_bgcolor_;
         public int entry_tree_indent;
+        public BackgroundColorSpan on_clicked_bgcolor_span_;
         
         public SpanifyAdapter spanify_;
         public OnAnchorClickedCallback callback_;
@@ -1059,6 +1061,7 @@ public class ThreadEntryData implements NListAdapterDataInterface {
             
             on_clicked_bgcolor_ = theme.getColor(
                     R.styleable.Theme_entryLinkClickedBgColor, 0);
+            on_clicked_bgcolor_span_ = new BackgroundColorSpan(on_clicked_bgcolor_);
             
             entry_id_style_span_1_ = new TextAppearanceSpan(activity, R.style.EntryListEntryID1);
             entry_id_style_span_2_ = new TextAppearanceSpan(activity, R.style.EntryListEntryID2);
@@ -1078,70 +1081,64 @@ public class ThreadEntryData implements NListAdapterDataInterface {
             callback_ = callback;
             
             spanify_ = new SpanifyAdapter();
-            spanify_.addFilter(new ThreadWebUriFilter());
-            spanify_.addFilter(new EntryAnchorFilter());
+            spanify_.addFilter(new ThreadWebUriFilter(new String[] { "http", "https", "ttp" }));
+            spanify_.addFilter(new LocalEntryAnchorFilter());
         }
         
-        private class ThreadWebUriFilter extends SpanifyAdapter.PatternFilter {
-            private class ThreadURLSpan extends URLSpan {
-                public ThreadURLSpan(String uri) {
-                    super(uri);
-                }
-                
-                @Override
-                public void onClick(View widget) {
-                    Uri uri = Uri.parse(getURL());
-                    callback_.onThreadLinkClicked(uri);
-                }
-            }
-            
-            private class BoardURLSpan extends URLSpan {
-                public BoardURLSpan(String uri) {
-                    super(uri);
-                }
-                
-                @Override
-                public void onClick(View widget) {
-                    Uri uri = Uri.parse(getURL());
-                    callback_.onBoardLinkClicked(uri);
-                }
-            }
-            
-            @Override
-            protected Pattern getPattern() {
-                return URL_PATTERN;
-            }
-            
-            @Override
-            public Object getSpan(String text, Object arg) {
-                if (text.startsWith("ttp")) {
-                    text = "h" + text;
-                }
-                if (ThreadData.isThreadUri(text)) {
-                    return new ThreadURLSpan(text);
-                }
-                else if (BoardData.isBoardUri(text)) {
-                    return new BoardURLSpan(text);
-                }
-                return new URLSpan(text);
-            }
-            
+        private class ThreadWebUriFilter extends WebURLFilter {
+        	private class ThreadURLSpan extends URLSpan {
+        		public ThreadURLSpan(String uri) {
+        			super(uri);
+        		}
+
+        		@Override
+        		public void onClick(View widget) {
+        			Uri uri = Uri.parse(getURL());
+        			callback_.onThreadLinkClicked(uri);
+        		}
+        	}
+
+        	private class BoardURLSpan extends URLSpan {
+        		public BoardURLSpan(String uri) {
+        			super(uri);
+        		}
+
+        		@Override
+        		public void onClick(View widget) {
+        			Uri uri = Uri.parse(getURL());
+        			callback_.onBoardLinkClicked(uri);
+        		}
+        	}
+
+        	public ThreadWebUriFilter(String[] strings) {
+        		super(strings);
+        	}
+
+        	@Override
+        	public Object getSpan(String text, SpanSpec spec, Object arg) {
+        		if (text.startsWith("ttp")) {
+        			text = "h" + text;
+        		}
+        		if (ThreadData.isThreadUri(text)) {
+        			return new ThreadURLSpan(text);
+        		}
+        		else if (BoardData.isBoardUri(text)) {
+        			return new BoardURLSpan(text);
+        		}
+        		return new URLSpan(text);
+        	}
+
         }
         
-        private class EntryAnchorFilter extends PatternFilter {
+        private class LocalEntryAnchorFilter extends EntryAnchorFilter {
             
             private class EntryAnchorSpan extends ClickableSpan {
                 int current_entry_id_;
                 int entry_id_;
                 
-                public EntryAnchorSpan(long current_entry_id, String text) {
-                    current_entry_id_ = new Long(current_entry_id).intValue();
-                    try {
-                        entry_id_ = Integer.parseInt(text.substring(text.lastIndexOf('>') + 1));
-                    }
-                    catch (NumberFormatException e) {
-                        entry_id_ = 0;
-                    }
+                public EntryAnchorSpan(long current_entry_id, long target_entry_id) {
+                    current_entry_id_ = (int) current_entry_id;
+                    entry_id_ = (int) target_entry_id;
                 }
                 
                 @Override
@@ -1153,17 +1150,20 @@ public class ThreadEntryData implements NListAdapterDataInterface {
             }
             
             @Override
-            protected Pattern getPattern() {
-                return BODY_ANCHOR_PATTERN;
-            }
-            
-            @Override
-            public Object getSpan(String text, Object arg) {
-                Long current_entry_id_ = (arg != null && arg instanceof Long) ? (Long) arg : 0;
-                EntryAnchorSpan span = new EntryAnchorSpan(current_entry_id_, text);
+            public Object getSpan(String text, SpanSpec spec, Object arg) {
+                long current_entry_id = 0;
+                long target_entry_id = 0;
+                if (arg != null && arg instanceof ThreadEntryData) {
+                    current_entry_id = ((ThreadEntryData) arg).entry_id_;
+                }
+                if (spec instanceof EntryAnchorSpanSpec) {
+                    target_entry_id = ((EntryAnchorSpanSpec) spec).target_id_;
+                }
+                EntryAnchorSpan span = new EntryAnchorSpan(current_entry_id, target_entry_id);
                 return span;
             }
         }
+        
     }
     
     public boolean canAddNGID() {
@@ -1223,4 +1223,14 @@ public class ThreadEntryData implements NListAdapterDataInterface {
 	public void setImageCheckEnabled(int image_index) {
 		img_uri_check_enabled_list_.set(image_index, false);
 	}
+
+	public static native boolean is2chAsciiArt(String entry);
+
+	public static native void initNative();
+
+	static {
+		System.loadLibrary("info_narazaki_android_tuboroid");
+		initNative();
+	}
+
 }

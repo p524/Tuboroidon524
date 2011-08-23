@@ -21,7 +21,7 @@ abstract public class FavoriteItemData implements NListAdapterDataInterface {
     
     abstract public Find2chKeyData getSearchKey();
     
-    abstract public View setView(View view, TuboroidApplication.ViewConfig view_config);
+    abstract public View setView(View view, TuboroidApplication.ViewConfig view_config, ThreadData.ViewStyle style);
     
     abstract public BoardIdentifier getServerDef();
     

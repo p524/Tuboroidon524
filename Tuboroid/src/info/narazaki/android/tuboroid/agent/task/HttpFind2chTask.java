@@ -2,6 +2,7 @@ package info.narazaki.android.tuboroid.agent.task;
 
 import info.narazaki.android.lib.agent.http.task.TextHttpGetTaskBase;
 import info.narazaki.android.lib.text.HtmlUtils;
+import info.narazaki.android.lib.text.TextUtils;
 import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.data.Find2chResultData;
 
@@ -76,10 +77,10 @@ public class HttpFind2chTask extends TextHttpGetTaskBase {
                     matcher.reset();
                     if (matcher.find() && matcher.groupCount() >= 3) {
                         String thread_url = matcher.group(1);
-                        long thread_id = Long.parseLong(matcher.group(2));
+                        long thread_id = TextUtils.parseLong(matcher.group(2));
                         String thread_name = HtmlUtils.unescapeHtml(HtmlUtils.stripAllHtmls(matcher.group(3), true))
                                 .replace("\n", "");
-                        int online_count = Integer.parseInt(matcher.group(4));
+                        int online_count = TextUtils.parseInt(matcher.group(4));
                         String board_name = HtmlUtils.unescapeHtml(HtmlUtils.stripAllHtmls(matcher.group(5), true))
                                 .replace("\n", "");
                         data_list.add(new Find2chResultData(thread_id, thread_name, board_name, online_count,
@@ -90,7 +91,7 @@ public class HttpFind2chTask extends TextHttpGetTaskBase {
                     Matcher matcher = pattern_search_items_.matcher(line);
                     matcher.reset();
                     if (matcher.find() && matcher.groupCount() > 0) {
-                        found_items = Integer.parseInt(matcher.group(1));
+                        found_items = TextUtils.parseInt(matcher.group(1));
                     }
                 }
             }

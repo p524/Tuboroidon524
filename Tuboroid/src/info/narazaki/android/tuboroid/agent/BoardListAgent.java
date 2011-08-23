@@ -5,6 +5,7 @@ import info.narazaki.android.lib.activity.base.NSimpleExpandableListActivity.Sta
 import info.narazaki.android.lib.agent.db.SQLiteAgentBase;
 import info.narazaki.android.lib.agent.db.SQLiteAgentBase.DbTransaction;
 import info.narazaki.android.lib.list.ListUtils;
+import info.narazaki.android.lib.text.TextUtils;
 import info.narazaki.android.tuboroid.R;
 import info.narazaki.android.tuboroid.agent.task.HttpGetBoardDataTask;
 import info.narazaki.android.tuboroid.agent.task.HttpGetBoardListTask;
@@ -228,13 +229,12 @@ public class BoardListAgent {
                     }
                     List<BoardData> data_list = new LinkedList<BoardData>();
                     int order_id = 1;
-                    String[] line_splitted = new String[4];
                     while (true) {
                         String line;
                         line = reader.readLine();
                         if (line == null) break;
-                        int line_splitted_count = ListUtils.split("\t", line, line_splitted);
-                        if (line_splitted_count == 4) {
+                        String[] line_splitted = ListUtils.split("\t", line);
+                        if (line_splitted.length == 4) {
                             BoardData data = BoardData.factory(order_id, line_splitted[0], line_splitted[1],
                                     new BoardIdentifier(line_splitted[2], line_splitted[3], 0, 0));
                             data_list.add(data);
@@ -456,11 +456,11 @@ public class BoardListAgent {
                     String line;
                     line = reader.readLine();
                     if (line == null) throw new IOException();
-                    board_list_stat_.pos_data_.packed_pos_ = Long.parseLong(line);
+                    board_list_stat_.pos_data_.packed_pos_ = TextUtils.parseLong(line);
                     
                     line = reader.readLine();
                     if (line == null) throw new IOException();
-                    board_list_stat_.pos_data_.y_ = Integer.parseInt(line);
+                    board_list_stat_.pos_data_.y_ = TextUtils.parseInt(line);
                     
                     while (true) {
                         line = reader.readLine();

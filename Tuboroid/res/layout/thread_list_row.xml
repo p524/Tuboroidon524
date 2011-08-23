@@ -13,13 +13,6 @@
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:paddingLeft="3sp"
 			style="@style/ThreadListResCount" />
-		<TextView android:id="@+id/thread_list_online_count_diff"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			style="@style/ThreadListResCountDiff" android:paddingLeft="3sp" />
-		<TextView android:id="@+id/thread_list_online_count_speed"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:paddingLeft="3sp"
-			style="@style/ThreadListResCountSpeed" />
 	</LinearLayout>
 	<TextView android:id="@+id/thread_list_name"
 		android:layout_gravity="center_vertical"

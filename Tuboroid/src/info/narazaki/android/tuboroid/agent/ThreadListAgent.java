@@ -2,6 +2,7 @@ package info.narazaki.android.tuboroid.agent;
 
 import info.narazaki.android.lib.list.ListUtils;
 import info.narazaki.android.lib.text.LevenshteinDistanceCalc;
+import info.narazaki.android.lib.text.TextUtils;
 import info.narazaki.android.tuboroid.TuboroidApplication;
 import info.narazaki.android.tuboroid.agent.task.HttpGetThreadListTask;
 import info.narazaki.android.tuboroid.agent.thread.DataFileAgent;
@@ -132,13 +133,13 @@ public class ThreadListAgent {
                 String line = reader.readLine();
                 if (line == null) break;
                 
-                ArrayList<String> tokens = ListUtils.split("<>", line);
+                String[] tokens = ListUtils.split("<>", line);
                 
-                if (tokens.size() >= 4) {
-                    long thread_id = Long.parseLong(tokens.get(0));
-                    String thread_name = tokens.get(1).replace("<br>", "\n");
-                    int online_count = Integer.parseInt(tokens.get(2));
-                    int online_speed_x10 = Integer.parseInt(tokens.get(3));
+                if (tokens.length >= 4) {
+                    long thread_id = TextUtils.parseLong(tokens[0]);
+                    String thread_name = tokens[1].replace("<br>", "\n");
+                    int online_count = TextUtils.parseInt(tokens[2]);
+                    int online_speed_x10 = TextUtils.parseInt(tokens[3]);
                     ThreadData data = board_data.factoryThreadData(sort_order, thread_id, thread_name, online_count,
                             online_speed_x10);
                     data_list.add(data);

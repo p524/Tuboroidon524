@@ -1,5 +1,7 @@
 package info.narazaki.android.lib.agent.http.task;
 
+import info.narazaki.android.lib.text.TextUtils;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -92,7 +94,7 @@ public class HttpGetFileTask extends HttpTaskBase {
         if (content_length_header != null) {
             String content_length_str = content_length_header.getValue();
             try {
-                content_length = Integer.parseInt(content_length_str);
+                content_length = TextUtils.parseInt(content_length_str);
             }
             catch (Exception e) {
             }

@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolException;
 import org.apache.http.auth.AuthScope;
@@ -186,13 +184,13 @@ public abstract class HttpTaskBase implements Runnable {
         boolean no_auth = true;
         if (uri.getUserInfo() != null) {
             String user_info = uri.getUserInfo();
-            ArrayList<String> list = ListUtils.split(":", user_info);
-            if (list.size() == 2) {
+            String[] list = ListUtils.split(":", user_info);
+            if (list.length == 2) {
                 HttpParams param = req.getParams();
                 param.getBooleanParameter(ClientPNames.HANDLE_AUTHENTICATION, true);
                 req.setParams(param);
                 
-                Credentials cred = new UsernamePasswordCredentials(list.get(0), list.get(1));
+                Credentials cred = new UsernamePasswordCredentials(list[0], list[1]);
                 http_client_.getCredentialsProvider().setCredentials(new AuthScope(uri.getHost(), uri.getPort()), cred);
                 no_auth = false;
             }
