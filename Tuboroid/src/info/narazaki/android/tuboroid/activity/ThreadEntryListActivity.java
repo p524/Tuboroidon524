@@ -419,9 +419,9 @@ public class ThreadEntryListActivity extends SearchableListActivity {
                     public void run() {
                         if (!is_active_) return;
                         thread_data_ = thread_data;
-                        image_viewer_dialog_.setThreadData(thread_data_);
                         ((ThreadEntryListAdapter) list_adapter_).setReadCount(thread_data_.read_count_);
                         ((ThreadEntryListAdapter) list_adapter_).setThreadData(thread_data_);
+                        image_viewer_dialog_.setThreadData(thread_data_);
                         int pos = (int) thread_data_.recent_pos_;
                         int pos_y = thread_data_.recent_pos_y_;
                         if (pos > 0) {
@@ -552,6 +552,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
         	            startActivity(intent);
         	        }
         	    });
+        image_viewer_dialog_.setThreadData(thread_data_);
         list_adapter.setThreadData(thread_data_);
         return list_adapter;
     }
@@ -1662,6 +1663,7 @@ public class ThreadEntryListActivity extends SearchableListActivity {
             ((ThreadEntryListAdapter) list_adapter_).setReadCount(thread_data_.read_count_);
             thread_data_.read_count_ = thread_data_.cache_count_;
         }
+        image_viewer_dialog_.setThreadData(thread_data_);
         ((ThreadEntryListAdapter) list_adapter_).setThreadData(thread_data_);
         long current_time = System.currentTimeMillis() / 1000;
         thread_data_.recent_time_ = current_time;
